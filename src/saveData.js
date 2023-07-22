@@ -78,10 +78,9 @@ const request = async (recordedBlob, values) => {
   });
 
   response.json().then(response => {
-    console.log(response);
-    console.info(`[avm-js] Response: ${response}`);
+    console.info(`[uno-js] Response: ${response}`);
   }).catch(error => {
-    console.error(`[avm-js] ${error}`);
+    console.error(`[uno-js] ${error}`);
   });
   hideModal();
 };

@@ -48,7 +48,7 @@ class ScreenRecorder {
       Observable.fire('stopped');
       // Test of File
       saveData(recordedBlob);
-      console.info(`[avm-js] Successfully recorded ${recordedBlob.size} bytes of ${recordedBlob.type} media.`);
+      console.info(`[uno-js] Successfully recorded ${recordedBlob.size} bytes of ${recordedBlob.type} media.`);
     });
   };
   // Stop recording function
@@ -70,7 +70,7 @@ class ScreenRecorder {
       this.videoStreamState.addTrack(audioTrack);
     } catch {
       // do nothing
-      console.error('[avm-js] Microphone or system audio not found!')
+      console.error('[uno-js] Microphone or system audio not found!')
     }
     // Return mixed stream
     return this.videoStreamState;
