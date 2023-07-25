@@ -69,7 +69,7 @@ class ScreenRecorder {
     console.info('[uno-js] Getting display media...');
     this.videoStreamState = await navigator.mediaDevices.getDisplayMedia(this.displayMediaConstraints).then(video=>video).catch(() => undefined);
     if (!this.videoStreamState) {
-      console.error('[uno-js] Display media not found!');
+      console.error('[uno-js] Premission or display media not found!');
       return false;
     }
     // Get user media (Just Audio)
