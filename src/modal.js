@@ -16,7 +16,7 @@ const createFade = () => {
   fade.style.position = 'fixed';
   fade.style.inset = '0 0 0 0';
   fade.style.backgroundColor = 'rgba(0, 0, 0, .75)';
-  fade.style.zIndex = '1';
+  fade.style.zIndex = '999';
   fade.style.display = 'none';
   body.appendChild(fade);
   return fade;
@@ -77,7 +77,7 @@ export const showModal = () => {
   fade.style.display = 'block';
 };
 export const hideModal = () => {
-  body.removeAttribute('overflow');
+  body.style.overflow = '';
   fade.remove();
   modal.remove();
   header.innerHTML = '';

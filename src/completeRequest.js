@@ -1,19 +1,12 @@
 import initialModal, {addTitle, showModal} from './modal.js';
+import Observable from './Observable';
 import {attachmentIcon, avatarIcon, submitIcon} from './svg.js';
-
-/* todo add validation for form */
-/* todo add loading for submit button */
-/* todo destroy elements after reject permission */
 
 const storeValues = {
   type: '1',
   priority: '3',
 };
 
-const onChangeValue = (event) => {
-  const {name, value} = event.target;
-  storeValues[name] = value;
-};
 const completeRequest = ({fullName, email, avatar}, {fileSize, fileName}, onSubmit) => {
   initialModal().then((modalContent) => {
     createModalContent({fullName, email, avatar}, {
@@ -25,6 +18,45 @@ const completeRequest = ({fullName, email, avatar}, {fileSize, fileName}, onSubm
       showModal();
     });
   });
+};
+const disableButton = (element) => {
+  element.style.backgroundColor = '#aed0ff';
+  element.style.border = '1px solid #aed0ff';
+  element.disabled = true;
+};
+const enableButton = (element) => {
+  element.disabled = false;
+};
+const handleError = (element) => {
+  element.style.border = '1px solid red';
+  element.style.backgroundColor = '#f8d7da';
+}
+const clearError = (element) => {
+  element.style.borderColor = '#E1E1E1';
+  element.style.backgroundColor = '#fff';
+}
+const onChangeValue = (event) => {
+  const {name, value} = event.target;
+  storeValues[name] = value;
+};
+const validateForm = () => {
+  const subject = document.getElementById('subject');
+  const description = document.getElementById('description');
+  if (!storeValues.subject) {
+    handleError(subject);
+    return false;
+  }
+  if (!storeValues.description) {
+    handleError(description);
+    return false;
+  }
+  return true;
+}
+const handleSubmit = (acceptButton, onSubmit) => {
+  if (!validateForm()) return;
+  onSubmit(storeValues);
+  disableButton(acceptButton);
+  Observable.subscribe((data) => data === 'enableButton' && enableButton(acceptButton));
 };
 // Modal Sections
 const createModalContent = async ({fullName, email, avatar}, {fileSize, fileName}, onSubmit) => {
@@ -90,7 +122,9 @@ const createFooter = ({fileSize, fileName}, onSubmit) => {
   acceptButton.style.backgroundColor = '#3A86F2';
   acceptButton.style.border = '1px solid #3A86F2';
   acceptButton.style.borderRadius = '10px';
-  acceptButton.onclick = () => onSubmit(storeValues);
+  acceptButton.onclick = () => {
+    handleSubmit(acceptButton, onSubmit);
+  };
   footer.appendChild(acceptButton);
   return footer;
 };
@@ -112,11 +146,16 @@ const createInput = (row, col, inputLabel, label, name, initialValue, hasPlaceho
   input.style.height = '36px';
   input.style.lineHeight = '36px';
   input.style.on = '36px';
+  input.style.padding = '0 8px';
   input.onchange = onChangeValue;
+  input.onfocus = () => clearError(input);
   if (initialValue) input.value = initialValue;
 
-  input.addEventListener('focus', function () {
+  input.addEventListener('focusin', function () {
     this.style.borderColor = '#5150AE';
+  });
+  input.addEventListener('focusout', function () {
+    this.style.borderColor = '#E1E1E1';
   });
 
   // Label
@@ -183,6 +222,7 @@ const createRadio = (row, col, options, active, label, name) => {
   radioLabel.style.fontSize = '80%';
   radioLabel.style.display = 'inline-flex';
   radioLabel.style.alignItems = 'center';
+  radioLabel.style.cursor = 'pointer';
 
   // Create badge
   const badge = span.cloneNode(true);
@@ -265,10 +305,15 @@ const createTextArea = (row, col, textAreaLabel, label, name, hasPlaceholder) =>
   textArea.style.border = '1px solid #E1E1E1';
   textArea.style.borderRadius = '6px';
   textArea.style.outline = 'none';
+  textArea.style.padding = '6px 8px';
   textArea.onchange = onChangeValue;
+  textArea.onfocus = () => clearError(textArea);
 
   textArea.addEventListener('focus', function () {
     this.style.borderColor = '#5150AE';
+  });
+  textArea.addEventListener('focusout', function () {
+    this.style.borderColor = '#E1E1E1';
   });
 
   // Label

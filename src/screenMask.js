@@ -4,13 +4,38 @@ class ScreenMask {
   startPosition;
   element;
   createElement = () => {
-    /* todo move css to js */
     // Create elements
     const element = document.createElement('div');
+    element.style.borderRadius = '6px';
     const close = document.createElement('div');
+    element.addEventListener('mouseover', () => {
+      close.style.visibility = 'visible';
+      close.style.opacity = '1';
+    });
+    element.addEventListener('mouseout', () => {
+      close.style.visibility = 'hidden';
+      close.style.opacity = '0';
+    });
+    close.style.position = 'absolute';
+    close.style.top = '0';
+    close.style.right = '0';
+    close.style.width = '16px';
+    close.style.height = '16px';
+    close.style.transform = 'translate(6px, -6px)';
+    close.style.cursor = 'pointer';
+    close.style.color = 'black';
+    close.style.border = '1px solid black';
+    close.style.backgroundColor = 'white';
+    close.style.borderRadius = '50%';
+    close.style.fontSize = '7px';
+    close.style.display = 'flex';
+    close.style.alignItems = 'center';
+    close.style.justifyContent = 'center';
+    close.style.visibility = 'hidden';
+    close.style.opacity = '0';
+    close.style.transition = 'all 0.3s ease';
     close.innerText = '✖';
     // Set attributes
-    close.setAttribute('class', 'close');
     element.setAttribute('id', `mask-element-${Math.random().toString(16).slice(2)}`);
     // Add event listener to close
     close.addEventListener('click', () => this.removeElement(element));
