@@ -1,8 +1,8 @@
 // Load Styles
-// import '../scss/main.scss';
+import {startSecret, endSecret} from './src/autoSecret';
 import {createElement, destroyElement} from './src/floatingEmelemt.js';
 import Observable from './src/Observable.js';
-import {initialInfo} from './src/saveData.js';
+import initialState from './src/initialState.js';
 import {runTimer, stopTimer} from './src/timer.js';
 import ScreenMask from './src/screenMask.js';
 import ScreenRecorder from './src/screenRecorder.js';
@@ -10,33 +10,45 @@ import ScreenRecorder from './src/screenRecorder.js';
 class unoJSBuilder {
   constructor() {
     this.options = null;
+    this.subscriptionData = null;
     this.startButton = null;
+    this.autoSecretDataAttribute = null;
     this.screenRecorder = new ScreenRecorder();
     this.screenMask = new ScreenMask();
     this.timerWrapper = null;
   }
 
-  /* todo change name and sort of arguments: data, id, options */
-  initialize({options, startButtonId}) {
-    if (!options) {
-      console.error('[uno-js] Options not set.');
+  initialize(startButtonId, subscriptionData, options) {
+    if (!subscriptionData) {
+      console.error('[uno-js] Subscription data not set.');
       return;
     }
     if (!startButtonId) {
       console.error('[uno-js] Start button not set.');
       return;
     }
+    if (!options?.user) {
+      console.error('[uno-js] User data not set.');
+      return;
+    }
+    if (!options?.autoSecretDataAttribute) {
+      console.warn('[uno-js] Auto secret data attribute not set.');
+    }
+
     console.info('[uno-js] Package initialized!');
 
     this.options = options;
+    this.subscriptionData = subscriptionData;
+    this.autoSecretDataAttribute = options?.autoSecretDataAttribute;
     this.startButton = document.getElementById(startButtonId);
 
-    initialInfo.info = {
-      fullName: this.options.fullName,
-      email: this.options.email,
-      avatar: this.options.avatar,
-      requestUrl: this.options.requestUrl,
-      apiKey: this.options.apiKey,
+    initialState.info = {
+      fullName: this.options.user?.fullName,
+      email: this.options.user?.email,
+      avatar: this.options.user?.avatar,
+      requestUrl: this.subscriptionData.requestUrl,
+      apiKey: this.subscriptionData.apiKey,
+      autoSecretDataAttribute: this.autoSecretDataAttribute,
     };
 
     if (this.startButton) {
@@ -48,11 +60,16 @@ class unoJSBuilder {
 
   startRecording() {
     Observable.subscribe(this.clearElements.bind(this));
+    startSecret();
     this.screenRecorder.start().then(record => {
-      if (record === 'stopped') return;
-      console.info('[uno-js] Record started');
-      runTimer(this.timerWrapper, this.observeTime.bind(this));}
-    );
+        if (record === 'stopped') return;
+        console.info('[uno-js] Record started');
+        runTimer(this.timerWrapper, this.observeTime.bind(this));
+      },
+    ).catch(error => {
+      this.clearElements();
+      console.error(`[uno-js] Error while starting record: ${error}`);
+    });
   }
 
   stopRecording() {
@@ -65,6 +82,7 @@ class unoJSBuilder {
     console.info('[uno-js] Element cleared!');
     stopTimer();
     destroyElement();
+    endSecret();
     this.stopMask();
     Observable.unsubscribe(this.clearElements.bind(this));
     this.screenRecorder.stopRecording();
@@ -97,13 +115,31 @@ export default unoJS;
 
 // // Usage example:
 // const options = {
-//   fullName: 'John Doe',
-//   email: 'n.kaviyani@asax.ir',
-//   avatar: null,
-//   requestUrl: '',
-//  typeDynamic:true,
+//   user: {
+//     fullName: 'John Doe',
+//     email: 'n.kaviyani@asax.ir',
+//     avatar: null,
+//   },
+//   autoSecretDataAttribute: 'secret-data',
+//   callbacks: {
+//     onOpenWidget: () => console.log('Widget opened'),
+//     onCloseWidget: () => console.log('Widget closed'),
+//     onStartMask: () => console.log('Started mask'),
+//     onStopMask: () => console.log('Stopped mask'),
+//     onStartTimer: ({second, minute, hours}) => console.log('Started recording timer: ' + second + ':' + minute + ':' + hours),
+//     onStopTimer: () => console.log('Stopped recording timer'),
+//     onStartRecording: () => console.log('Started recording!'),
+//     onStopRecording: () => console.log('Stopped recording!'),
+//     onSubmit: () => console.log('Submitted!'),
+//     onError: () => console.log('Error!'),
+//   },
 // };
+// const subscriptionData = {
+//   apiKey: '',
+//   requestUrl: '',
+//   typeDynamic: true,
+// }
 //
 // const startButtonId = 'startButton';
 //
-// unoJS.initialize({options, startButtonId});
+// unoJS.initialize(startButtonId, subscriptionData, options);

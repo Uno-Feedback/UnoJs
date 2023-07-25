@@ -1,29 +1,7 @@
 import completeRequest from './completeRequest.js';
 import {hideModal} from './modal.js';
 import Observable from './Observable';
-
-/* todo move store to separate file */
-export const initialInfo = {
-  store: {
-    fullName: null,
-    email: null,
-    avatar: null,
-    requestUrl: null,
-    apiKey: null,
-  },
-  get info() {
-    return this.store;
-  },
-  set info(info) {
-    this.store = info ?? {
-      fullName: undefined,
-      email: undefined,
-      avatar: undefined,
-      requestUrl: undefined,
-      apiKey: undefined,
-    };
-  },
-};
+import initialState from './initialState.js';
 
 function formatBytes(bytes, decimals = 2) {
   if (!+bytes) return '0 Bytes';
@@ -62,18 +40,18 @@ const request = async (recordedBlob, values) => {
   const formData = new FormData();
 
   const description = {
-    'FullName': initialInfo.info.fullName,
+    'FullName': initialState.info.fullName,
     'Subject': values['subject'],
     'Description': values['description'],
     'Type': values['type'],
     'Priority': values['priority'],
-    'apiKey': initialInfo.info.apiKey,
+    'apiKey': initialState.info.apiKey,
   };
 
   formData.append('File', file, `${fileName}.webm`);
   formData.append('Description', JSON.stringify(description));
 
-  const response = await fetch(initialInfo.info.requestUrl, {
+  const response = await fetch(initialState.info.requestUrl, {
     method: 'POST',
     body: formData,
   });
@@ -91,7 +69,7 @@ const request = async (recordedBlob, values) => {
 const saveData = (function () {
   return function (recordedBlob) {
     const fileSize = formatBytes(recordedBlob.size, 2);
-    completeRequest(initialInfo.info, {fileSize, fileName}, (values) => values && request(recordedBlob, values));
+    completeRequest(initialState.info, {fileSize, fileName}, (values) => values && request(recordedBlob, values));
   };
 }());
 
