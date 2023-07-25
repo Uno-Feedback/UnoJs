@@ -1,0 +1,22 @@
+{
+  "name": "unojs",
+  "version": "1.0.0",
+  "description": "An instrument for recording videos and capturing films to be sent to Jira, Zoho, etc.",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/index.js"
+  },
+  "dependencies": {
+    "typescript": "^4.3.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Uno-Feedback/UnoJs.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Uno-Feedback/UnoJs/issues"
+  },
+  "homepage": "https://github.com/Uno-Feedback/UnoJs#readme"
+}
