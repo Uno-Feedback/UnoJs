@@ -24,15 +24,20 @@ class ScreenRecorder {
     // Create a media recorder
     const recorder = new MediaRecorder(stream);
     // The stream data is stored in this array
+    console.info('[uno-js] Stream data is stored in this array.');
     let data = [];
     // Push frames to array
+    console.info('[uno-js] Pushing frames to array.');
     recorder.ondataavailable = (event) => data.push(event.data);
     // Start media recorder
+    console.info('[uno-js] Starting media recorder...');
     recorder.start();
     // Check if stream is stopped
+    console.info('[uno-js] Checking if stream is stopped...');
     let stopped = new Promise((resolve, reject) => {
       recorder.onstop = resolve;
       recorder.onerror = (event) => reject(event.name);
+      console.info('[uno-js] Stream is stopped.');
     });
     // When stream is stopped, return data
     return Promise.all([stopped]).then(() => data);
@@ -45,7 +50,7 @@ class ScreenRecorder {
       // Create Blob and video file
       const recordedBlob = new Blob(recordedChunks, {type: mimeType});
       // Fire observer
-      Observable.fire('stopped');
+      Observable.fire('clearElements');
       // Test of File
       saveData(recordedBlob);
       console.info(`[uno-js] Successfully recorded ${recordedBlob.size} bytes of ${recordedBlob.type} media.`);
@@ -54,14 +59,21 @@ class ScreenRecorder {
   // Stop recording function
   stopRecording = () => {
     // Stop every track of each stream
+    console.info('[uno-js] Stopped recording.');
     if (this.videoStreamState) this.videoStreamState.getTracks().forEach((track) => track.stop());
     if (this.audioStreamState) this.audioStreamState.getTracks().forEach((track) => track.stop());
   };
   // Create mixed stream from display media and user media
   createStream = async () => {
     // Get display media
-    this.videoStreamState = await navigator.mediaDevices.getDisplayMedia(this.displayMediaConstraints);
+    console.info('[uno-js] Getting display media...');
+    this.videoStreamState = await navigator.mediaDevices.getDisplayMedia(this.displayMediaConstraints).then(video=>video).catch(() => undefined);
+    if (!this.videoStreamState) {
+      console.error('[uno-js] Display media not found!');
+      return false;
+    }
     // Get user media (Just Audio)
+    console.info('[uno-js] Getting audio...');
     try {
       this.audioStreamState = await navigator.mediaDevices.getUserMedia(this.userMediaConstraints);
       // Get Audio track of this moment
@@ -70,7 +82,7 @@ class ScreenRecorder {
       this.videoStreamState.addTrack(audioTrack);
     } catch {
       // do nothing
-      console.error('[uno-js] Microphone or system audio not found!')
+      console.error('[uno-js] Microphone or system audio not found!');
     }
     // Return mixed stream
     return this.videoStreamState;
@@ -78,7 +90,13 @@ class ScreenRecorder {
   // Start get permission
   start = async () => {
     // Create recorded chunks and wait for stop
-    await this.createStream().then((stream) => {
+    console.info('[uno-js] Starting recording...');
+    return await this.createStream().then((stream) => {
+      if (!stream) {
+        Observable.fire('clearElements');
+        return 'stopped';
+      }
+      console.info('[uno-js] Stream is created.');
       this.renderStream(stream);
       return true;
     }).catch((error) => {

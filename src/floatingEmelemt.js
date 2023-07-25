@@ -184,7 +184,6 @@ const finalizedElements = async () => {
   const initCloseButton = new Promise((resolve) => {
     // Close button ID
     closeButton.setAttribute('id', 'rs-close');
-    closeButton.onclick = destroyElement;
     // Close button styles
     closeButton.style.height = '16px';
     closeButton.style.width = '16px';
@@ -249,7 +248,10 @@ export const createElement = async (closeElement, startRecord, stopRecord, start
     maskStopButton.remove();
     maskWrapper.appendChild(maskStartButton);
   };
-  closeButton.onclick = () => closeElement(true);
+  closeButton.onclick = () => {
+    destroyElement();
+    closeElement(true);
+  };
   startRecordButton.onclick = () => {
     startRecord(true);
     startRecordButton.remove();

@@ -1,5 +1,6 @@
 import completeRequest from './completeRequest.js';
 import {hideModal} from './modal.js';
+import Observable from './Observable';
 
 /* todo move store to separate file */
 export const initialInfo = {
@@ -78,9 +79,11 @@ const request = async (recordedBlob, values) => {
   });
 
   response.json().then(response => {
-    console.info(`[uno-js] Response: ${response}`);
+    console.info(`[uno-js] Response: ${response.message}`);
+    Observable.fire('enableButton');
   }).catch(error => {
     console.error(`[uno-js] ${error}`);
+    Observable.fire('enableButton');
   });
   hideModal();
 };
