@@ -27,6 +27,6 @@ const subscriptionData = {
   apiKey: "#API_KEY#",
   requestUrl: "#REQUEST_URL#",
 };
-
 const startButtonId = "start-btn";
+
 unoJS.initialize(startButtonId, subscriptionData, options);
