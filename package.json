@@ -3,11 +3,17 @@
   "version": "1.0.0",
   "description": "An instrument for recording videos and capturing films to be sent to Jira, Zoho, etc.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "tsc && node dist/index.js"
+    "dev": "tsc --outDir dist/esm --watch",
+    "build:esm": "tsc --outDir dist/esm",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs"
   },
   "dependencies": {
-    "typescript": "^4.3.5"
+    "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2"
   },
   "repository": {
     "type": "git",
