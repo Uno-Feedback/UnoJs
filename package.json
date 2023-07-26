@@ -18,8 +18,8 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
-    "webpack": "^5.88.2",
-    "sass-loader": "^13.3.2"
+    "sass-loader": "^13.3.2",
+    "webpack": "^5.88.2"
   },
   "repository": {
     "type": "git",
