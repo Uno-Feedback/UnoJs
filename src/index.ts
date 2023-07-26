@@ -4,6 +4,7 @@ import {
   InitializeFunction,
   ValidationFunction,
 } from "./types";
+import { openRecordWidget } from "./components/recordWidget";
 
 class UnoJSBuilder {
   private options: Options | null;
@@ -41,6 +42,22 @@ class UnoJSBuilder {
     return true;
   };
 
+  startRecord = () => {
+    console.log("start record");
+  };
+  stopRecord = () => {
+    console.log("stop record");
+  };
+  startMask = () => {
+    console.log("start mask");
+  };
+  stopMask = () => {
+    console.log("stop mask");
+  };
+  closeWidget = () => {
+    console.log("close widget");
+  };
+
   initialize: InitializeFunction = (
     startButtonId,
     subscriptionData,
@@ -57,7 +74,17 @@ class UnoJSBuilder {
     this.startButton = document.getElementById(startButtonId);
 
     if (this.startButton)
-      this.startButton.addEventListener("click", () => console.log("click"));
+      this.startButton.addEventListener("click", () =>
+        openRecordWidget(
+          this.startRecord,
+          this.stopRecord,
+          this.startMask,
+          this.stopMask,
+          this.closeWidget
+        ).then((response) => {
+          console.log({ response });
+        })
+      );
   };
 }
 
