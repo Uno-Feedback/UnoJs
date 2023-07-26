@@ -5,15 +5,21 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsc --outDir dist/esm --watch",
+    "dev:esm": "tsc --outDir dist/esm --watch",
+    "dev:sass": "sass src/styles:dist/esm/css --no-source-map --watch",
+    "build": "npm run build:esm && npm run build:cjs && npm run sass",
     "build:esm": "tsc --outDir dist/esm",
-    "build:cjs": "tsc --module commonjs --outDir dist/cjs"
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "sass": "sass src/styles:dist/esm/css --no-source-map && sass src/styles:dist/cjs/css --no-source-map"
   },
   "dependencies": {
+    "sass": "^1.64.1",
     "typescript": "^5.1.6"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.26.2"
+    "@changesets/cli": "^2.26.2",
+    "webpack": "^5.88.2",
+    "sass-loader": "^13.3.2"
   },
   "repository": {
     "type": "git",
