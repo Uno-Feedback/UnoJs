@@ -1,6 +1,6 @@
 {
   "name": "unojs",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "An instrument for recording videos and capturing films to be sent to Jira, Zoho, etc.",
   "main": "index.js",
   "type": "module",
