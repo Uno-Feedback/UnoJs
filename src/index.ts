@@ -1,10 +1,5 @@
-import {
-  Options,
-  SubscriptionData,
-  InitializeFunction,
-  ValidationFunction,
-} from "./types";
-import { openRecordWidget } from "./components/recordWidget";
+import {Options, SubscriptionData, InitializeFunction, ValidationFunction} from "./types";
+import {openRecordWidget} from "./components/recordWidget";
 
 class UnoJSBuilder {
   private options: Options | null;
@@ -19,11 +14,7 @@ class UnoJSBuilder {
     this.autoSecretKey = null;
   }
 
-  validateInitialization: ValidationFunction = (
-    startButtonId,
-    subscriptionData,
-    options
-  ) => {
+  validateInitialization: ValidationFunction = (startButtonId, subscriptionData, options) => {
     if (!subscriptionData) {
       console.error("[uno-js] Subscription data not set.");
       return false;
@@ -58,13 +49,8 @@ class UnoJSBuilder {
     console.log("close widget");
   };
 
-  initialize: InitializeFunction = (
-    startButtonId,
-    subscriptionData,
-    options
-  ) => {
-    if (!this.validateInitialization(startButtonId, subscriptionData, options))
-      return;
+  initialize: InitializeFunction = (startButtonId, subscriptionData, options) => {
+    if (!this.validateInitialization(startButtonId, subscriptionData, options)) return;
 
     console.info("[uno-js] Package initialized!");
 
@@ -74,17 +60,13 @@ class UnoJSBuilder {
     this.startButton = document.getElementById(startButtonId);
 
     if (this.startButton)
-      this.startButton.addEventListener("click", () =>
-        openRecordWidget(
-          this.startRecord,
-          this.stopRecord,
-          this.startMask,
-          this.stopMask,
-          this.closeWidget
-        ).then((response) => {
-          console.log({ response });
-        })
-      );
+      this.startButton.addEventListener("click", () => {
+        openRecordWidget(this.startRecord, this.stopRecord, this.startMask, this.stopMask, this.closeWidget).then(
+          response => {
+            console.log({response});
+          }
+        );
+      });
   };
 }
 
