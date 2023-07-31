@@ -1,7 +1,7 @@
 import {OpenRecordWidgetFunction} from "./types";
 import {
   maskIcon,
-  maskStopIcon,
+  stopMaskIcon,
   muteIcon,
   recordIcon,
   recordingIcon,
@@ -66,7 +66,7 @@ const initialInnerElements = () => {
   maskStartButton.innerHTML = maskIcon;
   maskWrapper.appendChild(maskStartButton);
   maskStopButton.classList.add("uno-mask-stop");
-  maskStopButton.innerHTML = maskStopIcon;
+  maskStopButton.innerHTML = stopMaskIcon;
   // Close Element
   closeButton.classList.add("uno-close");
   closeButton.innerText = "✖";
