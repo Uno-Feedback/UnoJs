@@ -10,7 +10,7 @@ class UnoJSBuilder {
   private options: Options | null;
   private subscriptionData: SubscriptionData | null;
   private startButton: HTMLElement | null;
-  private autoSecretKey: string | null | undefined;
+  private autoSecretKey: string | null;
 
   constructor() {
     this.options = null;
@@ -69,7 +69,7 @@ class UnoJSBuilder {
     console.info("[uno-js] Package initialized!");
 
     this.options = options;
-    this.autoSecretKey = options.autoSecretKey;
+    this.autoSecretKey = options.autoSecretKey ?? null;
     this.subscriptionData = subscriptionData;
     this.startButton = document.getElementById(startButtonId);
 
