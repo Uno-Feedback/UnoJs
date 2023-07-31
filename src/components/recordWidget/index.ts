@@ -140,4 +140,5 @@ export const closeRecordWidget = () => {
   recordingButton.remove();
   startRecordButton.remove();
   stopRecordButton.remove();
+  recordingButton.style.display = "";
 };

@@ -1,6 +1,8 @@
 import {Options, SubscriptionData, InitializeFunction, ValidationFunction} from "./types";
 import {openRecordWidget} from "./components/recordWidget";
 import ScreenMask from "./components/screenMask";
+import {runTimer, stopTimer} from "./components/timer";
+import {Time} from "./components/timer/type";
 
 class UnoJSBuilder {
   private options: Options | null;
@@ -8,6 +10,7 @@ class UnoJSBuilder {
   private startButton: HTMLElement | null;
   private autoSecretKey: string | null;
   private screenMask;
+  private timerWrapper: HTMLElement | null;
 
   constructor() {
     this.options = null;
@@ -15,6 +18,7 @@ class UnoJSBuilder {
     this.startButton = null;
     this.autoSecretKey = null;
     this.screenMask = new ScreenMask();
+    this.timerWrapper = null;
   }
 
   validateInitialization: ValidationFunction = (startButtonId, subscriptionData, options) => {
@@ -30,17 +34,17 @@ class UnoJSBuilder {
       console.error("[uno-js] User data not set.");
       return false;
     }
-    if (!options?.autoSecretKey) {
-      console.warn("[uno-js] Auto secret data attribute not set.");
-    }
+    if (!options?.autoSecretKey) console.warn("[uno-js] Auto secret data attribute not set.");
     return true;
   };
 
   startRecord = () => {
     console.log("start record");
+    runTimer(this.timerWrapper, this.observeTime.bind(this));
   };
   stopRecord = () => {
     console.log("stop record");
+    stopTimer();
   };
   startMask = () => {
     this.screenMask.init(true);
@@ -56,8 +60,16 @@ class UnoJSBuilder {
     console.log("stop mute");
   };
   closeWidget = () => {
-    console.log("close widget");
+    console.info("[uno-js] Widget closed!");
+    this.stopMask();
+    this.stopRecord();
   };
+
+  observeTime({seconds}: Time) {
+    if (seconds === 30) {
+      this.stopRecord();
+    }
+  }
 
   initialize: InitializeFunction = (startButtonId, subscriptionData, options) => {
     if (!this.validateInitialization(startButtonId, subscriptionData, options)) return;
@@ -81,7 +93,7 @@ class UnoJSBuilder {
           stopMute: this.stopMute,
           closeWidget: this.closeWidget
         }).then(response => {
-          console.log({response});
+          this.timerWrapper = response;
         });
       });
   };
