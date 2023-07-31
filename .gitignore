@@ -14,3 +14,7 @@ yarn.lock
 
 # changeset
 .changeset
+
+# test files
+dist/main.js
+dist/main.css
