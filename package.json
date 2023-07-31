@@ -4,13 +4,14 @@
   "description": "An instrument for recording videos and capturing films to be sent to Jira, Zoho, etc.",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently --kill-others \"tsc --outDir dist/esm --watch\" \"sass src/styles:dist/esm/css --no-source-map --watch\"  \"npm run example\"",
+    "dev": "npm run clean && concurrently --kill-others \"tsc --outDir dist/esm --watch\" \"sass src/styles:dist/esm/css --no-source-map --watch\"  \"npm run example\"",
     "example": "webpack-dev-server --hot --magic-html",
-    "build": "npm run build:esm && npm run build:cjs && npm run sass",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run sass",
     "build:esm": "tsc --outDir dist/esm",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
-    "sass": "sass src/styles:dist/esm/css --no-source-map && sass src/styles:dist/cjs/css --no-source-map"
-  },
+    "sass": "sass src/styles:dist/esm/css --no-source-map && sass src/styles:dist/cjs/css --no-source-map",
+    "clean": "rimraf -rf ./dist/"
+},
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
     "concurrently": "^8.2.0",
