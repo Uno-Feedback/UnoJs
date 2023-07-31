@@ -86,20 +86,26 @@ export const openRecordWidget: OpenRecordWidgetFunction = async (
   closeWidget
 ) => {
   startRecordButton.onclick = () => {
-    console.log("Start record");
     startRecord(true);
+    startRecordButton.remove();
+    recordWrapper.appendChild(stopRecordButton);
+    recordingButton.style.display = "inline";
   };
   stopRecordButton.onclick = () => {
-    console.log("Stop record");
     stopRecord(true);
+    stopRecordButton.remove();
+    recordWrapper.appendChild(startRecordButton);
+    recordingButton.style.display = "";
   };
   maskStartButton.onclick = () => {
-    console.log("Start mask");
     startMask(true);
+    maskStartButton.remove();
+    maskWrapper.appendChild(maskStopButton);
   };
   maskStopButton.onclick = () => {
-    console.log("Stop mask");
     stopMask(true);
+    maskStopButton.remove();
+    maskWrapper.appendChild(maskStartButton);
   };
   closeButton.onclick = () => {
     closeWidget(true);
