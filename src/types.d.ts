@@ -27,6 +27,7 @@ export interface Callbacks {
   onStopRecording?: () => void;
   onSubmit?: () => void;
   onError?: () => void;
+  onSuccess?: () => void;
 }
 
 export interface SubscriptionData {
