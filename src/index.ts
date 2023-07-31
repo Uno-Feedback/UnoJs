@@ -45,6 +45,12 @@ class UnoJSBuilder {
   stopMask = () => {
     console.log("stop mask");
   };
+  startMute = () => {
+    console.log("stop mute");
+  };
+  stopMute = () => {
+    console.log("stop mute");
+  };
   closeWidget = () => {
     console.log("close widget");
   };
@@ -61,11 +67,18 @@ class UnoJSBuilder {
 
     if (this.startButton)
       this.startButton.addEventListener("click", () => {
-        openRecordWidget(this.startRecord, this.stopRecord, this.startMask, this.stopMask, this.closeWidget).then(
-          response => {
-            console.log({response});
-          }
-        );
+        // this.startRecord, this.stopRecord, this.startMask, this.stopMask, this.closeWidget
+        openRecordWidget({
+          startRecord: this.startRecord,
+          stopRecord: this.stopRecord,
+          startMask: this.startMask,
+          stopMask: this.stopMask,
+          startMute: this.startMute,
+          stopMute: this.stopMute,
+          closeWidget: this.closeWidget
+        }).then(response => {
+          console.log({response});
+        });
       });
   };
 }

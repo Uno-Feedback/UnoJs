@@ -78,13 +78,15 @@ const appendRecordWrapperToBody = (): Promise<HTMLElement> =>
     document.body.appendChild(wrapper);
     resolve(counter);
   });
-export const openRecordWidget: OpenRecordWidgetFunction = async (
+export const openRecordWidget: OpenRecordWidgetFunction = async ({
   startRecord,
   stopRecord,
   startMask,
   stopMask,
+  startMute,
+  stopMute,
   closeWidget
-) => {
+}) => {
   startRecordButton.onclick = () => {
     startRecord(true);
     startRecordButton.remove();
@@ -106,6 +108,16 @@ export const openRecordWidget: OpenRecordWidgetFunction = async (
     stopMask(true);
     maskStopButton.remove();
     maskWrapper.appendChild(maskStartButton);
+  };
+  muteStartButton.onclick = () => {
+    startMute(true);
+    muteStartButton.remove();
+    muteWrapper.appendChild(muteStopButton);
+  };
+  muteStopButton.onclick = () => {
+    stopMute(true);
+    muteStopButton.remove();
+    muteWrapper.appendChild(muteStartButton);
   };
   closeButton.onclick = () => {
     closeWidget(true);
