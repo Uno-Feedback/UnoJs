@@ -1,17 +1,20 @@
 import {Options, SubscriptionData, InitializeFunction, ValidationFunction} from "./types";
 import {openRecordWidget} from "./components/recordWidget";
+import ScreenMask from "./components/screenMask";
 
 class UnoJSBuilder {
   private options: Options | null;
   private subscriptionData: SubscriptionData | null;
   private startButton: HTMLElement | null;
   private autoSecretKey: string | null;
+  private screenMask;
 
   constructor() {
     this.options = null;
     this.subscriptionData = null;
     this.startButton = null;
     this.autoSecretKey = null;
+    this.screenMask = new ScreenMask();
   }
 
   validateInitialization: ValidationFunction = (startButtonId, subscriptionData, options) => {
@@ -40,10 +43,11 @@ class UnoJSBuilder {
     console.log("stop record");
   };
   startMask = () => {
-    console.log("start mask");
+    this.screenMask.init(true);
   };
   stopMask = () => {
-    console.log("stop mask");
+    this.screenMask.removeAllElements();
+    this.screenMask.init(false);
   };
   startMute = () => {
     console.log("stop mute");
