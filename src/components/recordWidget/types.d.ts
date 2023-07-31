@@ -4,4 +4,4 @@ export type OpenRecordWidgetFunction = (
   startMask: (start: boolean) => void,
   stopMask: (stop: boolean) => void,
   closeWidget: (close: boolean) => void
-) => Promise<string>;
+) => Promise<HTMLElement>;
