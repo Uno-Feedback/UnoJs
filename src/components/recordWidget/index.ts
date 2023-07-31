@@ -15,21 +15,21 @@ wrapper.setAttribute("id", "uno-record-widget");
 wrapper.classList.add("uno-record-wrapper");
 // Timer element
 const timerWrapper = document.createElement("div");
-timerWrapper.classList.add("uno-timer-wrapper");
+timerWrapper.classList.add("uno-timer");
 wrapper.appendChild(timerWrapper);
-const timer = document.createElement("span");
-timer.classList.add("uno-timer");
-timerWrapper.appendChild(timer);
+const counter = document.createElement("span");
+counter.classList.add("uno-timer-counter");
+timerWrapper.appendChild(counter);
 // Record Elements
 const recordWrapper = document.createElement("div");
-recordWrapper.classList.add("uno-record-wrapper");
+recordWrapper.classList.add("uno-record");
 wrapper.appendChild(recordWrapper);
 const startRecordButton = document.createElement("span");
-startRecordButton.classList.add("uno-start-record");
+startRecordButton.classList.add("uno-record-start");
 startRecordButton.innerHTML = recordIcon;
 recordWrapper.appendChild(startRecordButton);
 const stopRecordButton = document.createElement("span");
-stopRecordButton.classList.add("uno-stop-record");
+stopRecordButton.classList.add("uno-record-stop");
 stopRecordButton.innerHTML = stopRecordIcon;
 const recordingButton = document.createElement("span");
 recordingButton.classList.add("id", "uno-recording");
@@ -37,7 +37,7 @@ recordingButton.innerHTML = recordingIcon;
 timerWrapper.appendChild(recordingButton);
 // Mic Element
 const muteWrapper = document.createElement("div");
-muteWrapper.classList.add("uno-mute-wrapper");
+muteWrapper.classList.add("uno-mute");
 wrapper.appendChild(muteWrapper);
 const muteStartButton = document.createElement("span");
 muteStartButton.classList.add("uno-mute-start");
@@ -63,7 +63,7 @@ closeButton.setAttribute("id", "uno-close");
 wrapper.appendChild(closeButton);
 const appendRecordWrapperToBody: Promise<HTMLElement> = new Promise(resolve => {
   document.body.appendChild(wrapper);
-  resolve(timer);
+  resolve(counter);
 });
 export const openRecordWidget: OpenRecordWidgetFunction = async (
   startRecord,
@@ -99,7 +99,7 @@ export const closeRecordWidget = () => {
   console.log("Close widget");
   wrapper.remove();
   timerWrapper.remove();
-  timer.remove();
+  counter.remove();
   closeButton.remove();
   muteWrapper.remove();
   muteStartButton.remove();
