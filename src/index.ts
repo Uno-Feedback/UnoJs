@@ -47,11 +47,11 @@ class UnoJSBuilder {
     stopTimer();
   };
   startMask = () => {
-    this.screenMask.init(true);
+    this.screenMask.start();
   };
   stopMask = () => {
     this.screenMask.removeAllElements();
-    this.screenMask.init(false);
+    this.screenMask.stop();
   };
   startMute = () => {
     console.log("stop mute");

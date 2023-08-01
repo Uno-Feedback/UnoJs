@@ -100,12 +100,11 @@ class ScreenMask {
     document.removeEventListener("mousemove", this.mousemoveListener);
     document.removeEventListener("mouseup", this.mouseupListener);
   };
-  init = (initial: boolean) => {
-    if (!initial) {
-      this.removeMouseEvents();
-      return;
-    }
+  start = (): void => {
     this.addMouseEvents();
+  };
+  stop = (): void => {
+    this.removeMouseEvents();
   };
 }
 
