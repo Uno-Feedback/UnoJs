@@ -1,3 +1,5 @@
+import {crossIcon} from "../../assets/svg";
+
 class ScreenMask {
   private moved;
   private clicked;
@@ -16,7 +18,7 @@ class ScreenMask {
     const element = document.createElement("div");
     const close = document.createElement("div");
     close.classList.add("close");
-    close.innerText = "✖";
+    close.innerHTML = crossIcon;
     // Set attributes
     element.setAttribute("id", `mask-element-${Math.random().toString(16).slice(2)}`);
     // Add event listener to close

@@ -6,7 +6,8 @@ import {
   recordIcon,
   recordingIcon,
   stopRecordIcon,
-  unmuteIcon
+  unmuteIcon,
+  crossIcon
 } from "../../assets/svg";
 
 // wrapper element
@@ -69,7 +70,7 @@ const initialInnerElements = () => {
   maskStopButton.innerHTML = stopMaskIcon;
   // Close Element
   closeButton.classList.add("uno-close");
-  closeButton.innerText = "✖";
+  closeButton.innerHTML = crossIcon;
   wrapper.appendChild(closeButton);
 };
 const appendRecordWrapperToBody = (): Promise<HTMLElement> =>
