@@ -11,27 +11,27 @@ import {
 } from "../../assets/svg";
 
 // wrapper element
-const wrapper = document.createElement("div");
+const wrapper: HTMLDivElement = document.createElement("div");
 // Timer element
-const timerWrapper = document.createElement("div");
-const counter = document.createElement("span");
+const timerWrapper: HTMLDivElement = document.createElement("div");
+const counter: HTMLSpanElement = document.createElement("span");
 // Record Elements
-const recordWrapper = document.createElement("div");
-const startRecordButton = document.createElement("span");
-const stopRecordButton = document.createElement("span");
-const recordingButton = document.createElement("span");
+const recordWrapper: HTMLDivElement = document.createElement("div");
+const startRecordButton: HTMLSpanElement = document.createElement("span");
+const stopRecordButton: HTMLSpanElement = document.createElement("span");
+const recordingButton: HTMLSpanElement = document.createElement("span");
 // Mic Element
-const muteWrapper = document.createElement("div");
-const muteStartButton = document.createElement("span");
-const muteStopButton = document.createElement("span");
+const muteWrapper: HTMLDivElement = document.createElement("div");
+const muteStartButton: HTMLSpanElement = document.createElement("span");
+const muteStopButton: HTMLSpanElement = document.createElement("span");
 // Mask Element
-const maskWrapper = document.createElement("div");
-const maskStartButton = document.createElement("span");
-const maskStopButton = document.createElement("span");
+const maskWrapper: HTMLDivElement = document.createElement("div");
+const maskStartButton: HTMLSpanElement = document.createElement("span");
+const maskStopButton: HTMLSpanElement = document.createElement("span");
 // Close Element
 const closeButton = document.createElement("span");
 
-const initialInnerElements = () => {
+const initialInnerElements = (): void => {
   // wrapper
   wrapper.setAttribute("id", "uno-record-widget");
   wrapper.classList.add("uno-record-wrapper");
@@ -73,7 +73,7 @@ const initialInnerElements = () => {
   closeButton.innerHTML = crossIcon;
   wrapper.appendChild(closeButton);
 };
-const appendRecordWrapperToBody = (): Promise<HTMLElement> =>
+const appendRecordWrapperToBody = (): Promise<HTMLSpanElement> =>
   new Promise(resolve => {
     initialInnerElements();
     document.body.appendChild(wrapper);
@@ -87,7 +87,7 @@ export const openRecordWidget: OpenRecordWidgetFunction = async ({
   startMute,
   stopMute,
   closeWidget
-}) => {
+}): Promise<HTMLSpanElement> => {
   startRecordButton.onclick = () => {
     startRecord(true);
     startRecordButton.remove();
@@ -126,7 +126,7 @@ export const openRecordWidget: OpenRecordWidgetFunction = async ({
   };
   return await appendRecordWrapperToBody().then(response => response);
 };
-export const closeRecordWidget = () => {
+export const closeRecordWidget = (): void => {
   wrapper.remove();
   timerWrapper.remove();
   counter.remove();

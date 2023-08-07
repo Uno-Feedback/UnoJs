@@ -3,12 +3,12 @@ import {RunTimerFunction, Timer} from "./type";
 
 let timer: Timer;
 let timerRef: HTMLElement | null;
-export const runTimer: RunTimerFunction = (ref, callback) => {
+export const runTimer: RunTimerFunction = (ref, callback): void => {
   // Initial ref
   timerRef = ref;
-  let [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+  let [milliseconds, seconds, minutes, hours]: [number, number, number, number] = [0, 0, 0, 0];
   // Calculate time
-  const displayTimer = () => {
+  const displayTimer = (): void => {
     milliseconds += 10;
     if (milliseconds === 1000) {
       milliseconds = 0;
@@ -28,7 +28,7 @@ export const runTimer: RunTimerFunction = (ref, callback) => {
     updateTimer();
   };
   // Update time in ref
-  const updateTimer = () => {
+  const updateTimer = (): void => {
     let h = hours < 10 ? "0" + hours : hours;
     let m = minutes < 10 ? "0" + minutes : minutes;
     let s = seconds < 10 ? "0" + seconds : seconds;
@@ -36,13 +36,13 @@ export const runTimer: RunTimerFunction = (ref, callback) => {
     if (timerRef) timerRef.innerText = `${hours < 1 ? "" : h + ":"}${m}:${s}`;
   };
   // Update time in callback
-  const updateCallback = () => callback({seconds, minutes, hours});
+  const updateCallback = (): void => callback({seconds, minutes, hours});
   // Clear unnecessary interval
   if (timer) clearInterval(timer);
   // Set interval for every 10 milliseconds
   timer = setInterval(displayTimer, 10);
 };
-export const stopTimer = () => {
+export const stopTimer = (): void => {
   if (timerRef) timerRef.innerText = "00:00";
   clearInterval(timer);
 };
