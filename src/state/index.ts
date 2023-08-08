@@ -8,5 +8,4 @@ const state: StateType = {
   apiKey: null,
   autoSecretDataAttribute: null
 };
-const {fullName, email, avatar, requestUrl, apiKey, autoSecretDataAttribute} = state;
-export default {fullName, email, avatar, requestUrl, apiKey, autoSecretDataAttribute};
+export default state;
