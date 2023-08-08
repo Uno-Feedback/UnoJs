@@ -29,16 +29,28 @@ module.exports = {
   devServer: {
     static: [
       {
-        directory: path.resolve(process.cwd(), '.'),
+        directory: path.resolve(process.cwd(), 'dist'),
+        publicPath: 'dist',
+      },
+      {
+        directory: path.resolve(process.cwd(), 'example'),
       },
     ],
     devMiddleware: {
       index: true,
-      publicPath: '.',
+      mimeTypes: {
+        '': 'text/javascript',
+        false: 'text/javascript',
+        html: 'text/javascript',
+        null: 'text/javascript',
+        default: 'text/javascript',
+        js: 'text/javascript'
+      },
+      publicPath: 'dist',
       serverSideRender: true,
       writeToDisk: true,
     },
-    watchFiles: [path.resolve(process.cwd(), './')],
+    watchFiles: [path.resolve(process.cwd(), 'example/index.html')],
     magicHtml: true,
     compress: false,
     port: 5456,
