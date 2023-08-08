@@ -1,11 +1,11 @@
 import {crossIcon} from "../../assets/svg";
 
-const fade = document.createElement("div");
-const modal = document.createElement("div");
-const header = document.createElement("div");
-const closeButton = document.createElement("span");
-const content = document.createElement("div");
-const body = document.querySelector("body") as HTMLElement;
+const fade: HTMLDivElement = document.createElement("div");
+const modal: HTMLDivElement = document.createElement("div");
+const header: HTMLDivElement = document.createElement("div");
+const closeButton: HTMLSpanElement = document.createElement("span");
+const content: HTMLDivElement = document.createElement("div");
+const body: HTMLElement = document.querySelector("body") as HTMLElement;
 
 const initialInnerElements = (title: HTMLElement) => {
   // Fade
@@ -31,12 +31,13 @@ const initialInnerElements = (title: HTMLElement) => {
   return content;
 };
 
-const initialModal = async (title: HTMLElement) => new Promise(resolve => resolve(initialInnerElements(title)));
-export const showModal = () => {
+const initialModal = async (title: HTMLElement) =>
+  new Promise<HTMLDivElement>(resolve => resolve(initialInnerElements(title)));
+export const showModal = (): void => {
   body.style.overflow = "hidden";
   fade.style.display = "block";
 };
-export const hideModal = () => {
+export const hideModal = (): void => {
   body.style.overflow = "";
   fade.remove();
   modal.remove();
