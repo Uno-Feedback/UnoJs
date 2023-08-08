@@ -18,3 +18,4 @@ yarn.lock
 # test files
 dist/main.js
 dist/main.css
+dist/main.*.hot-update.*
