@@ -1,0 +1,36 @@
+[id^=mask-element-] {
+    position: fixed;
+    z-index: 9999;
+    background-color: #CCC;
+    border-radius: 6px;
+    box-shadow: 0 0 3px 3px #ccc;
+
+    &:hover {
+        .close {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+
+    .close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 16px;
+        height: 16px;
+        transform: translate(10px, -10px);
+        cursor: pointer;
+        color: black;
+        border: 1px solid black;
+        background-color: white;
+        border-radius: 50%;
+        font-size: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.3s ease;
+        padding: 3px;
+    }
+}

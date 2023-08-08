@@ -1,0 +1,133 @@
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+#uno-record-widget {
+    position: fixed;
+    inset: auto auto 25px 25px;
+    height: 55px;
+    background-color: #FFF;
+    border: 1px solid #8685E0;
+    border-radius: 6px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    color: #232323;
+    font-family: "Roboto mono", monospace;
+    font-size: 20px;
+    direction: ltr;
+
+    &:hover {
+        .uno {
+            &-close {
+                visibility: visible;
+                opacity: 1;
+            }
+        }
+    }
+
+    .uno {
+        &-timer {
+            display: flex;
+            align-items: center;
+            line-height: 1.2;
+            margin: 0 20px 0 0;
+            position: relative;
+
+            &-counter {
+                font-size: 20px;
+            }
+        }
+
+        &-record {
+            margin-left: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &-start {
+                cursor: pointer;
+                line-height: 1;
+            }
+
+            &-stop {
+                cursor: pointer;
+                line-height: 1;
+            }
+
+            &-recording {
+                opacity: 0;
+                transition: all .3s ease;
+                position: absolute;
+                right: -20px;
+                line-height: 1;
+                animation: blink 1s infinite;
+                display: none;
+            }
+        }
+
+        &-mute {
+            margin: 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &-start {
+                cursor: pointer;
+                line-height: 1;
+            }
+
+            &-stop {
+                cursor: pointer;
+                line-height: 1;
+            }
+        }
+
+        &-mask {
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            border-left: 1px solid #C9C9C9;
+
+            &-start {
+                cursor: pointer;
+                line-height: 1;
+            }
+
+            &-stop {
+                cursor: pointer;
+                line-height: 1;
+            }
+        }
+
+        &-close {
+            cursor: pointer;
+            height: 16px;
+            width: 16px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transform: translate(6px, -6px);
+            border: 1px solid black;
+            background-color: white;
+            border-radius: 50%;
+            color: black;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .3s ease;
+            visibility: hidden;
+            opacity: 1;
+            padding: 3px;
+        }
+    }
+}

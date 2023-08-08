@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "strict": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "module": "ESNext",
+    "declaration": true,
+    "noImplicitAny": true,
+    "target": "ES6",
+    "baseUrl": ".",
+    "lib": ["ES2015", "dom"]
+  },
+  "exclude": ["node_modules"],
+  "include": ["src/**/*"]
+}

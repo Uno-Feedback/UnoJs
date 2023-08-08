@@ -1,3 +1,17 @@
 # ide and editors
 /.vscode/*
 /.idea/*
+
+# package files
+node_modules/
+
+# lock files
+package-lock.json
+yarn.lock
+
+# local storage dir
+/_
+
+# changeset
+.changeset
+dist/*
