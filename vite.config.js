@@ -5,5 +5,9 @@ export default defineConfig(async () => {
   const __dirname = fileURLToPath(new URL('.', import.meta.url));
   return {
     root: __dirname + 'example',
+    server: {
+      open: 'index.html',
+      port: 5454,
+    },
   };
 });
