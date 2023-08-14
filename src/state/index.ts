@@ -1,10 +1,10 @@
 import {StateType} from './type';
 
 const state: StateType = {
-  fullName: null,
-  email: null,
+  fullName: '',
+  email: '',
   avatar: null,
-  requestUrl: null,
+  requestUrl: '',
   apiKey: null,
   autoSecretDataAttribute: null,
 };
