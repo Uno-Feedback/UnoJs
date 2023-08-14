@@ -1,0 +1,357 @@
+import initialModal, {showModal} from '../modal';
+import {lang} from '../../state';
+import {avatarIcon, submitIcon} from '../../assets/svg';
+import Observable from '../observable';
+import {
+  AppendFormToModalFunction,
+  ClearErrorFunction, CreateContentFunction,
+  CreateFooterFunction, CreateFormFunction,
+  CreateInputFunction,
+  CreateRadioFunction, CreateRadioWrapperFunction, CreateSenderInformationFunction,
+  CreateTextAreaFunction,
+  CreateTitleFunction,
+  DisableButtonFunction,
+  EnableButtonFunction,
+  HandleErrorFunction,
+  HandleSubmitFunction, InitialInnerElementsFunction,
+  OnChangeValueFunction,
+  StoreInterface,
+  ValidateFormFunction,
+} from './type';
+
+const storeValues: StoreInterface = {
+  type: '1',
+  priority: '3',
+  subject: '',
+  description: '',
+};
+
+const title = document.createElement('h1');
+const content = document.createElement('div');
+const submitButton = document.createElement('button');
+const footer = document.createElement('div');
+const attachment = document.createElement('div');
+const attachmentIcon = document.createElement('span');
+const attachmentName = document.createElement('span');
+const attachmentSize = document.createElement('span');
+
+const onChangeValue: OnChangeValueFunction = event => {
+  const {name, value} = event.target as HTMLInputElement;
+  storeValues[name] = value;
+};
+const disableButton: DisableButtonFunction = element => {
+  element.classList.add('disabled');
+  element.disabled = true;
+};
+const enableButton: EnableButtonFunction = element => {
+  element.classList.remove('disabled');
+  element.disabled = false;
+};
+const handleError: HandleErrorFunction = element => {
+  element.style.border = '1px solid red';
+  element.style.backgroundColor = '#F8D7DA';
+};
+const clearError: ClearErrorFunction = element => {
+  element.style.borderColor = '#E1E1E1';
+  element.style.backgroundColor = '#FFF';
+};
+const validateForm: ValidateFormFunction = () => {
+  const subject = document.getElementById('subject') as HTMLInputElement;
+  const description = document.getElementById('description') as HTMLInputElement;
+  if (!storeValues.subject) {
+    handleError(subject);
+    return false;
+  }
+  if (!storeValues.description) {
+    handleError(description);
+    return false;
+  }
+  return true;
+};
+const handleSubmit: HandleSubmitFunction = (acceptButton, onSubmit) => {
+  if (!validateForm()) return;
+  onSubmit(storeValues);
+  disableButton(acceptButton);
+  Observable.subscribe(() => enableButton(acceptButton), 'enableButton');
+};
+const createTitle: CreateTitleFunction = () => {
+  title.classList.add('uno-form-title');
+  title.innerText = lang.fa.requestForm.title;
+  return title;
+};
+const createFooter: CreateFooterFunction = ({fileName, fileSize}, onSubmit) => {
+  // Footer
+  footer.classList.add('uno-form-footer');
+  // - Attachment
+  attachment.classList.add('uno-form-attachment');
+  // - Attachment Icon
+  attachmentIcon.classList.add('uno-form-attachment-icon');
+  attachmentIcon.innerHTML = submitIcon;
+  attachment.appendChild(attachmentIcon);
+  // - Attachment Name
+  attachmentName.classList.add('uno-form-attachment-name');
+  attachmentName.innerText = `${fileName}.mp4`;
+  attachment.appendChild(attachmentName);
+  // - Attachment Time
+  attachmentSize.classList.add('uno-form-attachment-size');
+  attachmentSize.innerText = fileSize;
+  attachment.appendChild(attachmentSize);
+  // - Append Attachment to Footer
+  footer.appendChild(attachment);
+  // - Submit Button
+  submitButton.classList.add('uno-form-submit');
+  const submitButtonText = document.createElement('span');
+  const submitButtonIcon = document.createElement('span');
+  submitButtonText.innerText = lang.fa.requestForm.submit;
+  submitButtonIcon.innerHTML = submitIcon;
+  submitButton.appendChild(submitButtonText);
+  submitButton.appendChild(submitButtonIcon);
+  submitButton.onclick = () => {
+    handleSubmit(submitButton, onSubmit);
+  };
+  // - Append Submit Button to Footer
+  footer.appendChild(submitButton);
+};
+const createInput: CreateInputFunction = (row, col, inputLabel, label, name, initialValue, hasPlaceholder) => {
+  // Input
+  const input = document.createElement('input') as HTMLInputElement;
+  input.classList.add('uno-form-input');
+  //// Input properties
+  input.setAttribute('id', name);
+  input.setAttribute('name', name);
+  input.setAttribute('type', 'text');
+  if (hasPlaceholder) input.setAttribute('placeholder', label);
+  input.onchange = (event) => onChangeValue(event);
+  input.onfocus = () => clearError(input);
+  if (initialValue) input.value = initialValue;
+  // Label
+  inputLabel.innerText = label;
+  inputLabel.setAttribute('for', name);
+  // Input and Label append to col
+  col.appendChild(inputLabel);
+  col.appendChild(input);
+  // Col append to wrapper
+  row.appendChild(col);
+};
+const createRadio: CreateRadioFunction = (row, col, options, active, label, name) => {
+  // Create label
+  const span = document.createElement('span');
+  const groupLabel = span.cloneNode(true) as HTMLElement;
+  groupLabel.classList.add('uno-form-radio-group-label');
+  groupLabel.innerText = `${label}:`;
+
+  // Create radio input
+  const input = document.createElement('input');
+  input.setAttribute('type', 'radio');
+  input.setAttribute('name', name);
+  input.classList.add('uno-form-radio-input');
+  input.onchange = onChangeValue;
+
+  // Create radio label
+  const radioLabel = document.createElement('label');
+  radioLabel.classList.add('uno-form-radio-label');
+
+  // Create badge
+  const badge = span.cloneNode(true) as HTMLElement;
+  badge.classList.add('uno-form-radio-badge');
+
+  // Wrapper
+  const radioWrapper = document.createElement('div') as HTMLElement;
+  radioWrapper.classList.add('uno-form-radio-wrapper');
+  radioWrapper.appendChild(groupLabel);
+
+  // Reset all label styles to default
+  const resetLabelsStyle = () => {
+    options.forEach(item => {
+      const label = document.querySelector(`label[for="id-${name}-${item.value}"]`) as HTMLElement;
+      label.style.borderColor = '#D0D0D0';
+    });
+  };
+
+  const changeLabelStyle = (input: HTMLInputElement, label: HTMLElement) => {
+    if (input.checked) {
+      label.style.borderColor = '#5150AE';
+    } else {
+      label.style.borderColor = '#D0D0D0';
+    }
+  };
+
+  options.forEach((item, index) => {
+    const cloneInput = input.cloneNode(true) as HTMLInputElement;
+    cloneInput.value = item.value;
+    cloneInput.onchange = onChangeValue;
+    cloneInput.setAttribute('id', `id-${name}-${item.value}`);
+
+    const cloneLabel = radioLabel.cloneNode(true) as HTMLElement;
+
+    if (item.color) {
+      const cloneBadge = badge.cloneNode(true) as HTMLInputElement;
+      cloneBadge.style.backgroundColor = item.color;
+      cloneLabel.appendChild(cloneBadge);
+    }
+
+    if (index === active ?? 0) {
+      cloneInput.setAttribute('checked', 'checked');
+    }
+
+    const cloneSpan = span.cloneNode(true) as HTMLElement;
+    cloneSpan.innerText = item.label;
+
+    cloneLabel.appendChild(cloneSpan);
+    cloneLabel.setAttribute('for', `id-${name}-${item.value}`);
+
+    radioWrapper.appendChild(cloneInput);
+    radioWrapper.appendChild(cloneLabel);
+    cloneInput.onclick = () => {
+      resetLabelsStyle();
+      changeLabelStyle(cloneInput, cloneLabel);
+    };
+  });
+
+  col.appendChild(radioWrapper);
+  // Col append to wrapper
+  row.appendChild(col);
+};
+const createTextArea: CreateTextAreaFunction = (row, col, textAreaLabel, label, name, hasPlaceholder) => {
+  /* todo add creators most return element for encapsulation */
+  // TextArea
+  const textArea = document.createElement('textarea');
+  textArea.classList.add('uno-form-textarea');
+  //// TextArea property
+  textArea.setAttribute('id', name);
+  textArea.setAttribute('name', name);
+  textArea.setAttribute('rows', '6');
+  if (hasPlaceholder) textArea.setAttribute('placeholder', label);
+  textArea.onchange = onChangeValue;
+  textArea.onfocus = () => clearError(textArea);
+  // Label
+  textAreaLabel.innerText = label;
+  textAreaLabel.setAttribute('for', name);
+  // TextArea and Label append to col
+  col.appendChild(textAreaLabel);
+  col.appendChild(textArea);
+  // Col append to wrapper
+  row.appendChild(col);
+};
+const createSenderInformation: CreateSenderInformationFunction = (row, col, label, {fullName, avatar, email}) => {
+  const sender = document.createElement('div');
+  sender.classList.add('uno-form-sender');
+  const span = document.createElement('span');
+  // Label
+  const labelElement = span.cloneNode(true) as HTMLElement;
+  labelElement.classList.add('uno-form-sender-label');
+  labelElement.innerText = label + ':';
+  // Avatar
+  const localAvatar = avatarIcon;
+  const avatarElement = document.createElement('img');
+  avatarElement.classList.add('uno-form-sender-avatar');
+  avatarElement.setAttribute('alt', 'avatar');
+  avatarElement.setAttribute('src', avatar ?? 'data:image/svg+xml;base64,' + btoa(localAvatar));
+  // Information
+  const infoElement = span.cloneNode(true) as HTMLElement;
+  infoElement.classList.add('uno-form-sender-info');
+  // Full name
+  const fullNameElement = span.cloneNode(true) as HTMLElement;
+  fullNameElement.classList.add('uno-form-sender-full-name');
+  fullNameElement.innerText = fullName;
+  // Email
+  const emailElement = span.cloneNode(true) as HTMLElement;
+  emailElement.classList.add('uno-form-sender-email');
+  emailElement.innerText = email;
+
+  infoElement.appendChild(emailElement);
+  infoElement.appendChild(fullNameElement);
+
+  sender.appendChild(labelElement);
+  sender.appendChild(avatarElement);
+  sender.appendChild(infoElement);
+
+  col.appendChild(sender);
+  row.appendChild(col);
+};
+const createRadioWrapper: CreateRadioWrapperFunction = (row, col) => {
+  const div = document.createElement('div') as HTMLElement;
+  const container = div.cloneNode(true);
+  const buttonGroup = div.cloneNode(true) as HTMLElement;
+  buttonGroup.style.display = 'flex';
+  buttonGroup.style.alignItems = 'center';
+  buttonGroup.style.justifyContent = 'space-between';
+  const innerCol = div.cloneNode(true);
+
+  // Type
+  ///// Bug: 1
+  ///// Report: 2
+  const typeOptions = [
+    {label: lang.fa.requestForm.type.bug, value: '1', color: '#EF0303'},
+    {label: lang.fa.requestForm.type.report, value: '2', color: '#0FE800'},
+  ];
+  createRadio(buttonGroup, innerCol.cloneNode(true) as HTMLElement, typeOptions, 0, 'نوع بازخورد', 'type');
+
+  // Priority
+  //// highest: 1
+  //// high: 2
+  //// medium: 3
+  //// low: 4
+  //// lowest: 5
+  //// critical: 6
+  const priorityOptions = [
+    {label: lang.fa.requestForm.priority.low, value: '4', color: '#F79008'},
+    {label: lang.fa.requestForm.priority.medium, value: '3', color: '#2A70FE'},
+    {label: lang.fa.requestForm.priority.high, value: '2', color: '#E14EB6'},
+  ];
+  createRadio(buttonGroup, innerCol.cloneNode(true) as HTMLElement, priorityOptions, 1, 'اولویت', 'priority');
+  container.appendChild(buttonGroup);
+  col.appendChild(container);
+  // Col append to buttonGroup
+  row.appendChild(col);
+};
+const createForm: CreateFormFunction = ({fullName, email, avatar}) => {
+  // Wrapper
+  const form = document.createElement('div');
+  form.classList.add('uno-form');
+  // Row
+  const row = document.createElement('div');
+  row.classList.add('uno-form-row');
+  form.appendChild(row);
+  // Col
+  const col = document.createElement('div');
+  col.classList.add('uno-form-col');
+  // Divider
+  const divider = document.createElement('div');
+  divider.classList.add('uno-form-divider');
+  // Input Label
+  const inputLabel = document.createElement('label');
+  inputLabel.classList.add('uno-form-label');
+  // Create sender information
+  createSenderInformation(row, col.cloneNode(true) as HTMLElement, lang.fa.requestForm.sender, {
+    fullName,
+    avatar,
+    email,
+  });
+  row.appendChild(divider.cloneNode(true));
+  createRadioWrapper(row, col.cloneNode(true) as HTMLElement);
+  row.appendChild(divider.cloneNode(true));
+  // Subject
+  createInput(row, col.cloneNode(true) as HTMLElement, inputLabel.cloneNode(true) as HTMLElement, lang.fa.requestForm.subject, 'subject', '');
+  row.appendChild(divider.cloneNode(true));
+  // Description
+  createTextArea(row, col.cloneNode(true) as HTMLElement, inputLabel.cloneNode(true) as HTMLElement, lang.fa.requestForm.description, 'description');
+  return form;
+};
+const createContent: CreateContentFunction = ({fullName, email, avatar}) => {
+  const content = document.createElement('div');
+  content.appendChild(createForm({fullName, email, avatar}));
+  return content;
+};
+const initialInnerElements: InitialInnerElementsFunction = ({fullName, email, avatar}, {fileSize, fileName}, onSubmit) => {
+  createContent({fullName, email, avatar});
+  createFooter({fileSize, fileName}, onSubmit);
+};
+
+const appendFormToModal: AppendFormToModalFunction = ({fullName, email, avatar}, {fileSize, fileName}, onSubmit) => {
+  initialModal(createTitle()).then(modalContent => {
+    initialInnerElements({fullName, email, avatar}, {fileSize, fileName}, onSubmit);
+    modalContent.appendChild(content).appendChild(footer);
+    showModal();
+  });
+};
