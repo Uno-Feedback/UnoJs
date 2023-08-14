@@ -1,5 +1,5 @@
-import initialModal, {showModal} from '../modal';
-import {lang} from '../../state';
+import initialModal, {hideModal, showModal} from '../modal';
+import state, {lang} from '../../state';
 import {avatarIcon, submitIcon} from '../../assets/svg';
 import Observable from '../observable';
 import {
@@ -18,6 +18,7 @@ import {
   StoreInterface,
   ValidateFormFunction,
 } from './type';
+import request from '../request';
 
 const storeValues: StoreInterface = {
   type: '1',
@@ -70,7 +71,7 @@ const validateForm: ValidateFormFunction = () => {
 };
 const handleSubmit: HandleSubmitFunction = (acceptButton, onSubmit) => {
   if (!validateForm()) return;
-  onSubmit(storeValues);
+  onSubmit();
   disableButton(acceptButton);
   Observable.subscribe('enableButton', () => enableButton(acceptButton));
 };
@@ -348,6 +349,11 @@ const initialInnerElements: InitialInnerElementsFunction = ({fullName, email, av
   createFooter({fileSize, fileName}, onSubmit);
 };
 
+/**
+ * Append Form to Modal
+ * ////////////////////
+ * **/
+
 const appendFormToModal: AppendFormToModalFunction = ({fullName, email, avatar}, {fileSize, fileName}, onSubmit) => {
   initialModal(createTitle()).then(modalContent => {
     initialInnerElements({fullName, email, avatar}, {fileSize, fileName}, onSubmit);
@@ -355,3 +361,61 @@ const appendFormToModal: AppendFormToModalFunction = ({fullName, email, avatar},
     showModal();
   });
 };
+
+/**
+ * Open Form Request Modal
+ * ///////////////////////
+ * **/
+function formatBytes(bytes: number, decimals = 2): string {
+  if (!+bytes) return '0 Bytes';
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+}
+
+function createName(): string {
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  let mm: number | string = now.getMonth() + 1; // Months start at 0!
+  let dd: number | string = now.getDate();
+  let HH: number | string = now.getHours();
+  let MM: number | string = now.getMinutes();
+  let SS: number | string = now.getSeconds();
+
+  if (dd < 10) dd = `0${dd}`;
+  if (mm < 10) mm = `0${mm}`;
+  if (HH < 10) HH = `0${HH}`;
+  if (MM < 10) MM = `0${MM}`;
+  if (SS < 10) SS = `0${SS}`;
+
+  return `${yyyy}-${mm}-${dd}_-_${HH}:${MM}:${SS}`;
+}
+
+const closeRequestFormModal = (): void => {
+  hideModal();
+  /* todo set loading false*/
+}
+
+const openRequestFormModal = (recordedBlob: Blob): void => {
+  const fileSize = formatBytes(recordedBlob.size, 2);
+
+  const {fullName, email, avatar} = state;
+  appendFormToModal({fullName, email, avatar}, {fileSize, fileName: createName()}, () => {
+    /* todo set loading true */
+    request(recordedBlob, createName(), storeValues)
+      .then(response => {
+        console.info(`[uno-js] Response: ${response.message}`);
+        closeRequestFormModal();
+      })
+      .catch(error => {
+        console.error(`[uno-js] ${error}`);
+        closeRequestFormModal();
+      });
+  });
+};
+
+export default openRequestFormModal;

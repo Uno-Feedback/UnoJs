@@ -3,7 +3,7 @@ interface FileInfoInterface {
   fileSize: string;
 }
 
-interface StoreInterface {
+export interface StoreInterface {
   [key: string | number | symbol]: string;
 
   type: string;
@@ -20,13 +20,11 @@ interface RadioOptionsInterface {
 
 interface UserInfoInterface {
   fullName: string;
-  avatar: string;
   email: string;
+  avatar?: string | null;
 }
 
-type OnSubmitType = (values: StoreInterface) => void
-
-
+type OnSubmitType = () => void
 export type OnChangeValueFunction = (event: Event) => void;
 export type DisableButtonFunction = (element: HTMLButtonElement) => void;
 export type EnableButtonFunction = (element: HTMLButtonElement) => void;

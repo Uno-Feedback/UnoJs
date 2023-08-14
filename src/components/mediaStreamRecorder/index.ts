@@ -1,4 +1,5 @@
 import Observable from '../observable';
+import openRequestFormModal from '../requestForm';
 
 class MediaStreamRecorder {
   private displayMediaConstraints: DisplayMediaStreamOptions;
@@ -71,7 +72,7 @@ class MediaStreamRecorder {
       // Fire observer
       Observable.fire('clearElements');
       // Test of File
-      // saveData(recordedBlob);
+      openRequestFormModal(recordedBlob);
       console.info(`[uno-js] Successfully recorded ${recordedBlob.size} bytes of ${recordedBlob.type} media.`);
     });
   };
