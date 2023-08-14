@@ -5,8 +5,7 @@
 # package files
 node_modules/
 
-# lock files
-package-lock.json
+# other lock files
 yarn.lock
 
 # local storage dir
