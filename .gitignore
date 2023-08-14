@@ -14,4 +14,6 @@ yarn.lock
 
 # changeset
 .changeset
-dist/*
+
+# local build folder
+/dist
