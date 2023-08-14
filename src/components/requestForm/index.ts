@@ -72,7 +72,7 @@ const handleSubmit: HandleSubmitFunction = (acceptButton, onSubmit) => {
   if (!validateForm()) return;
   onSubmit(storeValues);
   disableButton(acceptButton);
-  Observable.subscribe(() => enableButton(acceptButton), 'enableButton');
+  Observable.subscribe('enableButton', () => enableButton(acceptButton));
 };
 const createTitle: CreateTitleFunction = () => {
   title.classList.add('uno-form-title');
