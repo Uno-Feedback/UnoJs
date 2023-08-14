@@ -15,7 +15,5 @@ yarn.lock
 # changeset
 .changeset
 
-# hot-update files in develop
-dist/main.js
-dist/main.css
-dist/main.*.hot-update.*
+# local build folder
+/dist
