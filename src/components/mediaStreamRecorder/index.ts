@@ -1,27 +1,13 @@
 import Observable from '../observable';
 import openRequestFormModal from '../requestForm';
+import {OptionInterface} from './type';
 
 class MediaStreamRecorder {
   private displayMediaConstraints: DisplayMediaStreamOptions;
   private readonly userMediaConstraints: MediaStreamConstraints;
   private readonly mimeType: string;
 
-  constructor(options: {
-    displayMediaConstraints: {
-      audio: true;
-      video: true;
-    };
-    userMediaConstraints: {
-      audio: {
-        sampleSize: number;
-        frameRate: {
-          max: number;
-        };
-        channelCount: number;
-      };
-    };
-    mimeType: string;
-  }) {
+  constructor(options: OptionInterface) {
     // Declare constraints
     this.displayMediaConstraints = options?.displayMediaConstraints ?? {audio: true, video: true};
     this.userMediaConstraints = options?.userMediaConstraints ?? {
