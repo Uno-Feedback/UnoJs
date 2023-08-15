@@ -99,7 +99,6 @@ class UnoJSBuilder {
     console.info("[uno-js] Record stopped!");
     this.screenRecorder.stopRecording();
     stopTimer();
-    this.screenRecorder = null;
     this.setRecordState(false);
   };
 
@@ -138,6 +137,7 @@ class UnoJSBuilder {
   };
 
   setRecordState = (state: boolean) => {
+    console.log({state});
     this.recordIsStarted = state;
   };
 
