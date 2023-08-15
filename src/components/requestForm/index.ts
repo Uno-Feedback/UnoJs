@@ -40,6 +40,8 @@ const attachment = document.createElement("div");
 const attachmentIconElement = document.createElement("span");
 const attachmentName = document.createElement("span");
 const attachmentSize = document.createElement("span");
+const form = document.createElement("div");
+const formRow = document.createElement("div");
 
 const onChangeValue: OnChangeValueFunction = event => {
   const {name, value} = event.target as HTMLInputElement;
@@ -313,12 +315,10 @@ const createRadioWrapper: CreateRadioWrapperFunction = (row, col) => {
 };
 const createForm: CreateFormFunction = ({fullName, email, avatar}) => {
   // Wrapper
-  const form = document.createElement("div");
   form.classList.add("uno-form");
   // Row
-  const row = document.createElement("div");
-  row.classList.add("uno-form-row");
-  form.appendChild(row);
+  formRow.classList.add("uno-form-row");
+  form.appendChild(formRow);
   // Col
   const col = document.createElement("div");
   col.classList.add("uno-form-col");
@@ -329,27 +329,27 @@ const createForm: CreateFormFunction = ({fullName, email, avatar}) => {
   const inputLabel = document.createElement("label");
   inputLabel.classList.add("uno-form-label");
   // Create sender information
-  createSenderInformation(row, col.cloneNode(true) as HTMLElement, lang.fa.requestForm.sender, {
+  createSenderInformation(formRow, col.cloneNode(true) as HTMLElement, lang.fa.requestForm.sender, {
     fullName,
     avatar,
     email
   });
-  row.appendChild(divider.cloneNode(true));
-  createRadioWrapper(row, col.cloneNode(true) as HTMLElement);
-  row.appendChild(divider.cloneNode(true));
+  formRow.appendChild(divider.cloneNode(true));
+  createRadioWrapper(formRow, col.cloneNode(true) as HTMLElement);
+  formRow.appendChild(divider.cloneNode(true));
   // Subject
   createInput(
-    row,
+    formRow,
     col.cloneNode(true) as HTMLElement,
     inputLabel.cloneNode(true) as HTMLElement,
     lang.fa.requestForm.subject,
     "subject",
     ""
   );
-  row.appendChild(divider.cloneNode(true));
+  formRow.appendChild(divider.cloneNode(true));
   // Description
   createTextArea(
-    row,
+    formRow,
     col.cloneNode(true) as HTMLElement,
     inputLabel.cloneNode(true) as HTMLElement,
     lang.fa.requestForm.description,
@@ -376,7 +376,7 @@ const initialInnerElements: InitialInnerElementsFunction = (
  * **/
 
 const appendFormToModal: AppendFormToModalFunction = ({fullName, email, avatar}, {fileSize, fileName}, onSubmit) => {
-  initialModal(createTitle()).then(modalContent => {
+  initialModal(createTitle(), () => destroyRequestForm()).then(modalContent => {
     initialInnerElements({fullName, email, avatar}, {fileSize, fileName}, onSubmit);
     modalContent.appendChild(content).appendChild(footer);
     showModal();
@@ -418,7 +418,15 @@ function createName(): string {
 
 const closeRequestFormModal = (): void => {
   hideModal();
+  destroyRequestForm();
   /* todo set loading false*/
+};
+
+const destroyRequestForm = () => {
+  formRow.replaceChildren();
+  form.replaceChildren();
+  content.replaceChildren();
+  content.remove();
 };
 
 const openRequestFormModal = (recordedBlob: Blob): void => {
@@ -434,7 +442,6 @@ const openRequestFormModal = (recordedBlob: Blob): void => {
       })
       .catch(error => {
         console.error(`[uno-js] ${error}`);
-        closeRequestFormModal();
       });
   });
 };
