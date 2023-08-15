@@ -19,150 +19,156 @@
  * For more information, please see the [uno-js documentation](https://github.com/Uno-Feedback/UnoJs#readme).
  */
 
-import {InitializeFunction, ValidationFunction} from "./types";
-import {openRecordWidget} from "./components/recordWidget";
+import { InitializeFunction, ValidationFunction } from "./types";
+import { openRecordWidget } from "./components/recordWidget";
 import ScreenMask from "./components/screenMask";
-import {runTimer, stopTimer} from "./components/timer";
-import {Time} from "./components/timer/type";
+import { runTimer, stopTimer } from "./components/timer";
+import { Time } from "./components/timer/type";
 import state from "./state";
 import Observable from "./components/observable";
-import {endSecret, startSecret} from "./components/autoSecret";
+import { endSecret, startSecret } from "./components/autoSecret";
 import MediaStreamRecorder from "./components/mediaStreamRecorder";
 
 class UnoJSBuilder {
-  private screenMask;
-  private screenRecorder: MediaStreamRecorder | null;
-  private timerWrapper: HTMLElement | null;
-  private audio: boolean;
+    private screenMask;
+    private screenRecorder: MediaStreamRecorder | null;
+    private timerWrapper: HTMLElement | null;
+    private audio: boolean;
 
-  constructor() {
-    this.screenMask = new ScreenMask();
-    this.screenRecorder = null;
-    this.timerWrapper = null;
-    this.audio = true;
-  }
-
-  validateInitialization: ValidationFunction = (startButtonId, subscriptionData, options) => {
-    if (!subscriptionData) {
-      console.error("[uno-js] Subscription data not set.");
-      return false;
+    constructor() {
+        this.screenMask = new ScreenMask();
+        this.screenRecorder = null;
+        this.timerWrapper = null;
+        this.audio = true;
     }
-    if (!subscriptionData.requestUrl) {
-      console.error("[uno-js] Request url not set.");
-      return false;
-    }
-    if (!subscriptionData.requestUrl) {
-      console.error("[uno-js] Api key not set.");
-      return false;
-    }
-    if (!startButtonId) {
-      console.error("[uno-js] Start button not set.");
-      return false;
-    }
-    if (!options?.user) {
-      console.error("[uno-js] User data not set.");
-      return false;
-    }
-    if (!options?.autoSecretKey) console.warn("[uno-js] Auto secret data attribute not set.");
-    return true;
-  };
 
-  startRecord = (): void => {
-    if (!this.screenRecorder) return;
-    Observable.subscribe("clearElements", this.closeWidget);
-    this.screenRecorder
-      .start()
-      .then(record => {
-        if (record === "stopped") return;
-        console.info("[uno-js] Record started");
-        startSecret();
-        runTimer(this.timerWrapper, this.observeTime);
-      })
-      .catch(error => {
-        this.closeWidget();
-        console.error(`[uno-js] Error while starting record: ${error}`);
-      });
-  };
-  stopRecord = () => {
-    if (!this.screenRecorder) return;
-    console.info("[uno-js] Record stopped!");
-    this.screenRecorder.stopRecording();
-    stopTimer();
-    this.screenRecorder = null;
-  };
-  startMask = () => {
-    this.screenMask.start();
-  };
-  stopMask = () => {
-    this.screenMask.stop();
-  };
-  startMute = () => {
-    console.log("stop mute");
-    /* todo mute only before start recording */
-    this.audio = false;
-  };
-  stopMute = () => {
-    console.log("stop mute");
-    this.audio = true;
-  };
-  closeWidget = () => {
-    console.info("[uno-js] Widget closed!");
-    this.stopMask();
-    this.stopRecord();
-    endSecret();
-    stopTimer();
-  };
-
-  observeTime({seconds}: Time) {
-    if (seconds === 30) {
-      this.stopRecord();
-    }
-  }
-
-  initialize: InitializeFunction = (startButtonId, subscriptionData, options) => {
-    if (!this.validateInitialization(startButtonId, subscriptionData, options)) return;
-
-    console.info("[uno-js] Package initialized!");
-
-    const startButton = document.getElementById(startButtonId);
-
-    state.fullName = options.user.fullName;
-    state.email = options.user.email;
-    state.avatar = options.user.avatar;
-    state.autoSecretDataAttribute = options.autoSecretKey ?? null;
-    state.requestUrl = subscriptionData.requestUrl;
-    state.apiKey = subscriptionData.apiKey;
-
-    this.screenRecorder = new MediaStreamRecorder({
-      displayMediaConstraints: {
-        audio: this.audio,
-        video: true
-      },
-      userMediaConstraints: {
-        audio: {
-          sampleSize: 100,
-          frameRate: {max: 30},
-          channelCount: 2
+    validateInitialization: ValidationFunction = (options) => {
+        if (!options.subscriptionData) {
+            console.error("[uno-js] Subscription data not set.");
+            return false;
         }
-      },
-      mimeType: "video/webm"
-    });
+        if (!options.subscriptionData.requestUrl) {
+            console.error("[uno-js] Request url not set.");
+            return false;
+        }
+        if (!options.subscriptionData.requestUrl) {
+            console.error("[uno-js] Api key not set.");
+            return false;
+        }
+        if (!options.startButtonId) {
+            console.error("[uno-js] Start button not set.");
+            return false;
+        }
+        if (!options?.user) {
+            console.error("[uno-js] User data not set.");
+            return false;
+        }
+        if (!options?.autoSecretKey) console.warn("[uno-js] Auto secret data attribute not set.");
+        return true;
+    };
 
-    if (startButton)
-      startButton.addEventListener("click", () => {
-        openRecordWidget({
-          startRecord: this.startRecord,
-          stopRecord: this.stopRecord,
-          startMask: this.startMask,
-          stopMask: this.stopMask,
-          startMute: this.startMute,
-          stopMute: this.stopMute,
-          closeWidget: this.closeWidget
-        }).then(response => {
-          this.timerWrapper = response;
+    startRecord = (): void => {
+        if (!this.screenRecorder) return;
+        Observable.subscribe("clearElements", this.closeWidget);
+        this.screenRecorder
+            .start()
+            .then(record => {
+                if (record === "stopped") return;
+                console.info("[uno-js] Record started");
+                startSecret();
+                runTimer(this.timerWrapper, this.observeTime);
+            })
+            .catch(error => {
+                this.closeWidget();
+                console.error(`[uno-js] Error while starting record: ${error}`);
+            });
+    };
+
+    stopRecord = () => {
+        if (!this.screenRecorder) return;
+        console.info("[uno-js] Record stopped!");
+        this.screenRecorder.stopRecording();
+        stopTimer();
+        this.screenRecorder = null;
+    };
+
+    startMask = () => {
+        this.screenMask.start();
+    };
+
+    stopMask = () => {
+        this.screenMask.stop();
+    };
+
+    startMute = () => {
+        console.log("stop mute");
+        /* todo mute only before start recording */
+        this.audio = false;
+    };
+
+    stopMute = () => {
+        console.log("stop mute");
+        this.audio = true;
+    };
+
+    closeWidget = () => {
+        console.info("[uno-js] Widget closed!");
+        this.stopMask();
+        this.stopRecord();
+        endSecret();
+        stopTimer();
+    };
+
+    observeTime({ seconds }: Time) {
+        if (seconds === 30) {
+            this.stopRecord();
+        }
+    }
+
+    initialize: InitializeFunction = (options) => {
+        if (!this.validateInitialization(options)) return;
+
+        console.info("[uno-js] Package initialized!");
+
+        const startButton = document.getElementById(options.startButtonId);
+
+        state.fullName = options.user.fullName;
+        state.email = options.user.email;
+        state.avatar = options.user.avatar;
+        state.autoSecretDataAttribute = options.autoSecretKey ?? null;
+        state.requestUrl = options.subscriptionData.requestUrl;
+        state.apiKey = options.subscriptionData.apiKey;
+
+        this.screenRecorder = new MediaStreamRecorder({
+            displayMediaConstraints: {
+                audio: this.audio,
+                video: true
+            },
+            userMediaConstraints: {
+                audio: {
+                    sampleSize: 100,
+                    frameRate: { max: 30 },
+                    channelCount: 2
+                }
+            },
+            mimeType: "video/webm"
         });
-      });
-  };
+
+        if (startButton)
+            startButton.addEventListener("click", () => {
+                openRecordWidget({
+                    startRecord: this.startRecord,
+                    stopRecord: this.stopRecord,
+                    startMask: this.startMask,
+                    stopMask: this.stopMask,
+                    startMute: this.startMute,
+                    stopMute: this.stopMute,
+                    closeWidget: this.closeWidget
+                }).then(response => {
+                    this.timerWrapper = response;
+                });
+            });
+    };
 }
 
 const unoJS = new UnoJSBuilder();
