@@ -106,6 +106,7 @@ class ScreenMask {
     this.addMouseEvents();
   };
   stop = (): void => {
+    this.removeAllElements();
     this.removeMouseEvents();
   };
 }

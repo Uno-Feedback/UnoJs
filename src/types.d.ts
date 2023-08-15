@@ -1,4 +1,4 @@
-export interface Options {
+interface Options {
   user: User;
   autoSecretKey?: string;
   callbacks?: Callbacks;
@@ -30,7 +30,7 @@ export interface Callbacks {
   onSuccess?: () => void;
 }
 
-export interface SubscriptionData {
+interface SubscriptionData {
   apiKey: string;
   requestUrl: string;
 }
@@ -41,11 +41,7 @@ export interface InitializationData {
   options: Options;
 }
 
-export type InitializeFunction = (
-  startButtonId: string,
-  subscriptionData: SubscriptionData,
-  options: Options
-) => void;
+export type InitializeFunction = (startButtonId: string, subscriptionData: SubscriptionData, options: Options) => void;
 
 export type ValidationFunction = (
   startButtonId: string,

@@ -1,8 +1,8 @@
 export interface StateType {
-  fullName: string | null;
-  email: string | null;
+  fullName: string;
+  email: string;
+  requestUrl: string;
+  apiKey: string;
   avatar?: string | null;
-  requestUrl: string | null;
-  apiKey: string | null;
   autoSecretDataAttribute: string | null;
 }

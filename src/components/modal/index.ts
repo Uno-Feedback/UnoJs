@@ -13,9 +13,10 @@ const initialInnerElements = (title: HTMLElement) => {
   body.appendChild(fade);
   // Modal
   modal.classList.add("uno-modal");
+  modal.setAttribute("id", "uno-modal");
   fade.appendChild(modal);
   // Header
-  modal.classList.add("uno-modal-header");
+  header.classList.add("uno-modal-header");
   modal.appendChild(header);
   // Title
   header.appendChild(title);
