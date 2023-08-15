@@ -35,8 +35,6 @@ export const startSecret = (): void => {
 };
 export const endSecret = (): void => {
   const secretAttributes = document.querySelectorAll(`[data-${autoSecretDataAttribute}]`);
-  console.log({secretAttributes});
-  console.log({secretKey: `[data-${autoSecretDataAttribute}]`});
   if (!autoSecretDataAttribute || !secretAttributes) return;
   secretAttributes.forEach(secretAttribute => {
     const element = secretAttribute as HTMLElement;
