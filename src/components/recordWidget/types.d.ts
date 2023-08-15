@@ -1,10 +1,10 @@
 interface WidgetFunctionProps {
-  startRecord: (start: boolean) => void;
-  stopRecord: (stop: boolean) => void;
-  startMask: (start: boolean) => void;
-  stopMask: (stop: boolean) => void;
-  startMute: (start: boolean) => void;
-  stopMute: (start: boolean) => void;
-  closeWidget: (close: boolean) => void;
+  onStartRecord: (start: boolean) => void;
+  onStopRecord: (stop: boolean) => void;
+  onStartMask: (start: boolean) => void;
+  onStopMask: (stop: boolean) => void;
+  onStartMute: (start: boolean) => void;
+  onStopMute: (stop: boolean) => void;
+  onCloseWidget: (start: boolean) => void;
 }
 export type OpenRecordWidgetFunction = (props: WidgetFunctionProps) => Promise<HTMLElement>;

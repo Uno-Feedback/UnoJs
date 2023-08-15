@@ -80,51 +80,55 @@ const appendRecordWrapperToBody = (): Promise<HTMLSpanElement> =>
     resolve(counter);
   });
 export const openRecordWidget: OpenRecordWidgetFunction = async ({
-  startRecord,
-  stopRecord,
-  startMask,
-  stopMask,
-  startMute,
-  stopMute,
-  closeWidget
+  onStartRecord,
+  onStopRecord,
+  onStartMask,
+  onStopMask,
+  onStartMute,
+  onStopMute,
+  onCloseWidget
 }): Promise<HTMLSpanElement> => {
   startRecordButton.onclick = () => {
-    startRecord(true);
+    onStartRecord(true);
     startRecordButton.remove();
     recordWrapper.appendChild(stopRecordButton);
     recordingButton.style.display = "inline";
   };
   stopRecordButton.onclick = () => {
-    stopRecord(true);
+    onStopRecord(true);
     stopRecordButton.remove();
     recordWrapper.appendChild(startRecordButton);
     recordingButton.style.display = "";
   };
   maskStartButton.onclick = () => {
-    startMask(true);
+    onStartMask(true);
     maskStartButton.remove();
     maskWrapper.appendChild(maskStopButton);
   };
   maskStopButton.onclick = () => {
-    stopMask(true);
-    maskStopButton.remove();
-    maskWrapper.appendChild(maskStartButton);
+    onStopMask(true);
+    resetWidget();
   };
   muteStartButton.onclick = () => {
-    startMute(true);
+    onStartMute(true);
     muteStartButton.remove();
     muteWrapper.appendChild(muteStopButton);
   };
   muteStopButton.onclick = () => {
-    stopMute(true);
+    onStopMute(true);
     muteStopButton.remove();
     muteWrapper.appendChild(muteStartButton);
   };
   closeButton.onclick = () => {
-    closeWidget(true);
+    onCloseWidget(true);
     closeRecordWidget();
   };
   return await appendRecordWrapperToBody().then(response => response);
+};
+export const resetWidget = (): void => {
+  stopRecordButton.remove();
+  recordWrapper.appendChild(startRecordButton);
+  recordingButton.style.display = "";
 };
 export const closeRecordWidget = (): void => {
   wrapper.remove();
