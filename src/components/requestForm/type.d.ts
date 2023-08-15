@@ -40,6 +40,6 @@ export type CreateTextAreaFunction = (row: HTMLElement, col: HTMLElement, textAr
 export type CreateSenderInformationFunction = (row: HTMLElement, col: HTMLElement, label: string, userInfo: UserInfoInterface) => void;
 export type CreateRadioWrapperFunction = (row: HTMLElement, col: HTMLElement) => void;
 export type CreateFormFunction = (userInfo: UserInfoInterface) => HTMLElement;
-export type CreateContentFunction = (userInfo: UserInfoInterface) => HTMLElement;
+export type CreateContentFunction = (userInfo: UserInfoInterface) => void;
 export type InitialInnerElementsFunction = (userInfo: UserInfoInterface, fileInfo: FileInfoInterface, onSubmit: OnSubmitType) => void;
 export type AppendFormToModalFunction = (userInfo: UserInfoInterface, fileInfo: FileInfoInterface, onSubmit: OnSubmitType) => void;

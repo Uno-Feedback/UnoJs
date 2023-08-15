@@ -1,3 +1,10 @@
+#uno-modal {
+    direction: rtl;
+    text-align: right;
+    color: #252525;
+    text-shadow: none;
+    font-family: Vazirmatn, Roboto, sans-serif;
+}
 .uno {
     &-modal {
         font-family: "Vazirmatn", sans-serif;
@@ -24,6 +31,10 @@
             padding: 26px 30px;
             display: flex;
             justify-content: space-between;
+        }
+
+        &-title {
+            font-size: 20px;
         }
 
         &-content {
