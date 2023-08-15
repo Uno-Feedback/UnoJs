@@ -56,7 +56,8 @@ class MediaStreamRecorder {
       // Create Blob and video file
       const recordedBlob = new Blob(recordedChunks, {type: mimeType});
       // Fire observer
-      Observable.fire("clearElements");
+      Observable.fire("setRecordState", false);
+      Observable.fire("closeWidget");
       // Test of File
       openRequestFormModal(recordedBlob);
       console.info(`[uno-js] Successfully recorded ${recordedBlob.size} bytes of ${recordedBlob.type} media.`);

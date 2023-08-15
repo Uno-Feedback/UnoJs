@@ -81,16 +81,17 @@ class UnoJSBuilder {
           return;
         }
         startSecret();
-        this.recordIsStarted = true;
+        this.setRecordState(true);
         runTimer(this.timerWrapper, this.observeTime);
         console.info("[uno-js] Record started");
       })
       .catch(error => {
         this.closeWidget();
-        this.recordIsStarted = false;
+        this.setRecordState(false);
         console.error(`[uno-js] Error while starting record: ${error}`);
       });
-    Observable.subscribe("clearElements", this.closeWidget);
+    Observable.subscribe("closeWidget", this.closeWidget);
+    Observable.subscribe("setRecordState", this.setRecordState);
   };
 
   stopRecord = () => {
@@ -99,7 +100,7 @@ class UnoJSBuilder {
     this.screenRecorder.stopRecording();
     stopTimer();
     this.screenRecorder = null;
-    this.recordIsStarted = false;
+    this.setRecordState(false);
   };
 
   startMask = () => {
@@ -134,6 +135,10 @@ class UnoJSBuilder {
     stopTimer();
     closeRecordWidget();
     console.info("[uno-js] Widget closed!");
+  };
+
+  setRecordState = (state: boolean) => {
+    this.recordIsStarted = state;
   };
 
   observeTime({minutes}: Time) {
