@@ -5,7 +5,7 @@ const state: StateType = {
   email: '',
   avatar: null,
   requestUrl: '',
-  apiKey: null,
+  apiKey: '',
   autoSecretDataAttribute: null,
 };
 export default state;
