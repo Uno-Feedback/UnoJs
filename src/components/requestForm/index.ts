@@ -423,6 +423,15 @@ const closeRequestFormModal = (): void => {
 };
 
 const destroyRequestForm = () => {
+  /**
+   * Destroy Footer
+   */
+  submitButton.replaceChildren();
+  attachment.replaceChildren();
+  footer.remove();
+  /**
+   * Destroy Content
+   */
   formRow.replaceChildren();
   form.replaceChildren();
   content.replaceChildren();
