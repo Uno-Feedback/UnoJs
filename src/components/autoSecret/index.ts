@@ -18,8 +18,6 @@ const removeBlur = (element: HTMLElement): void => {
 };
 export const startSecret = (): void => {
   const secretAttributes = document.querySelectorAll(`[data-${autoSecretDataAttribute}]`);
-  console.log({secretAttributes});
-  console.log({secretKey: `[data-${autoSecretDataAttribute}]`});
   if (!autoSecretDataAttribute || !secretAttributes) {
     console.warn("Auto secret attribute is not set!");
     return;
