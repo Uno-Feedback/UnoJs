@@ -96,9 +96,7 @@ export const openRecordWidget: OpenRecordWidgetFunction = async ({
   };
   stopRecordButton.onclick = () => {
     onStopRecord(true);
-    stopRecordButton.remove();
-    recordWrapper.appendChild(startRecordButton);
-    recordingButton.style.display = "";
+    resetWidget();
   };
   maskStartButton.onclick = () => {
     onStartMask(true);
@@ -107,7 +105,8 @@ export const openRecordWidget: OpenRecordWidgetFunction = async ({
   };
   maskStopButton.onclick = () => {
     onStopMask(true);
-    resetWidget();
+    maskStopButton.remove();
+    maskWrapper.appendChild(maskStartButton);
   };
   muteStartButton.onclick = () => {
     onStartMute(true);
