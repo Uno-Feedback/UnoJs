@@ -6,5 +6,5 @@ export interface Time {
   hours: number;
 }
 
-export type CallbackFunction = (time: Time) => void;
+type CallbackFunction = (time: Time) => void;
 export type RunTimerFunction = (ref: HTMLElement | null, callback: CallbackFunction) => void;

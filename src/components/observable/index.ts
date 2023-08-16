@@ -1,4 +1,4 @@
-import {DataType, FunctionType, KeyType, ObserverInterface} from './type';
+import {FunctionType, ObserverInterface} from "./type";
 
 class Observable {
   private observers: ObserverInterface[];
@@ -7,18 +7,18 @@ class Observable {
     this.observers = [];
   }
 
-  subscribe(key: KeyType, fn: FunctionType) {
+  subscribe(key: string, fn: FunctionType) {
     this.observers.push({
       fn,
-      key,
+      key
     });
   }
 
-  unsubscribe(key: KeyType) {
+  unsubscribe(key: string) {
     this.observers = this.observers.filter(subscriber => subscriber.key !== key);
   }
 
-  fire(key: KeyType, data?: DataType) {
+  fire(key: string, data?: any) {
     this.observers.forEach(observer => observer.key === key && observer.fn(data));
   }
 }

@@ -24,7 +24,6 @@ const initialInnerElements = (title: HTMLElement) => {
   closeButton.setAttribute("id", "uno-modal-close");
   closeButton.classList.add("uno-modal-close");
   closeButton.innerHTML = crossIcon;
-  closeButton.onclick = () => hideModal();
   header.appendChild(closeButton);
   // Content
   content.classList.add("uno-modal-content");
@@ -32,8 +31,14 @@ const initialInnerElements = (title: HTMLElement) => {
   return content;
 };
 
-const initialModal = async (title: HTMLElement) =>
-  new Promise<HTMLDivElement>(resolve => resolve(initialInnerElements(title)));
+const initialModal = async (title: HTMLElement, onCloseCallback: () => void) => {
+  // Close modal
+  closeButton.onclick = () => {
+    onCloseCallback();
+    hideModal();
+  };
+  return new Promise<HTMLDivElement>(resolve => resolve(initialInnerElements(title)));
+};
 export const showModal = (): void => {
   body.style.overflow = "hidden";
   fade.style.display = "block";

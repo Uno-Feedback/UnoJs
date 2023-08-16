@@ -4,7 +4,6 @@ import {attachmentIcon, avatarIcon, submitIcon} from "../../assets/svg";
 import Observable from "../observable";
 import {
   AppendFormToModalFunction,
-  ClearErrorFunction,
   CreateContentFunction,
   CreateFooterFunction,
   CreateFormFunction,
@@ -13,15 +12,9 @@ import {
   CreateRadioWrapperFunction,
   CreateSenderInformationFunction,
   CreateTextAreaFunction,
-  CreateTitleFunction,
-  DisableButtonFunction,
-  EnableButtonFunction,
-  HandleErrorFunction,
   HandleSubmitFunction,
   InitialInnerElementsFunction,
-  OnChangeValueFunction,
-  StoreInterface,
-  ValidateFormFunction
+  StoreInterface
 } from "./type";
 import request from "../request";
 
@@ -40,28 +33,30 @@ const attachment = document.createElement("div");
 const attachmentIconElement = document.createElement("span");
 const attachmentName = document.createElement("span");
 const attachmentSize = document.createElement("span");
+const form = document.createElement("div");
+const formRow = document.createElement("div");
 
-const onChangeValue: OnChangeValueFunction = event => {
+const onChangeValue = (event: Event): void => {
   const {name, value} = event.target as HTMLInputElement;
   storeValues[name] = value;
 };
-const disableButton: DisableButtonFunction = element => {
+const disableButton = (element: HTMLButtonElement): void => {
   element.classList.add("disabled");
   element.disabled = true;
 };
-const enableButton: EnableButtonFunction = element => {
+const enableButton = (element: HTMLButtonElement): void => {
   element.classList.remove("disabled");
   element.disabled = false;
 };
-const handleError: HandleErrorFunction = element => {
+const handleError = (element: HTMLElement): void => {
   element.style.border = "1px solid red";
   element.style.backgroundColor = "#F8D7DA";
 };
-const clearError: ClearErrorFunction = element => {
+const clearError = (element: HTMLElement): void => {
   element.style.borderColor = "#E1E1E1";
   element.style.backgroundColor = "#FFF";
 };
-const validateForm: ValidateFormFunction = () => {
+const validateForm = (): boolean => {
   const subject = document.getElementById("subject") as HTMLInputElement;
   const description = document.getElementById("description") as HTMLInputElement;
   if (!storeValues.subject) {
@@ -80,7 +75,7 @@ const handleSubmit: HandleSubmitFunction = (acceptButton, onSubmit) => {
   disableButton(acceptButton);
   Observable.subscribe("enableButton", () => enableButton(acceptButton));
 };
-const createTitle: CreateTitleFunction = () => {
+const createTitle = (): HTMLElement => {
   title.classList.add("uno-modal-title");
   title.innerText = lang.fa.requestForm.title;
   return title;
@@ -313,12 +308,10 @@ const createRadioWrapper: CreateRadioWrapperFunction = (row, col) => {
 };
 const createForm: CreateFormFunction = ({fullName, email, avatar}) => {
   // Wrapper
-  const form = document.createElement("div");
   form.classList.add("uno-form");
   // Row
-  const row = document.createElement("div");
-  row.classList.add("uno-form-row");
-  form.appendChild(row);
+  formRow.classList.add("uno-form-row");
+  form.appendChild(formRow);
   // Col
   const col = document.createElement("div");
   col.classList.add("uno-form-col");
@@ -329,27 +322,27 @@ const createForm: CreateFormFunction = ({fullName, email, avatar}) => {
   const inputLabel = document.createElement("label");
   inputLabel.classList.add("uno-form-label");
   // Create sender information
-  createSenderInformation(row, col.cloneNode(true) as HTMLElement, lang.fa.requestForm.sender, {
+  createSenderInformation(formRow, col.cloneNode(true) as HTMLElement, lang.fa.requestForm.sender, {
     fullName,
     avatar,
     email
   });
-  row.appendChild(divider.cloneNode(true));
-  createRadioWrapper(row, col.cloneNode(true) as HTMLElement);
-  row.appendChild(divider.cloneNode(true));
+  formRow.appendChild(divider.cloneNode(true));
+  createRadioWrapper(formRow, col.cloneNode(true) as HTMLElement);
+  formRow.appendChild(divider.cloneNode(true));
   // Subject
   createInput(
-    row,
+    formRow,
     col.cloneNode(true) as HTMLElement,
     inputLabel.cloneNode(true) as HTMLElement,
     lang.fa.requestForm.subject,
     "subject",
     ""
   );
-  row.appendChild(divider.cloneNode(true));
+  formRow.appendChild(divider.cloneNode(true));
   // Description
   createTextArea(
-    row,
+    formRow,
     col.cloneNode(true) as HTMLElement,
     inputLabel.cloneNode(true) as HTMLElement,
     lang.fa.requestForm.description,
@@ -376,7 +369,7 @@ const initialInnerElements: InitialInnerElementsFunction = (
  * **/
 
 const appendFormToModal: AppendFormToModalFunction = ({fullName, email, avatar}, {fileSize, fileName}, onSubmit) => {
-  initialModal(createTitle()).then(modalContent => {
+  initialModal(createTitle(), () => destroyRequestForm()).then(modalContent => {
     initialInnerElements({fullName, email, avatar}, {fileSize, fileName}, onSubmit);
     modalContent.appendChild(content).appendChild(footer);
     showModal();
@@ -418,7 +411,24 @@ function createName(): string {
 
 const closeRequestFormModal = (): void => {
   hideModal();
+  destroyRequestForm();
   /* todo set loading false*/
+};
+
+const destroyRequestForm = () => {
+  /**
+   * Destroy Footer
+   */
+  submitButton.replaceChildren();
+  attachment.replaceChildren();
+  footer.remove();
+  /**
+   * Destroy Content
+   */
+  formRow.replaceChildren();
+  form.replaceChildren();
+  content.replaceChildren();
+  content.remove();
 };
 
 const openRequestFormModal = (recordedBlob: Blob): void => {
@@ -434,7 +444,6 @@ const openRequestFormModal = (recordedBlob: Blob): void => {
       })
       .catch(error => {
         console.error(`[uno-js] ${error}`);
-        closeRequestFormModal();
       });
   });
 };

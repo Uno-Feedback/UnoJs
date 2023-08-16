@@ -1,8 +1,6 @@
+export type FunctionType = (data: any) => void;
+
 export interface ObserverInterface {
   fn: FunctionType;
-  key: KeyType;
+  key: string;
 }
-
-export type FunctionType = (data: any) => void;
-export type KeyType = string;
-export type DataType = any;
