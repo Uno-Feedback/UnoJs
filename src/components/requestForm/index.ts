@@ -4,7 +4,6 @@ import {attachmentIcon, avatarIcon, submitIcon} from "../../assets/svg";
 import Observable from "../observable";
 import {
   AppendFormToModalFunction,
-  ClearErrorFunction,
   CreateContentFunction,
   CreateFooterFunction,
   CreateFormFunction,
@@ -13,15 +12,9 @@ import {
   CreateRadioWrapperFunction,
   CreateSenderInformationFunction,
   CreateTextAreaFunction,
-  CreateTitleFunction,
-  DisableButtonFunction,
-  EnableButtonFunction,
-  HandleErrorFunction,
   HandleSubmitFunction,
   InitialInnerElementsFunction,
-  OnChangeValueFunction,
-  StoreInterface,
-  ValidateFormFunction
+  StoreInterface
 } from "./type";
 import request from "../request";
 
@@ -43,27 +36,27 @@ const attachmentSize = document.createElement("span");
 const form = document.createElement("div");
 const formRow = document.createElement("div");
 
-const onChangeValue: OnChangeValueFunction = event => {
+const onChangeValue = (event: Event): void => {
   const {name, value} = event.target as HTMLInputElement;
   storeValues[name] = value;
 };
-const disableButton: DisableButtonFunction = element => {
+const disableButton = (element: HTMLButtonElement): void => {
   element.classList.add("disabled");
   element.disabled = true;
 };
-const enableButton: EnableButtonFunction = element => {
+const enableButton = (element: HTMLButtonElement): void => {
   element.classList.remove("disabled");
   element.disabled = false;
 };
-const handleError: HandleErrorFunction = element => {
+const handleError = (element: HTMLElement): void => {
   element.style.border = "1px solid red";
   element.style.backgroundColor = "#F8D7DA";
 };
-const clearError: ClearErrorFunction = element => {
+const clearError = (element: HTMLElement): void => {
   element.style.borderColor = "#E1E1E1";
   element.style.backgroundColor = "#FFF";
 };
-const validateForm: ValidateFormFunction = () => {
+const validateForm = (): boolean => {
   const subject = document.getElementById("subject") as HTMLInputElement;
   const description = document.getElementById("description") as HTMLInputElement;
   if (!storeValues.subject) {
@@ -82,7 +75,7 @@ const handleSubmit: HandleSubmitFunction = (acceptButton, onSubmit) => {
   disableButton(acceptButton);
   Observable.subscribe("enableButton", () => enableButton(acceptButton));
 };
-const createTitle: CreateTitleFunction = () => {
+const createTitle = (): HTMLElement => {
   title.classList.add("uno-modal-title");
   title.innerText = lang.fa.requestForm.title;
   return title;
