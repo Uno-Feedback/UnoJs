@@ -24,7 +24,7 @@ import { closeRecordWidget, openRecordWidget, resetWidget } from "./components/r
 import ScreenMask from "./components/screenMask";
 import { runTimer, stopTimer } from "./components/timer";
 import { Time } from "./components/timer/type";
-import state from "./state";
+import optionsState from "./state";
 import Observable from "./components/observable";
 import { endSecret, startSecret } from "./components/autoSecret";
 import MediaStreamRecorder from "./components/mediaStreamRecorder";
@@ -145,7 +145,7 @@ class UnoJSBuilder {
     };
 
     observeTime({ minutes }: Time) {
-        if (minutes === 1) { //TODO: it is magic number, we have to avoid this equallity
+        if (minutes === optionsState.videoMaxLength) { //TODO: it is magic number, we have to avoid this equallity
             this.stopRecord();
         }
     }
@@ -153,16 +153,14 @@ class UnoJSBuilder {
     initialize = (options: Options): void => {
         if (!this.validateInitialization(options)) return;
 
-        console.info("[uno-js] Package initialized!"); //TODO: after develop these methods should be removed
-
         const startButton = document.getElementById(options.startButtonId);
 
-        state.fullName = options.user.fullName;
-        state.email = options.user.email;
-        state.avatar = options.user.avatar;
-        state.autoSecretDataAttribute = options.autoSecretKey ?? null;
-        state.requestUrl = options.subscriptionData.requestUrl;
-        state.apiKey = options.subscriptionData.apiKey;
+
+        //TODO: we should capsulate this assignments
+        optionsState.user = options.user;
+        optionsState.autoSecretKey = options.autoSecretKey ?? undefined;
+        optionsState.subscriptionData = options.subscriptionData;
+        options.videoMaxLength ??= options.videoMaxLength;
 
         this.screenRecorder = new MediaStreamRecorder({
             displayMediaConstraints: {
@@ -193,6 +191,8 @@ class UnoJSBuilder {
                     this.timerWrapper = response;
                 });
             });
+
+        console.info("[uno-js] Package initialized!"); //TODO: after develop these methods should be removed
     };
 }
 

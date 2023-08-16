@@ -4,6 +4,7 @@ export interface Options {
     subscriptionData: SubscriptionData;
     autoSecretKey?: string;
     startButtonId: string;
+    videoMaxLength?: number;
 }
 
 export interface User {
