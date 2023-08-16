@@ -19,7 +19,7 @@
  * For more information, please see the [uno-js documentation](https://github.com/Uno-Feedback/UnoJs#readme).
  */
 
-import { InitializeFunction, ValidationFunction } from "./types";
+import { InitializeFunction, Options, ValidationFunction } from "./types";
 import { openRecordWidget } from "./components/recordWidget";
 import ScreenMask from "./components/screenMask";
 import { runTimer, stopTimer } from "./components/timer";
@@ -123,6 +123,10 @@ class UnoJSBuilder {
         if (seconds === 30) {
             this.stopRecord();
         }
+    }
+
+    init = (options: Options): boolean => {
+        return true;
     }
 
     initialize: InitializeFunction = (options) => {

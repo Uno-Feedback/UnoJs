@@ -1,7 +1,7 @@
 interface Options {
     user: User;
-    autoSecretKey?: string;
     callbacks?: Callbacks;
+    autoSecretKey?: string;
     startButtonId: string;
     subscriptionData: SubscriptionData;
 }
@@ -32,6 +32,7 @@ export interface Callbacks {
     onSuccess?: () => void;
 }
 
+//TODO: we can remove this interface and move these two fields into Options
 interface SubscriptionData {
     apiKey: string;
     requestUrl: string;
