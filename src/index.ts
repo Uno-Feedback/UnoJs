@@ -19,7 +19,7 @@
  * For more information, please see the [uno-js documentation](https://github.com/Uno-Feedback/UnoJs#readme).
  */
 
-import {InitializeFunction, ValidationFunction} from "./types";
+import {Options} from "./types";
 import {closeRecordWidget, openRecordWidget, resetWidget} from "./components/recordWidget";
 import ScreenMask from "./components/screenMask";
 import {runTimer, stopTimer} from "./components/timer";
@@ -46,7 +46,7 @@ class UnoJSBuilder {
     this.recordIsStarted = false;
   }
 
-  validateInitialization: ValidationFunction = options => {
+  validateInitialization = (options: Options): boolean => {
     if (!options.subscriptionData) {
       console.error("[uno-js] Subscription data not set.");
       return false;
@@ -147,7 +147,7 @@ class UnoJSBuilder {
     }
   }
 
-  initialize: InitializeFunction = options => {
+  initialize = (options: Options): void => {
     if (!this.validateInitialization(options)) return;
 
     console.info("[uno-js] Package initialized!");
