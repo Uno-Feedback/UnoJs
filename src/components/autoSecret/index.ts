@@ -7,6 +7,11 @@
 
 import optionsState from "./../../state";
 
+/**
+ * Apply a blur effect to the given element.
+ *
+ * @param element - The element to which the blur effect should be applied.
+ */
 const setBlur = (element: HTMLElement): void => {
   // Set the blur effect on the element.
   element.style.transition = "all 0.3s ease-in-out";
@@ -15,6 +20,11 @@ const setBlur = (element: HTMLElement): void => {
   element.style.color = "#CCC";
 };
 
+/**
+ * Remove the blur effect from the given element.
+ *
+ * @param element - The element from which the blur effect should be removed.
+ */
 const removeBlur = (element: HTMLElement): void => {
   // Remove the blur effect on the element.
   element.style.transition = "";
@@ -23,10 +33,14 @@ const removeBlur = (element: HTMLElement): void => {
   element.style.color = "";
 };
 
+/**
+ * Apply blur effect to elements with the `autoSecretKey` attribute on mouse over.
+ * Remove the blur effect when the mouse enters the element.
+ */
 export const startSecret = (): void => {
   // Get all elements with the autoSecretKey attribute.
   const secretAttributes = document.querySelectorAll(`[data-${optionsState.autoSecretKey}]`);
-  // If the `autoSecretKey` attribute is not set, or there are no elements with the attribute, return.
+  // If the `autoSecretKey` attribute isn't set, or there are no elements with the attribute, return.
   if (!optionsState.autoSecretKey || !secretAttributes) {
     console.warn("Auto secret attribute is not set!");
     return;
@@ -45,10 +59,14 @@ export const startSecret = (): void => {
     });
   });
 };
+
+/**
+ * Remove blur effect from elements with the `autoSecretKey` attribute.
+ */
 export const endSecret = (): void => {
   // Get all elements with the `autoSecretKey` attribute.
   const secretAttributes = document.querySelectorAll(`[data-${optionsState.autoSecretKey}]`);
-  // If the autoSecretKey attribute is not set, or there are no elements with the attribute, return.
+  // If the autoSecretKey attribute isn't set, or there are no elements with the attribute, return.
   if (!optionsState.autoSecretKey || !secretAttributes) return;
 
   // For each element with the autoSecretKey attribute, remove the blur effect.
