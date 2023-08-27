@@ -1,5 +1,5 @@
 import initialModal, {hideModal, showModal} from "../modal";
-import state, {lang} from "../../state";
+import optionsState, {lang} from "../../state";
 import {attachmentIcon, avatarIcon, submitIcon} from "../../assets/svg";
 import Observable from "../observable";
 import {
@@ -394,7 +394,7 @@ function formatBytes(bytes: number, decimals = 2): string {
 function createName(): string {
   const now = new Date();
   const yyyy = now.getFullYear();
-  let mm: number | string = now.getMonth() + 1; // Months start at 0!
+  let mm: number | string = now.getMonth() + 1; // Months start at 0
   let dd: number | string = now.getDate();
   let HH: number | string = now.getHours();
   let MM: number | string = now.getMinutes();
@@ -434,7 +434,7 @@ const destroyRequestForm = () => {
 const openRequestFormModal = (recordedBlob: Blob): void => {
   const fileSize = formatBytes(recordedBlob.size, 2);
 
-  const {fullName, email, avatar} = state;
+  const {fullName, email, avatar} = optionsState.user;
   appendFormToModal({fullName, email, avatar}, {fileSize, fileName: createName()}, () => {
     /* todo set loading true */
     request(recordedBlob, createName(), storeValues)

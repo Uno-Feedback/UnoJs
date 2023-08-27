@@ -1,3 +1,18 @@
+/**
+ *
+ * Implementation of a record widget with various controls (start/stop record, mute/unmute, mask/unmask).
+ *
+ * The `openRecordWidget()` function creates a new record widget and opens it.\
+ * The `onStartRecord` function is called when the user clicks the start record button.\
+ * The `onStopRecord` function is called when the user clicks the stop record button.\
+ * The `onStartMask` function is called when the user clicks the start mask button.\
+ * The `onStopMask` function is called when the user clicks the stop mask button.\
+ * The `onStartMute` function is called when the user clicks the start mute button.\
+ * The `onStopMute` function is called when the user clicks the stop mute button.\
+ * The `onCloseWidget` function is called when the user clicks the close button.
+ */
+
+// Import necessary types from the "type" module.
 import {OpenRecordWidgetFunction} from "./types";
 import {
   maskIcon,
