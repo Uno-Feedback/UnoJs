@@ -1,5 +1,5 @@
 import initialModal, {hideModal, showModal} from "../modal";
-import optionsState, {lang} from "../../state";
+import optionsState from "../../shared/states";
 import {attachmentIcon, avatarIcon, submitIcon} from "../../assets/svg";
 import Observable from "../observable";
 import {
@@ -17,6 +17,7 @@ import {
   StoreInterface
 } from "./type";
 import request from "../request";
+import { lang } from "../../shared/langs";
 
 const storeValues: StoreInterface = {
   type: "1",

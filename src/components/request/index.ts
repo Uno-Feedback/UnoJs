@@ -3,7 +3,7 @@
  */
 
 // Import necessary types from the "type" module.
-import optionsState from "../../state";
+import optionsState from "../../shared/states";
 import {StoreInterface} from "../requestForm/type";
 
 /**

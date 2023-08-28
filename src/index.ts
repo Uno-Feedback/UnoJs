@@ -24,10 +24,11 @@ import {closeRecordWidget, openRecordWidget, resetWidget} from "./components/rec
 import ScreenMask from "./components/screenMask";
 import {runTimer, stopTimer} from "./components/timer";
 import {Time} from "./components/timer/type";
-import optionsState from "./state";
+import optionsState from "./shared/states";
 import Observable from "./components/observable";
 import {endSecret, startSecret} from "./components/autoSecret";
 import MediaStreamRecorder from "./components/mediaStreamRecorder";
+import {AUDIO_CHANNEL_COUNT, AUDIO_SAMPLE_SIZE, MAX_FRAME_RATE} from "./shared/constants";
 
 /**
  * The UnoJSBuilder class is the main entry point for the uno-js package.
@@ -156,7 +157,6 @@ class UnoJSBuilder {
 
   observeTime({minutes}: Time) {
     if (minutes === optionsState.videoMaxLength) {
-      //TODO: it is magic number, we have to avoid this equality
       this.stopRecord();
     }
   }
@@ -179,9 +179,9 @@ class UnoJSBuilder {
       },
       userMediaConstraints: {
         audio: {
-          sampleSize: 100,
-          frameRate: {max: 30},
-          channelCount: 2
+          sampleSize: AUDIO_SAMPLE_SIZE,
+          frameRate: {max: MAX_FRAME_RATE},
+          channelCount: AUDIO_CHANNEL_COUNT
         }
       },
       mimeType: "video/webm"

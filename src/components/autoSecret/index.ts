@@ -5,7 +5,7 @@
  * The `endSecret()` function stops blurring all elements with the autoSecretKey attribute.
  */
 
-import optionsState from "./../../state";
+import optionsState from "../../shared/states";
 
 /**
  * Apply a blur effect to the given element.
