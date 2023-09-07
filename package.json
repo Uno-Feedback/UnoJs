@@ -9,7 +9,8 @@
     "build:esm": "tsc --outDir dist/esm",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
     "sass": "sass src/styles:dist/esm/css --no-source-map --style compressed && sass src/styles:dist/cjs/css --no-source-map --style compressed",
-    "clean": "rimraf -rf ./dist/"
+    "clean": "rimraf -rf ./dist/",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "repository": {
     "type": "git",
@@ -27,5 +28,8 @@
     "sass": "^1.64.1",
     "typescript": "^5.1.6",
     "vite": "^4.4.9"
+  },
+  "devDependencies": {
+    "prettier": "3.0.3"
   }
 }
