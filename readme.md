@@ -20,7 +20,7 @@ To start using UnoJs in your project, follow these steps:
 2. Include your JavaScript in the HTML file with the `type="module"` attribute:
 
 ```html
-<script type='module' src='path/to/your/index.js'></script>
+<script type="module" src="path/to/your/index.js"></script>
 ```
 
 3. Import the UnoJs script in your JavaScript code:
@@ -68,7 +68,6 @@ const options = {
 unoJS.initialize(options);
 ```
 
-
 ### Requirements
 
 - A Jira or Zoho account
@@ -76,9 +75,11 @@ unoJS.initialize(options);
 - A web browser
 
 ## Examples
+
 Check out the examples directory in this repository for practical usage examples of UnoJs.
 
 ## Contributing
+
 Contributions are welcome! If you find a bug or have an idea for a new feature, please create an issue in the GitHub repository.
 
 If you'd like to contribute code, please follow these steps:
