@@ -1,3 +1,4 @@
+import { AUDIO_SAMPLE_SIZE, MAX_FRAME_RATE, AUDIO_CHANNEL_COUNT } from "../../shared/constants";
 import Observable from "../observable";
 import openRequestFormModal from "../requestForm";
 import {OptionInterface} from "./type";
@@ -12,9 +13,9 @@ class MediaStreamRecorder {
     this.displayMediaConstraints = options?.displayMediaConstraints ?? {audio: true, video: true};
     this.userMediaConstraints = options?.userMediaConstraints ?? {
       audio: {
-        sampleSize: 100,
-        frameRate: {max: 30},
-        channelCount: 2
+        sampleSize: AUDIO_SAMPLE_SIZE,
+        frameRate: {max: MAX_FRAME_RATE},
+        channelCount: AUDIO_CHANNEL_COUNT
       }
     };
     // Declare mime type

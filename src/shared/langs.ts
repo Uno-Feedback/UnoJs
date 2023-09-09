@@ -1,21 +1,3 @@
-import {Options} from "../types";
-
-const optionsState: Options = {
-  user: {
-    fullName: "",
-    email: "",
-    avatar: ""
-  },
-  subscriptionData: {
-    apiKey: "",
-    requestUrl: ""
-  },
-  startButtonId: "",
-  videoMaxLength: 1
-};
-
-export default optionsState;
-
 export const lang = {
   fa: {
     requestForm: {
