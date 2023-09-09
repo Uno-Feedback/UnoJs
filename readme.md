@@ -17,18 +17,21 @@ To start using UnoJs in your project, follow these steps:
 
 1. Download the `esm` or `cjs` version from the `dist` directory of this repository.
 
-2. Include the UnoJs script in your HTML file:
+2. Include your JavaScript in the HTML file with the `type="module"` attribute:
 
 ```html
-<script type='module' src='path/to/uno/index.js'></script>
+<script type="module" src="path/to/your/index.js"></script>
 ```
 
-3. Now you can use UnoJs functions in your JavaScript code. For example:
+3. Import the UnoJs script in your JavaScript code:
 
 ```JS
-// Select a button by ID
-const startButtonId = "start-btn";
+import unoJS from "path/to/your/index.js";
+```
 
+4. Now you can use UnoJs functions in your JavaScript code. For example:
+
+```JS
 // Create options object
 const options = {
   // Reporter options
@@ -52,16 +55,18 @@ const options = {
     onSubmit: () => console.log("Submitted!"),
     onError: () => console.log("Error!"),
   },
+  // Subscription data
+  subscriptionData: {
+    apiKey: "#API_KEY#",
+    requestUrl: "#REQUEST_URL#",
+  },
+  // Action button ID
+  startButtonId: "start-btn"
 };
-// Subscription data
-const subscriptionData = {
-  apiKey: "#API_KEY#",
-  requestUrl: "#REQUEST_URL#",
-};
-// Initialize UnoJs
-unoJS.initialize(startButtonId, subscriptionData, options);
-```
 
+// Initialize UnoJs
+unoJS.initialize(options);
+```
 
 ### Requirements
 
@@ -70,9 +75,11 @@ unoJS.initialize(startButtonId, subscriptionData, options);
 - A web browser
 
 ## Examples
+
 Check out the examples directory in this repository for practical usage examples of UnoJs.
 
 ## Contributing
+
 Contributions are welcome! If you find a bug or have an idea for a new feature, please create an issue in the GitHub repository.
 
 If you'd like to contribute code, please follow these steps:

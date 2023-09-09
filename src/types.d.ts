@@ -1,13 +1,16 @@
-interface Options {
+export interface Options {
   user: User;
-  autoSecretKey?: string;
   callbacks?: Callbacks;
+  subscriptionData: SubscriptionData;
+  autoSecretKey?: string;
+  startButtonId: string;
+  videoMaxLength?: number;
 }
 
 export interface User {
   fullName: string;
   email: string;
-  avatar?: string;
+  avatar: string;
 }
 
 export interface Timer {
@@ -30,21 +33,8 @@ export interface Callbacks {
   onSuccess?: () => void;
 }
 
+//TODO: we can remove this interface and move these two fields into Options
 interface SubscriptionData {
   apiKey: string;
   requestUrl: string;
 }
-
-export interface InitializationData {
-  subscriptionData: SubscriptionData;
-  startButtonId: string;
-  options: Options;
-}
-
-export type InitializeFunction = (startButtonId: string, subscriptionData: SubscriptionData, options: Options) => void;
-
-export type ValidationFunction = (
-  startButtonId: string,
-  subscriptionData: SubscriptionData,
-  options: Options
-) => boolean;

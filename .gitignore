@@ -1,6 +1,7 @@
 # ide and editors
 /.vscode/*
 /.idea/*
+/.vs/*
 
 # package files
 node_modules/
@@ -16,3 +17,6 @@ yarn.lock
 
 # local build folder
 /dist
+
+# other
+/UnoJs/FileContentIndex/read.lock

@@ -1,3 +1,18 @@
+/**
+ *
+ * Implementation of a record widget with various controls (start/stop record, mute/unmute, mask/unmask).
+ *
+ * The `openRecordWidget()` function creates a new record widget and opens it.\
+ * The `onStartRecord` function is called when the user clicks the start record button.\
+ * The `onStopRecord` function is called when the user clicks the stop record button.\
+ * The `onStartMask` function is called when the user clicks the start mask button.\
+ * The `onStopMask` function is called when the user clicks the stop mask button.\
+ * The `onStartMute` function is called when the user clicks the start mute button.\
+ * The `onStopMute` function is called when the user clicks the stop mute button.\
+ * The `onCloseWidget` function is called when the user clicks the close button.
+ */
+
+// Import necessary types from the "type" module.
 import {OpenRecordWidgetFunction} from "./types";
 import {
   maskIcon,
@@ -80,51 +95,54 @@ const appendRecordWrapperToBody = (): Promise<HTMLSpanElement> =>
     resolve(counter);
   });
 export const openRecordWidget: OpenRecordWidgetFunction = async ({
-  startRecord,
-  stopRecord,
-  startMask,
-  stopMask,
-  startMute,
-  stopMute,
-  closeWidget
+  onStartRecord,
+  onStopRecord,
+  onStartMask,
+  onStopMask,
+  onStartMute,
+  onStopMute,
+  onCloseWidget
 }): Promise<HTMLSpanElement> => {
   startRecordButton.onclick = () => {
-    startRecord(true);
+    onStartRecord(true);
     startRecordButton.remove();
     recordWrapper.appendChild(stopRecordButton);
     recordingButton.style.display = "inline";
   };
   stopRecordButton.onclick = () => {
-    stopRecord(true);
-    stopRecordButton.remove();
-    recordWrapper.appendChild(startRecordButton);
-    recordingButton.style.display = "";
+    onStopRecord(true);
+    resetWidget();
   };
   maskStartButton.onclick = () => {
-    startMask(true);
+    onStartMask(true);
     maskStartButton.remove();
     maskWrapper.appendChild(maskStopButton);
   };
   maskStopButton.onclick = () => {
-    stopMask(true);
+    onStopMask(true);
     maskStopButton.remove();
     maskWrapper.appendChild(maskStartButton);
   };
   muteStartButton.onclick = () => {
-    startMute(true);
+    onStartMute(true);
     muteStartButton.remove();
     muteWrapper.appendChild(muteStopButton);
   };
   muteStopButton.onclick = () => {
-    stopMute(true);
+    onStopMute(true);
     muteStopButton.remove();
     muteWrapper.appendChild(muteStartButton);
   };
   closeButton.onclick = () => {
-    closeWidget(true);
+    onCloseWidget(true);
     closeRecordWidget();
   };
   return await appendRecordWrapperToBody().then(response => response);
+};
+export const resetWidget = (): void => {
+  stopRecordButton.remove();
+  recordWrapper.appendChild(startRecordButton);
+  recordingButton.style.display = "";
 };
 export const closeRecordWidget = (): void => {
   wrapper.remove();
