@@ -7,4 +7,10 @@ interface WidgetFunctionProps {
   onStopMute: (stop: boolean) => void;
   onCloseWidget: (start: boolean) => void;
 }
+
+export interface Tab {
+  title: string;
+  icon: string;
+}
+
 export type OpenRecordWidgetFunction = (props: WidgetFunctionProps) => Promise<HTMLElement>;

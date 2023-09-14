@@ -17,5 +17,14 @@ export const lang = {
         high: "زیاد"
       }
     }
+  },
+  en: {
+    widget: {
+      title: "Report your issue",
+      video: "video",
+      image: "image",
+      voice: "voice",
+      note: "note"
+    }
   }
 };

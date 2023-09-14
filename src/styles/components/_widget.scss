@@ -10,18 +10,14 @@
     }
 }
 
-#uno-record-widget {
+#uno-widget {
     position: fixed;
     inset: auto auto 25px 25px;
-    height: 55px;
     background-color: #FFF;
     border: 1px solid #8685E0;
-    border-radius: 6px;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
+    border-radius: 24px;
+    padding: 24px;
     color: #232323;
-    font-family: "Roboto mono", monospace;
     font-size: 20px;
     direction: ltr;
 
@@ -35,12 +31,68 @@
     }
 
     .uno {
+
+        &-widget-title {
+            text-align: left !important;
+            margin: 0 0 24px 0;
+            font-size: 22px;
+        }
+
+        &-tabs-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        &-tab {
+            border-radius: 16px 16px 0 0;
+            padding: 8px 16px 24px;
+            margin-bottom: -16px;
+            cursor: not-allowed;
+            display: flex;
+            align-items: center;
+
+            &.active {
+                background: #E9F0E9;
+
+                cursor: pointer;
+
+                .uno-tab-text {
+                    opacity: 1;
+                }
+
+                .uno-tab-icon {
+                    opacity: 1;
+                }
+            }
+
+            &-icon {
+                display: inline-flex;
+                margin-right: 8px;
+                opacity: 0.4;
+                height: 24px;
+            }
+
+            &-text {
+                font-size: 18px;
+                opacity: 0.4;
+            }
+        }
+
+        &-tab-content {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-radius: 16px;
+            background-color: #E9F0E9;
+        }
+
         &-timer {
             display: flex;
             align-items: center;
             line-height: 1.2;
             margin: 0 20px 0 0;
             position: relative;
+            font-family: "Roboto mono", monospace;
 
             &-counter {
                 font-size: 20px;
@@ -48,7 +100,8 @@
         }
 
         &-record {
-            margin-left: 15px;
+            padding-left: 15px;
+            border-left: 1px solid #C9C9C9;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -74,6 +127,12 @@
             }
         }
 
+        &-icons-wrapper {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
         &-mute {
             margin: 0 15px;
             display: flex;
@@ -94,8 +153,7 @@
         &-mask {
             display: flex;
             align-items: center;
-            padding-left: 15px;
-            border-left: 1px solid #C9C9C9;
+            margin-left: auto;
 
             &-start {
                 cursor: pointer;
@@ -115,7 +173,7 @@
             position: absolute;
             right: 0;
             top: 0;
-            transform: translate(6px, -6px);
+            transform: translate(-8px, 8px);
             border: 1px solid black;
             background-color: white;
             border-radius: 50%;
