@@ -20,6 +20,7 @@
     color: #232323;
     font-size: 20px;
     direction: ltr;
+    font-family: "Inter", serif, arial, helvetica;
 
     &:hover {
         .uno {
@@ -92,7 +93,6 @@
             line-height: 1.2;
             margin: 0 20px 0 0;
             position: relative;
-            font-family: "Roboto mono", monospace;
 
             &-counter {
                 font-size: 20px;
