@@ -13,7 +13,7 @@
 #uno-widget {
     position: fixed;
     direction: ltr;
-    inset: auto auto $space-lg $space-lg;
+    inset: $space-lg auto auto $space-lg ;
     background-color: #FFF;
     border-radius: $border-radius-lg;
     padding: $space-lg;
@@ -173,7 +173,7 @@
             position: absolute;
             right: 0;
             top: 0;
-            transform: translate(-24px, 24px);
+            transform: translate(-$space-lg, $space-lg);
             color: $color-primary;
             transition: all .3s ease;
             visibility: hidden;
