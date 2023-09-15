@@ -12,15 +12,15 @@
 
 #uno-widget {
     position: fixed;
-    inset: auto auto 25px 25px;
-    background-color: #FFF;
-    border: 1px solid #8685E0;
-    border-radius: 24px;
-    padding: 24px;
-    color: #232323;
-    font-size: 20px;
     direction: ltr;
-    font-family: "Inter", serif, arial, helvetica;
+    inset: auto auto $space-lg $space-lg;
+    background-color: #FFF;
+    border-radius: $border-radius-lg;
+    padding: $space-lg;
+    color: $color-primary;
+    font-family: $font-family;
+    font-weight: $font-weight-normal;
+    letter-spacing: $letter-spacing;
 
     &:hover {
         .uno {
@@ -35,7 +35,7 @@
 
         &-widget-title {
             text-align: left !important;
-            margin: 0 0 24px 0;
+            margin: 0 0 $space-lg 0;
             font-size: 22px;
         }
 
@@ -45,15 +45,15 @@
         }
 
         &-tab {
-            border-radius: 16px 16px 0 0;
-            padding: 8px 16px 24px;
-            margin-bottom: -16px;
+            border-radius: $border-radius-md $border-radius-md 0 0;
+            padding: $space-sm $space-md $space-lg;
+            margin-bottom: -$space-md;
             cursor: not-allowed;
             display: flex;
             align-items: center;
 
             &.active {
-                background: #E9F0E9;
+                background: $color-green;
 
                 cursor: pointer;
 
@@ -68,7 +68,7 @@
 
             &-icon {
                 display: inline-flex;
-                margin-right: 8px;
+                margin-right: $space-sm;
                 opacity: 0.4;
                 height: 24px;
             }
@@ -82,26 +82,26 @@
         &-tab-content {
             display: flex;
             align-items: center;
-            padding: 16px;
-            border-radius: 16px;
-            background-color: #E9F0E9;
+            padding: $space-md;
+            border-radius: $border-radius-md;
+            background-color: $color-green;
         }
 
         &-timer {
             display: flex;
             align-items: center;
-            line-height: 1.2;
-            margin: 0 20px 0 0;
+            line-height: 1;
+            margin: 0 $space-md 0 0;
             position: relative;
 
             &-counter {
-                font-size: 20px;
+                font-size: 22px;
             }
         }
 
         &-record {
-            padding-left: 15px;
-            border-left: 1px solid #C9C9C9;
+            padding-left: $space-md;
+            border-left: 1px solid $color-gray-20;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -134,7 +134,7 @@
         }
 
         &-mute {
-            margin: 0 15px;
+            margin: 0 $space-md;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -168,23 +168,16 @@
 
         &-close {
             cursor: pointer;
-            height: 16px;
-            width: 16px;
+            height: 24px;
+            width: 24px;
             position: absolute;
             right: 0;
             top: 0;
-            transform: translate(-8px, 8px);
-            border: 1px solid black;
-            background-color: white;
-            border-radius: 50%;
-            color: black;
-            font-size: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transform: translate(-24px, 24px);
+            color: $color-primary;
             transition: all .3s ease;
             visibility: hidden;
-            opacity: 1;
+            opacity: 0;
             padding: 3px;
         }
     }
