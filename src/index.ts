@@ -20,7 +20,7 @@
  */
 
 import {Options} from "./types";
-import {closeRecordWidget, openRecordWidget, resetWidget} from "./components/recordWidget";
+import {closeRecordWidget, openRecordWidget, resetWidget} from "./components/widget";
 import ScreenMask from "./components/screenMask";
 import {runTimer, stopTimer} from "./components/timer";
 import {Time} from "./components/timer/type";
