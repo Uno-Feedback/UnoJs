@@ -49,7 +49,7 @@ class ScreenMask {
       event.preventDefault();
       if (!this.moved) this.element = this.createElement();
       if (!this.element) return;
-      //// Position of element
+      //// Position of the element
       let right = this.startPosition.x < x ? this.startPosition.x : x > innerWidth ? innerWidth - 5 : x;
       let left = x < 5 ? 5 : x < this.startPosition.x ? x : this.startPosition.x;
       //////// Get direction of page
