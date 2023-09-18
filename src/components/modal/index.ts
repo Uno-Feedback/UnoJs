@@ -56,7 +56,7 @@ const initialInnerElements = (title: HTMLElement) => {
 export const createTitle = (text: string): HTMLElement => {
   const title = document.createElement("h1");
   title.classList.add("uno-modal-title");
-  title.innerText = text;
+  title.innerHTML = text;
   return title;
 };
 

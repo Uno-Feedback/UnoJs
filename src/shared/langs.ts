@@ -25,6 +25,9 @@ export const lang = {
       image: "image",
       voice: "voice",
       note: "note"
+    },
+    videoPreview: {
+      title: "Preview Video"
     }
   }
 };

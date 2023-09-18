@@ -1,6 +1,4 @@
 #uno-modal {
-    direction: rtl;
-    text-align: right;
     color: #252525;
     text-shadow: none;
     font-family: Vazirmatn, Roboto, sans-serif;
@@ -10,14 +8,11 @@
         font-family: "Vazirmatn", sans-serif;
         position: absolute;
         border-radius: $border-radius-lg;
-        width: 600px;
-        height: auto;
-        inset: 50% 0 auto 0;
-        margin-right: auto;
-        margin-left: auto;
-        transform: translateY(-50%);
+        inset: 50% 50% auto auto;
+        transform: translate(50%, -50%);
         background-color: #FFF;
         z-index: 2;
+        padding: $space-lg;
 
         &-fade {
             position: fixed;
@@ -28,17 +23,23 @@
         }
 
         &-header {
-            padding: 26px 30px;
+            padding-bottom: $space-lg;
             display: flex;
+            align-items: center;
             justify-content: space-between;
         }
 
         &-title {
-            font-size: 20px;
-        }
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
 
-        &-content {
-            padding: 26px 30px;
+            small {
+                font-size: 16px;
+                color: $color-gray-60;
+                margin-left: $space-sm;
+            }
         }
 
         &-close {
