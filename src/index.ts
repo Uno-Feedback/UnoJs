@@ -26,8 +26,8 @@ import {runTimer, stopTimer} from "./components/timer";
 import {Time} from "./components/timer/type";
 import optionsState from "./shared/states";
 import Observable from "./components/observable";
-import {endSecret, startSecret} from "./components/autoSecret";
-import MediaStreamRecorder from "./components/mediaStreamRecorder";
+import {endSecret, startSecret} from "./components/auto-secret";
+import MediaStreamRecorder from "./components/media-stream-recorder";
 import {AUDIO_CHANNEL_COUNT, AUDIO_SAMPLE_SIZE, MAX_FRAME_RATE} from "./shared/constants";
 
 /**
