@@ -20,7 +20,7 @@
  */
 
 import {Options} from "./types";
-import {closeRecordWidget, openRecordWidget, resetWidget} from "./components/widget";
+import {checkRecordState, closeRecordWidget, openRecordWidget, resetWidget} from "./components/widget";
 import ScreenMask from "./components/screenMask";
 import {runTimer, stopTimer} from "./components/timer";
 import {Time} from "./components/timer/type";
@@ -151,7 +151,7 @@ class UnoJSBuilder {
   };
 
   setRecordState = (state: boolean) => {
-    console.log({state});
+    checkRecordState(state);
     this.recordIsStarted = state;
   };
 

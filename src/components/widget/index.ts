@@ -52,7 +52,7 @@ const initialTabs = () => {
     {title: lang.en.widget.voice, icon: micIcon},
     {title: lang.en.widget.note, icon: noteIcon}
   ];
-  tabs.map((tabInfo, index) => {
+  tabs.forEach((tabInfo, index) => {
     const cloneTab = tab.cloneNode(true) as HTMLElement;
     if (index === 0) cloneTab.classList.add("active");
     const cloneIcon = icon.cloneNode(true) as HTMLSpanElement;
@@ -102,46 +102,54 @@ export const openRecordWidget: OpenRecordWidgetFunction = async ({
   onStopMute,
   onCloseWidget
 }): Promise<HTMLSpanElement> => {
-  startRecordButton.onclick = () => {
+  startRecordButton.onclick = (): void => {
     onStartRecord(true);
-    startRecordButton.remove();
-    recordWrapper.appendChild(stopRecordButton);
-    recordingButton.style.display = "inline";
   };
-  stopRecordButton.onclick = () => {
+  stopRecordButton.onclick = (): void => {
     onStopRecord(true);
     resetWidget();
   };
-  maskStartButton.onclick = () => {
+  maskStartButton.onclick = (): void => {
     onStartMask(true);
     maskStartButton.remove();
     maskWrapper.appendChild(maskStopButton);
   };
-  maskStopButton.onclick = () => {
+  maskStopButton.onclick = (): void => {
     onStopMask(true);
     maskStopButton.remove();
     maskWrapper.appendChild(maskStartButton);
   };
-  muteStartButton.onclick = () => {
+  muteStartButton.onclick = (): void => {
     onStartMute(true);
     muteStartButton.remove();
     muteWrapper.appendChild(muteStopButton);
   };
-  muteStopButton.onclick = () => {
+  muteStopButton.onclick = (): void => {
     onStopMute(true);
     muteStopButton.remove();
     muteWrapper.appendChild(muteStartButton);
   };
-  closeButton.onclick = () => {
+  closeButton.onclick = (): void => {
     onCloseWidget(true);
     closeRecordWidget();
   };
   return await appendRecordWrapperToBody().then(response => response);
 };
+/* todo: find better name for this fn */
+export const checkRecordState = (recordIsStarted: boolean): void => {
+  if (!recordIsStarted) return;
+  startRecordButton.remove();
+  recordWrapper.appendChild(stopRecordButton);
+  recordingButton.style.display = "inline";
+  widget.classList.add("recording");
+};
 export const resetWidget = (): void => {
   stopRecordButton.remove();
   recordWrapper.appendChild(startRecordButton);
   recordingButton.style.display = "";
+  setTimeout(() => {
+    widget.classList.remove("recording");
+  }, 500);
 };
 export const closeRecordWidget = (): void => {
   widget.remove();
