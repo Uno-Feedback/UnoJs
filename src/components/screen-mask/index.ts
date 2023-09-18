@@ -23,9 +23,9 @@ class ScreenMask {
     element.setAttribute("id", `mask-element-${Math.random().toString(16).slice(2)}`);
     // Add event listener to close
     close.addEventListener("click", () => this.removeElement(element));
-    // Append close to element
+    // Append close to the element
     element.appendChild(close);
-    // Append element to body
+    // Append the element to body
     document.body.appendChild(element);
     return element;
   };
@@ -65,7 +65,7 @@ class ScreenMask {
       }px`;
       this.element.style.right = `${right}px`;
       this.element.style.left = `${left}px`;
-      //// Width and height of element
+      //// Width and height of the element
       this.element.style.width = `${
         this.startPosition.x > x
           ? x < 0
