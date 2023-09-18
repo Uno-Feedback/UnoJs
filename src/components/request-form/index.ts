@@ -26,7 +26,6 @@ const storeValues: StoreInterface = {
   description: ""
 };
 
-const title = document.createElement("h1");
 const content = document.createElement("div");
 const submitButton = document.createElement("button");
 const footer = document.createElement("div");
