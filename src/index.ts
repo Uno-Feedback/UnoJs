@@ -21,7 +21,7 @@
 
 import {Options} from "./types";
 import {checkRecordState, closeRecordWidget, openRecordWidget, resetWidget} from "./components/widget";
-import ScreenMask from "./components/screenMask";
+import ScreenMask from "./components/screen-mask";
 import {runTimer, stopTimer} from "./components/timer";
 import {Time} from "./components/timer/type";
 import optionsState from "./shared/states";
