@@ -1,4 +1,4 @@
-import initialModal, {hideModal, showModal} from "../modal";
+import initialModal, {createTitle, hideModal, showModal} from "../modal";
 import optionsState from "../../shared/states";
 import {attachmentIcon, avatarIcon, submitIcon} from "../../assets/svg";
 import Observable from "../observable";
@@ -17,7 +17,7 @@ import {
   StoreInterface
 } from "./type";
 import request from "../request";
-import { lang } from "../../shared/langs";
+import {lang} from "../../shared/langs";
 
 const storeValues: StoreInterface = {
   type: "1",
@@ -76,11 +76,7 @@ const handleSubmit: HandleSubmitFunction = (acceptButton, onSubmit) => {
   disableButton(acceptButton);
   Observable.subscribe("enableButton", () => enableButton(acceptButton));
 };
-const createTitle = (): HTMLElement => {
-  title.classList.add("uno-modal-title");
-  title.innerText = lang.fa.requestForm.title;
-  return title;
-};
+
 const createFooter: CreateFooterFunction = ({fileName, fileSize}, onSubmit) => {
   // Footer
   footer.classList.add("uno-form-footer");
@@ -370,7 +366,7 @@ const initialInnerElements: InitialInnerElementsFunction = (
  * **/
 
 const appendFormToModal: AppendFormToModalFunction = ({fullName, email, avatar}, {fileSize, fileName}, onSubmit) => {
-  initialModal(createTitle(), () => destroyRequestForm()).then(modalContent => {
+  initialModal(createTitle(lang.fa.requestForm.title), () => destroyRequestForm()).then(modalContent => {
     initialInnerElements({fullName, email, avatar}, {fileSize, fileName}, onSubmit);
     modalContent.appendChild(content).appendChild(footer);
     showModal();

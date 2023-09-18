@@ -53,6 +53,12 @@ const initialInnerElements = (title: HTMLElement) => {
 
   return content;
 };
+export const createTitle = (text: string): HTMLElement => {
+  const title = document.createElement("h1");
+  title.classList.add("uno-modal-title");
+  title.innerText = text;
+  return title;
+};
 
 /**
  * Initialize the modal and set up the close capability.
