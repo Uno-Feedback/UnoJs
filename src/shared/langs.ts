@@ -27,7 +27,8 @@ export const lang = {
       note: "note"
     },
     videoPreview: {
-      title: "Preview Video"
+      title: "Preview Video",
+      confirm: "Confirm"
     }
   }
 };

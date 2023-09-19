@@ -3,6 +3,7 @@ import {lang} from "../../shared/langs";
 import {AppendVideoToModalFunction} from "./type";
 import {
   brushIcon,
+  confirmIcon,
   fullscreenIcon,
   pauseIcon,
   playIcon,
@@ -80,20 +81,11 @@ async function getBlobDuration(blob: Blob): Promise<number> {
 
 /* todo: clean this function */
 function secondToTimestamp(second: number): string {
-  console.log({second});
   let hours: string | number = Math.floor(second / 3600);
   let minutes: string | number = Math.floor((second - hours * 3600) / 60);
   let seconds: string | number = second - hours * 3600 - minutes * 60;
-  console.log({seconds});
-
-  if (minutes < 10) {
-    minutes = "0" + minutes;
-  }
-  if (seconds < 10) {
-    seconds = "0" + seconds;
-  }
-  console.log({time: minutes + ":" + seconds});
-
+  if (minutes < 10) minutes = "0" + minutes;
+  if (seconds < 10) seconds = "0" + seconds;
   return minutes + ":" + seconds;
 }
 
@@ -113,6 +105,8 @@ const fullScreenButton = document.createElement("span");
 const middleControllerWrapper = document.createElement("div");
 const brush = document.createElement("span");
 const volume = document.createElement("span");
+const footer = document.createElement("div");
+const confirmationButton = document.createElement("button");
 
 let isMute = false;
 let isPlaying = false;
@@ -124,6 +118,38 @@ const appendVideoToModal: AppendVideoToModalFunction = (fileName, fileSize) => {
       showModal();
     }
   );
+};
+
+const goToNextStep = () => {};
+const toggleMute = () => {
+  if (isMute) {
+    volume.innerHTML = volumeIcon;
+    isMute = false;
+    videoElement.muted = false;
+    return;
+  }
+  volume.innerHTML = volumeOffIcon;
+  videoElement.muted = true;
+  isMute = true;
+};
+const togglePlay = () => {
+  if (isPlaying) {
+    playPauseButton.innerHTML = playIcon;
+    isPlaying = false;
+    videoElement.pause();
+    return;
+  }
+  playPauseButton.innerHTML = pauseIcon;
+  videoElement.play().then(() => (isPlaying = true));
+};
+const resetController = () => {
+  volume.innerHTML = volumeIcon;
+  playPauseButton.innerHTML = playIcon;
+  videoElement.muted = false;
+  isMute = false;
+  isPlaying = false;
+  videoElement.load();
+  videoElement.controls = false;
 };
 
 const initialInnerElements = async (recordedBlob: Blob) => {
@@ -144,6 +170,10 @@ const initialInnerElements = async (recordedBlob: Blob) => {
   videoElement.controls = false;
   videoElement.muted = false;
   videoElement.width = 750;
+  videoElement.onended = () => resetController();
+  videoElement.onplay = () => {
+    videoElement.controls = true;
+  };
   // Append video to wrapper element
   videoWrapper.appendChild(videoElement);
   // Video Timeline
@@ -180,17 +210,7 @@ const initialInnerElements = async (recordedBlob: Blob) => {
   // play
   playPauseButton.innerHTML = playIcon;
   playPauseButton.classList.add("uno-video-action-play");
-  playPauseButton.onclick = () => {
-    if (isPlaying) {
-      playPauseButton.innerHTML = playIcon;
-      isPlaying = false;
-      videoElement.pause();
-      return;
-    }
-    playPauseButton.innerHTML = pauseIcon;
-    videoElement.play();
-    isPlaying = true;
-  };
+  playPauseButton.onclick = () => togglePlay();
   controllerActionWrapper.appendChild(playPauseButton);
   // middle control
   middleControllerWrapper.classList.add("uno-video-action-middle");
@@ -201,17 +221,7 @@ const initialInnerElements = async (recordedBlob: Blob) => {
   // volume
   volume.innerHTML = volumeIcon;
   volume.classList.add("uno-video-action-volume");
-  volume.onclick = () => {
-    if (isMute) {
-      volume.innerHTML = volumeIcon;
-      isMute = false;
-      videoElement.muted = false;
-      return;
-    }
-    volume.innerHTML = volumeOffIcon;
-    videoElement.muted = true;
-    isMute = true;
-  };
+  volume.onclick = () => toggleMute();
   middleControllerWrapper.appendChild(volume);
   controllerActionWrapper.appendChild(middleControllerWrapper);
   // fullscreen
@@ -224,6 +234,13 @@ const initialInnerElements = async (recordedBlob: Blob) => {
   controllerActionWrapper.appendChild(fullScreenButton);
 
   videoWrapper.appendChild(videoController);
+  // Confirm Button
+  footer.classList.add("uno-video-footer");
+  confirmationButton.classList.add("uno-video-confirmation");
+  confirmationButton.innerHTML = `${lang.en.videoPreview.confirm}<span>${confirmIcon}</span>`;
+  confirmationButton.onclick = () => goToNextStep();
+  footer.appendChild(confirmationButton);
+  videoWrapper.appendChild(footer);
 };
 
 const videoPreview = (recordedBlob: Blob) => {

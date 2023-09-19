@@ -14,6 +14,7 @@
         padding: $space-md;
         border-radius: 0 0 $space-md $space-md;
         background-color: $color-gray-87;
+        margin-bottom: $space-lg;
 
         &-timeline {
             padding: $space-md;
@@ -82,13 +83,33 @@
         &-fullscreen {
             cursor: pointer;
         }
-        
+
         &-volume {
             cursor: pointer;
         }
-        
+
         &-brush {
             cursor: not-allowed;
+        }
+    }
+
+    &-footer {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    &-confirmation {
+        border-radius: $space-sm;
+        padding: $space-sm $space-md;
+        background-color: $color-primary-600;
+        border: none;
+        outline: none;
+        font-size: 18px;
+        color: #FFF;
+        font-weight: 600;
+
+        span {
+            margin-left: $space-sm;
         }
     }
 }
