@@ -13,6 +13,7 @@ import {
   volumeIcon,
   volumeOffIcon
 } from "../../assets/svg";
+import openRequestFormModal from "../request-form";
 
 function formatBytes(bytes: number, decimals = 2): string {
   if (!+bytes) return "0 Bytes";
@@ -120,8 +121,31 @@ const appendVideoToModal: AppendVideoToModalFunction = (fileName, fileSize) => {
   );
 };
 
-const goToNextStep = () => {};
-const toggleMute = () => {
+const destroyVideoElements = async (): Promise<void> => {
+  videoWrapper.remove();
+  videoElement.remove();
+  videoController.remove();
+  videoTimeline.remove();
+  videoTimeline35.remove();
+  videoTimeline60.remove();
+  videoTimeWrapper.remove();
+  currentTime.remove();
+  videoTime.remove();
+  controllerActionWrapper.remove();
+  playPauseButton.remove();
+  fullScreenButton.remove();
+  middleControllerWrapper.remove();
+  brush.remove();
+  volume.remove();
+  footer.remove();
+  confirmationButton.remove();
+};
+const goToNextStep = (recordedBlob: Blob): void => {
+  destroyVideoElements().then(() => {
+    openRequestFormModal(recordedBlob);
+  });
+};
+const toggleMute = (): void => {
   if (isMute) {
     volume.innerHTML = volumeIcon;
     isMute = false;
@@ -132,7 +156,7 @@ const toggleMute = () => {
   videoElement.muted = true;
   isMute = true;
 };
-const togglePlay = () => {
+const togglePlay = (): void => {
   if (isPlaying) {
     playPauseButton.innerHTML = playIcon;
     isPlaying = false;
@@ -142,7 +166,7 @@ const togglePlay = () => {
   playPauseButton.innerHTML = pauseIcon;
   videoElement.play().then(() => (isPlaying = true));
 };
-const resetController = () => {
+const resetController = (): void => {
   volume.innerHTML = volumeIcon;
   playPauseButton.innerHTML = playIcon;
   videoElement.muted = false;
@@ -152,7 +176,7 @@ const resetController = () => {
   videoElement.controls = false;
 };
 
-const initialInnerElements = async (recordedBlob: Blob) => {
+const initialInnerElements = async (recordedBlob: Blob): Promise<void> => {
   videoWrapper.classList.add("uno-video-wrapper");
   videoElement.classList.add("uno-video-element");
   blobToBase64(recordedBlob).then(url => {
@@ -238,7 +262,7 @@ const initialInnerElements = async (recordedBlob: Blob) => {
   footer.classList.add("uno-video-footer");
   confirmationButton.classList.add("uno-video-confirmation");
   confirmationButton.innerHTML = `${lang.en.videoPreview.confirm}<span>${confirmIcon}</span>`;
-  confirmationButton.onclick = () => goToNextStep();
+  confirmationButton.onclick = () => goToNextStep(recordedBlob);
   footer.appendChild(confirmationButton);
   videoWrapper.appendChild(footer);
 };
