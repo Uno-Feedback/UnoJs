@@ -1,7 +1,17 @@
 import initialModal, {createTitle, showModal} from "../modal";
 import {lang} from "../../shared/langs";
 import {AppendVideoToModalFunction} from "./type";
-import {timeline35, timeline60, videoPoster} from "../../assets/svg";
+import {
+  brushIcon,
+  fullscreenIcon,
+  pauseIcon,
+  playIcon,
+  timeline35,
+  timeline60,
+  videoPoster,
+  volumeIcon,
+  volumeOffIcon
+} from "../../assets/svg";
 
 function formatBytes(bytes: number, decimals = 2): string {
   if (!+bytes) return "0 Bytes";
@@ -97,6 +107,15 @@ const videoTimeline60 = document.createElement("div");
 const videoTimeWrapper = document.createElement("div");
 const currentTime = document.createElement("span");
 const videoTime = document.createElement("span");
+const controllerActionWrapper = document.createElement("div");
+const playPauseButton = document.createElement("span");
+const fullScreenButton = document.createElement("span");
+const middleControllerWrapper = document.createElement("div");
+const brush = document.createElement("span");
+const volume = document.createElement("span");
+
+let isMute = false;
+let isPlaying = false;
 
 const appendVideoToModal: AppendVideoToModalFunction = (fileName, fileSize) => {
   initialModal(createTitle(`${lang.en.videoPreview.title} <small>(${fileName} - ${fileSize})</small>`), () => {}).then(
@@ -154,6 +173,56 @@ const initialInnerElements = async (recordedBlob: Blob) => {
   videoController.appendChild(videoTimeWrapper);
   // Video Controller
   videoController.classList.add("uno-video-controller");
+  /*
+   * Action Controller
+   * */
+  controllerActionWrapper.classList.add("uno-video-action-controller");
+  // play
+  playPauseButton.innerHTML = playIcon;
+  playPauseButton.classList.add("uno-video-action-play");
+  playPauseButton.onclick = () => {
+    if (isPlaying) {
+      playPauseButton.innerHTML = playIcon;
+      isPlaying = false;
+      videoElement.pause();
+      return;
+    }
+    playPauseButton.innerHTML = pauseIcon;
+    videoElement.play();
+    isPlaying = true;
+  };
+  controllerActionWrapper.appendChild(playPauseButton);
+  // middle control
+  middleControllerWrapper.classList.add("uno-video-action-middle");
+  // brush
+  brush.innerHTML = brushIcon;
+  brush.classList.add("uno-video-action-brush");
+  middleControllerWrapper.appendChild(brush);
+  // volume
+  volume.innerHTML = volumeIcon;
+  volume.classList.add("uno-video-action-volume");
+  volume.onclick = () => {
+    if (isMute) {
+      volume.innerHTML = volumeIcon;
+      isMute = false;
+      videoElement.muted = false;
+      return;
+    }
+    volume.innerHTML = volumeOffIcon;
+    videoElement.muted = true;
+    isMute = true;
+  };
+  middleControllerWrapper.appendChild(volume);
+  controllerActionWrapper.appendChild(middleControllerWrapper);
+  // fullscreen
+  fullScreenButton.innerHTML = fullscreenIcon;
+  fullScreenButton.classList.add("uno-video-action-fullscreen");
+  fullScreenButton.onclick = () => {
+    videoElement.requestFullscreen();
+  };
+  videoController.appendChild(controllerActionWrapper);
+  controllerActionWrapper.appendChild(fullScreenButton);
+
   videoWrapper.appendChild(videoController);
 };
 

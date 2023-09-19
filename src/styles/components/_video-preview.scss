@@ -42,16 +42,53 @@
             }
         }
     }
+
     &-time {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-bottom: $space-md;
+
         &-current {
             font-size: 14px;
+            line-height: $space-md;
         }
 
         &-total {
             font-size: 14px;
+            line-height: $space-md;
+        }
+    }
+
+    &-action {
+        &-controller {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        &-middle {
+            span {
+                &:not(:last-child) {
+                    margin-right: $space-md;
+                }
+            }
+        }
+
+        &-play {
+            cursor: pointer;
+        }
+
+        &-fullscreen {
+            cursor: pointer;
+        }
+        
+        &-volume {
+            cursor: pointer;
+        }
+        
+        &-brush {
+            cursor: not-allowed;
         }
     }
 }

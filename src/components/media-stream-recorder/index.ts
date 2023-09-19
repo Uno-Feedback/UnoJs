@@ -1,6 +1,6 @@
 import {AUDIO_SAMPLE_SIZE, MAX_FRAME_RATE, AUDIO_CHANNEL_COUNT} from "../../shared/constants";
 import Observable from "../observable";
-import openRequestFormModal from "../request-form";
+// import openRequestFormModal from "../request-form";
 import {OptionInterface} from "./type";
 import videoPreview from "../video-preview";
 
