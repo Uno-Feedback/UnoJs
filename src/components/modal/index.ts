@@ -73,7 +73,7 @@ const initialModal = async (title: HTMLElement, onCloseCallback: () => void) => 
     onCloseCallback();
     hideModal();
   };
-
+  hideModal();
   return new Promise<HTMLDivElement>(resolve => resolve(initialInnerElements(title)));
 };
 
