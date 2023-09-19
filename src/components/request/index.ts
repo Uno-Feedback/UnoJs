@@ -4,7 +4,7 @@
 
 // Import necessary types from the "type" module.
 import optionsState from "../../shared/states";
-import {StoreInterface} from "../request-form/type";
+import {StoreInterface} from "../report-form/type";
 
 /**
  * Function to send a request along with recorded audio file and form values.

@@ -13,7 +13,7 @@ import {
   volumeIcon,
   volumeOffIcon
 } from "../../assets/svg";
-import openRequestFormModal from "../request-form";
+import openReportFormModal from "../report-form";
 
 function formatBytes(bytes: number, decimals = 2): string {
   if (!+bytes) return "0 Bytes";
@@ -142,7 +142,7 @@ const destroyVideoElements = async (): Promise<void> => {
 };
 const goToNextStep = (recordedBlob: Blob): void => {
   destroyVideoElements().then(() => {
-    openRequestFormModal(recordedBlob);
+    openReportFormModal(recordedBlob);
   });
 };
 const toggleMute = (): void => {

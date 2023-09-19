@@ -402,7 +402,7 @@ function createName(): string {
   if (MM < 10) MM = `0${MM}`;
   if (SS < 10) SS = `0${SS}`;
 
-  return `${yyyy}-${mm}-${dd}_-_${HH}:${MM}:${SS}`;
+  return `${yyyy}${mm}${dd}${HH}${MM}${SS}`;
 }
 
 const closeRequestFormModal = (): void => {
@@ -427,7 +427,7 @@ const destroyRequestForm = () => {
   content.remove();
 };
 
-const openRequestFormModal = (recordedBlob: Blob): void => {
+const openReportFormModal = (recordedBlob: Blob): void => {
   const fileSize = formatBytes(recordedBlob.size, 2);
 
   const {fullName, email, avatar} = optionsState.user;
@@ -444,4 +444,4 @@ const openRequestFormModal = (recordedBlob: Blob): void => {
   });
 };
 
-export default openRequestFormModal;
+export default openReportFormModal;
