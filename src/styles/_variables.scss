@@ -1,16 +1,16 @@
 /* Color */
-$color-dark: #15171A;
 $color-green: #E9F0E9;
 $color-purple: #8c78b7;
 $color-primary-600: #7F56D9;
 $color-error-500: #F04438;
-$color-gray-03: rgba($color-dark, 0.03);
-$color-gray-10: rgba($color-dark, 0.10);
-$color-gray-15: rgba($color-dark, 0.15);
-$color-gray-20: rgba($color-dark, 0.20);
-$color-gray-30: rgba($color-dark, 0.30);
-$color-gray-60: rgba($color-dark, 0.60);
-$color-gray-87: rgba($color-dark, 0.87);
+$color-gray-100: #15171A;
+$color-gray-87: rgba($color-gray-100, 0.87);
+$color-gray-60: rgba($color-gray-100, 0.60);
+$color-gray-30: rgba($color-gray-100, 0.30);
+$color-gray-20: rgba($color-gray-100, 0.20);
+$color-gray-15: rgba($color-gray-100, 0.15);
+$color-gray-10: rgba($color-gray-100, 0.10);
+$color-gray-03: rgba($color-gray-100, 0.03);
 
 /* Font */
 $font-family: "Inter", serif, arial, helvetica;
