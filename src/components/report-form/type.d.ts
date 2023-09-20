@@ -35,7 +35,16 @@ export type CreateInputFunction = (
   label: string,
   name: string,
   initialValue?: string,
-  hasPlaceholder?: boolean
+  hasPlaceholder?: boolean,
+  isRequired?: boolean
+) => void;
+export type CreateSelectFunction = (
+  row: HTMLElement,
+  col: HTMLElement,
+  selectLabel: HTMLElement,
+  options: RadioOptionsInterface[],
+  label: string,
+  name: string
 ) => void;
 export type CreateRadioFunction = (
   row: HTMLElement,
@@ -51,7 +60,8 @@ export type CreateTextAreaFunction = (
   textAreaLabel: HTMLElement,
   label: string,
   name: string,
-  hasPlaceholder?: boolean
+  hasPlaceholder?: boolean,
+  isRequired?: boolean
 ) => void;
 export type CreateSenderInformationFunction = (
   row: HTMLElement,

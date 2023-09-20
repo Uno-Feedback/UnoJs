@@ -20,7 +20,7 @@ export const lang = {
   },
   en: {
     widget: {
-      title: "Report your issue",
+      title: "Report Your Issue",
       video: "video",
       image: "image",
       voice: "voice",
@@ -30,8 +30,31 @@ export const lang = {
       title: "Preview Video",
       confirm: "Confirm"
     },
-    requestForm: {
-      title: ""
+    reportForm: {
+      title: "Report Your Issue",
+      type: {
+        label: "Type",
+        bug: "bug",
+        report: "report",
+        feature: "feature"
+      },
+      priority: {
+        label: "Priority",
+        low: "low",
+        medium: "medium",
+        high: "high"
+      },
+      fileTitle: "Content File",
+      subject: "Subject",
+      description: "Description",
+      errorMessage: "is required",
+      info: {
+        url: "URL",
+        captured: "Captured",
+        deviceInfo: "Device Information",
+        OS: "OS",
+        windowSize: "Window Size"
+      }
     }
   }
 };

@@ -1,6 +1,6 @@
 import initialModal, {createTitle, hideModal, showModal} from "../modal";
 import optionsState from "../../shared/states";
-import {attachmentIcon, avatarIcon, submitIcon} from "../../assets/svg";
+import {attachmentIcon, /*avatarIcon,*/ submitIcon} from "../../assets/svg";
 import Observable from "../observable";
 import {
   AppendFormToModalFunction,
@@ -10,7 +10,8 @@ import {
   CreateInputFunction,
   CreateRadioFunction,
   CreateRadioWrapperFunction,
-  CreateSenderInformationFunction,
+  CreateSelectFunction,
+  // CreateSenderInformationFunction,
   CreateTextAreaFunction,
   HandleSubmitFunction,
   InitialInnerElementsFunction,
@@ -27,6 +28,7 @@ const storeValues: StoreInterface = {
 };
 
 const content = document.createElement("div");
+const contentInner = document.createElement("div");
 const submitButton = document.createElement("button");
 const footer = document.createElement("div");
 const attachment = document.createElement("div");
@@ -49,12 +51,10 @@ const enableButton = (element: HTMLButtonElement): void => {
   element.disabled = false;
 };
 const handleError = (element: HTMLElement): void => {
-  element.style.border = "1px solid red";
-  element.style.backgroundColor = "#F8D7DA";
+  element.classList.add("uno-form-input-error");
 };
 const clearError = (element: HTMLElement): void => {
-  element.style.borderColor = "#E1E1E1";
-  element.style.backgroundColor = "#FFF";
+  element.classList.remove("uno-form-input-error");
 };
 const validateForm = (): boolean => {
   const subject = document.getElementById("subject") as HTMLInputElement;
@@ -69,14 +69,14 @@ const validateForm = (): boolean => {
   }
   return true;
 };
-const handleSubmit: HandleSubmitFunction = (acceptButton, onSubmit) => {
+const handleSubmit: HandleSubmitFunction = (acceptButton, onSubmit): void => {
   if (!validateForm()) return;
   onSubmit();
   disableButton(acceptButton);
   Observable.subscribe("enableButton", () => enableButton(acceptButton));
 };
 
-const createFooter: CreateFooterFunction = ({fileName, fileSize}, onSubmit) => {
+const createFooter: CreateFooterFunction = ({fileName, fileSize}, onSubmit): void => {
   // Footer
   footer.classList.add("uno-form-footer");
   // - Attachment
@@ -109,7 +109,16 @@ const createFooter: CreateFooterFunction = ({fileName, fileSize}, onSubmit) => {
   // - Append Submit Button to Footer
   footer.appendChild(submitButton);
 };
-const createInput: CreateInputFunction = (row, col, inputLabel, label, name, initialValue, hasPlaceholder) => {
+const createInput: CreateInputFunction = (
+  row,
+  col,
+  inputLabel,
+  label,
+  name,
+  initialValue,
+  hasPlaceholder,
+  isRequired
+) => {
   // Input
   const input = document.createElement("input") as HTMLInputElement;
   input.classList.add("uno-form-input");
@@ -122,11 +131,41 @@ const createInput: CreateInputFunction = (row, col, inputLabel, label, name, ini
   input.onfocus = () => clearError(input);
   if (initialValue) input.value = initialValue;
   // Label
-  inputLabel.innerText = label;
+  inputLabel.innerHTML = `${label}${isRequired ? "<span>*</span>" : ""}`;
   inputLabel.setAttribute("for", name);
+  // Error Message
+  const span = document.createElement("span");
+  span.innerText = `${label} ${lang.en.reportForm.errorMessage}`;
+  span.classList.add("uno-form-input-error-message");
   // Input and Label append to col
   col.appendChild(inputLabel);
   col.appendChild(input);
+  if (isRequired) col.appendChild(span);
+  // Col append to wrapper
+  row.appendChild(col);
+};
+const createSelect: CreateSelectFunction = (row, col, selectLabel, options, label, name) => {
+  // Select
+  const select = document.createElement("select");
+  select.classList.add("uno-form-select");
+  //// Select property
+  select.setAttribute("id", name);
+  select.setAttribute("name", name);
+  select.onchange = onChangeValue;
+  // Options
+  const option = document.createElement("option");
+  options.forEach(item => {
+    const clone = option.cloneNode(true) as HTMLOptionElement;
+    clone.value = item.value;
+    clone.innerText = item.label;
+    select.appendChild(clone);
+  });
+  // Label
+  selectLabel.innerHTML = `${label}<span>*</span>`;
+  selectLabel.setAttribute("for", name);
+  // Select and Label append to col
+  col.appendChild(selectLabel);
+  col.appendChild(select);
   // Col append to wrapper
   row.appendChild(col);
 };
@@ -135,7 +174,7 @@ const createRadio: CreateRadioFunction = (row, col, options, active, label, name
   const span = document.createElement("span");
   const groupLabel = span.cloneNode(true) as HTMLElement;
   groupLabel.classList.add("uno-form-radio-group-label");
-  groupLabel.innerText = `${label}:`;
+  groupLabel.innerHTML = `${label}<span>*</span>`;
 
   // Create radio input
   const input = document.createElement("input");
@@ -167,7 +206,7 @@ const createRadio: CreateRadioFunction = (row, col, options, active, label, name
 
   const changeLabelStyle = (input: HTMLInputElement, label: HTMLElement) => {
     if (input.checked) {
-      label.style.borderColor = "#5150AE";
+      label.style.borderColor = "#7F56D9";
     } else {
       label.style.borderColor = "#D0D0D0";
     }
@@ -209,7 +248,7 @@ const createRadio: CreateRadioFunction = (row, col, options, active, label, name
   // Col append to wrapper
   row.appendChild(col);
 };
-const createTextArea: CreateTextAreaFunction = (row, col, textAreaLabel, label, name, hasPlaceholder) => {
+const createTextArea: CreateTextAreaFunction = (row, col, textAreaLabel, label, name, hasPlaceholder, isRequired) => {
   /* todo add creators most return element for encapsulation */
   // TextArea
   const textArea = document.createElement("textarea");
@@ -222,67 +261,44 @@ const createTextArea: CreateTextAreaFunction = (row, col, textAreaLabel, label, 
   textArea.onchange = onChangeValue;
   textArea.onfocus = () => clearError(textArea);
   // Label
-  textAreaLabel.innerText = label;
+  textAreaLabel.innerHTML = `${label}${isRequired ? "<span>*</span>" : ""}`;
   textAreaLabel.setAttribute("for", name);
+  // Error Message
+  const span = document.createElement("span");
+  span.innerText = `${label} ${lang.en.reportForm.errorMessage}`;
+  span.classList.add("uno-form-input-error-message");
   // TextArea and Label append to col
   col.appendChild(textAreaLabel);
   col.appendChild(textArea);
+  if (isRequired) col.appendChild(span);
   // Col append to wrapper
-  row.appendChild(col);
-};
-const createSenderInformation: CreateSenderInformationFunction = (row, col, label, {fullName, avatar, email}) => {
-  const sender = document.createElement("div");
-  sender.classList.add("uno-form-sender");
-  const span = document.createElement("span");
-  // Label
-  const labelElement = span.cloneNode(true) as HTMLElement;
-  labelElement.classList.add("uno-form-sender-label");
-  labelElement.innerText = label + ":";
-  // Avatar
-  const localAvatar = avatarIcon;
-  const avatarElement = document.createElement("img");
-  avatarElement.classList.add("uno-form-sender-avatar");
-  avatarElement.setAttribute("alt", "avatar");
-  avatarElement.setAttribute("src", avatar ?? "data:image/svg+xml;base64," + btoa(localAvatar));
-  // Information
-  const infoElement = span.cloneNode(true) as HTMLElement;
-  infoElement.classList.add("uno-form-sender-info");
-  // Full name
-  const fullNameElement = span.cloneNode(true) as HTMLElement;
-  fullNameElement.classList.add("uno-form-sender-full-name");
-  fullNameElement.innerText = fullName;
-  // Email
-  const emailElement = span.cloneNode(true) as HTMLElement;
-  emailElement.classList.add("uno-form-sender-email");
-  emailElement.innerText = email;
-
-  infoElement.appendChild(emailElement);
-  infoElement.appendChild(fullNameElement);
-
-  sender.appendChild(labelElement);
-  sender.appendChild(avatarElement);
-  sender.appendChild(infoElement);
-
-  col.appendChild(sender);
   row.appendChild(col);
 };
 const createRadioWrapper: CreateRadioWrapperFunction = (row, col) => {
   const div = document.createElement("div") as HTMLElement;
   const container = div.cloneNode(true);
   const buttonGroup = div.cloneNode(true) as HTMLElement;
-  buttonGroup.style.display = "flex";
-  buttonGroup.style.alignItems = "center";
-  buttonGroup.style.justifyContent = "space-between";
+  buttonGroup.classList.add("uno-form-button-group");
   const innerCol = div.cloneNode(true);
+  const inputLabel = document.createElement("label");
+  inputLabel.classList.add("uno-form-select-label");
 
   // Type
   ///// Bug: 1
   ///// Report: 2
   const typeOptions = [
-    {label: lang.fa.requestForm.type.bug, value: "1", color: "#EF0303"},
-    {label: lang.fa.requestForm.type.report, value: "2", color: "#0FE800"}
+    {label: lang.en.reportForm.type.bug, value: "1", color: "#F04438"},
+    {label: lang.en.reportForm.type.report, value: "2", color: "#F79009"},
+    {label: lang.en.reportForm.type.feature, value: "3", color: "#17B26A"}
   ];
-  createRadio(buttonGroup, innerCol.cloneNode(true) as HTMLElement, typeOptions, 0, "نوع بازخورد", "type");
+  createRadio(
+    buttonGroup,
+    innerCol.cloneNode(true) as HTMLElement,
+    typeOptions,
+    0,
+    lang.en.reportForm.type.label,
+    "type"
+  );
 
   // Priority
   //// highest: 1
@@ -292,17 +308,24 @@ const createRadioWrapper: CreateRadioWrapperFunction = (row, col) => {
   //// lowest: 5
   //// critical: 6
   const priorityOptions = [
-    {label: lang.fa.requestForm.priority.low, value: "4", color: "#F79008"},
-    {label: lang.fa.requestForm.priority.medium, value: "3", color: "#2A70FE"},
-    {label: lang.fa.requestForm.priority.high, value: "2", color: "#E14EB6"}
+    {label: lang.en.reportForm.priority.low, value: "4", color: "#F79008"},
+    {label: lang.en.reportForm.priority.medium, value: "3", color: "#2A70FE"},
+    {label: lang.en.reportForm.priority.high, value: "2", color: "#E14EB6"}
   ];
-  createRadio(buttonGroup, innerCol.cloneNode(true) as HTMLElement, priorityOptions, 1, "اولویت", "priority");
+  createSelect(
+    buttonGroup,
+    innerCol.cloneNode(true) as HTMLElement,
+    inputLabel.cloneNode(true) as HTMLLabelElement,
+    priorityOptions,
+    lang.en.reportForm.priority.label,
+    "priority"
+  );
   container.appendChild(buttonGroup);
   col.appendChild(container);
   // Col append to buttonGroup
   row.appendChild(col);
 };
-const createForm: CreateFormFunction = ({fullName, email, avatar}) => {
+const createForm: CreateFormFunction = (/*{fullName, email, avatar}*/) => {
   // Wrapper
   form.classList.add("uno-form");
   // Row
@@ -317,13 +340,6 @@ const createForm: CreateFormFunction = ({fullName, email, avatar}) => {
   // Input Label
   const inputLabel = document.createElement("label");
   inputLabel.classList.add("uno-form-label");
-  // Create sender information
-  createSenderInformation(formRow, col.cloneNode(true) as HTMLElement, lang.fa.requestForm.sender, {
-    fullName,
-    avatar,
-    email
-  });
-  formRow.appendChild(divider.cloneNode(true));
   createRadioWrapper(formRow, col.cloneNode(true) as HTMLElement);
   formRow.appendChild(divider.cloneNode(true));
   // Subject
@@ -331,9 +347,11 @@ const createForm: CreateFormFunction = ({fullName, email, avatar}) => {
     formRow,
     col.cloneNode(true) as HTMLElement,
     inputLabel.cloneNode(true) as HTMLElement,
-    lang.fa.requestForm.subject,
+    lang.en.reportForm.subject,
     "subject",
-    ""
+    "",
+    false,
+    true
   );
   formRow.appendChild(divider.cloneNode(true));
   // Description
@@ -341,14 +359,66 @@ const createForm: CreateFormFunction = ({fullName, email, avatar}) => {
     formRow,
     col.cloneNode(true) as HTMLElement,
     inputLabel.cloneNode(true) as HTMLElement,
-    lang.fa.requestForm.description,
-    "description"
+    lang.en.reportForm.description,
+    "description",
+    false,
+    true
   );
   return form;
 };
+const createInfo = (): HTMLElement => {
+  const infoWrapper = document.createElement("div");
+  infoWrapper.classList.add("uno-info");
+  const OS = () => {
+    if (navigator.appVersion.indexOf("Win") != -1) return "Windows";
+    if (navigator.appVersion.indexOf("Mac") != -1) return "MacOS";
+    if (navigator.appVersion.indexOf("X11") != -1) return "UNIX";
+    if (navigator.appVersion.indexOf("Linux") != -1) return "Linux";
+    return "Unknown OS";
+  };
+  const information = [
+    {
+      label: `${lang.en.reportForm.info.url}:`,
+      data: window.location.href
+    },
+    {
+      label: `${lang.en.reportForm.info.captured}:`,
+      data: createName()
+    },
+    {
+      label: `${lang.en.reportForm.info.deviceInfo}:`,
+      data: navigator.userAgent
+    },
+    {
+      label: `${lang.en.reportForm.info.OS}:`,
+      data: OS()
+    },
+    {
+      label: `${lang.en.reportForm.info.windowSize}:`,
+      data: `${window.innerWidth} x ${window.innerHeight}`
+    }
+  ];
+  information.forEach(info => {
+    const infoRow = document.createElement("div");
+    infoRow.classList.add("uno-info-row");
+    const label = document.createElement("span");
+    label.classList.add("uno-info-label");
+    label.innerHTML = info.label;
+    const value = document.createElement("span");
+    value.classList.add("uno-info-value");
+    value.innerHTML = info.data as string;
+    infoRow.appendChild(label);
+    infoRow.appendChild(value);
+    infoWrapper.appendChild(infoRow);
+  });
+  return infoWrapper;
+};
 const createContent: CreateContentFunction = ({fullName, email, avatar}) => {
-  content.setAttribute("id", "uno-request-form");
-  content.appendChild(createForm({fullName, email, avatar}));
+  content.setAttribute("id", "uno-report-form");
+  contentInner.classList.add("uno-content");
+  contentInner.appendChild(createForm({fullName, email, avatar}));
+  contentInner.appendChild(createInfo());
+  content.appendChild(contentInner);
 };
 const initialInnerElements: InitialInnerElementsFunction = (
   {fullName, email, avatar},
@@ -365,7 +435,7 @@ const initialInnerElements: InitialInnerElementsFunction = (
  * **/
 
 const appendFormToModal: AppendFormToModalFunction = ({fullName, email, avatar}, {fileSize, fileName}, onSubmit) => {
-  initialModal(createTitle(lang.fa.requestForm.title), () => destroyRequestForm()).then(modalContent => {
+  initialModal(createTitle(lang.en.reportForm.title), () => destroyRequestForm()).then(modalContent => {
     initialInnerElements({fullName, email, avatar}, {fileSize, fileName}, onSubmit);
     modalContent.appendChild(content).appendChild(footer);
     showModal();
@@ -402,7 +472,7 @@ function createName(): string {
   if (MM < 10) MM = `0${MM}`;
   if (SS < 10) SS = `0${SS}`;
 
-  return `${yyyy}${mm}${dd}${HH}${MM}${SS}`;
+  return `${yyyy}/${mm}/${dd} at ${HH}:${MM}:${SS}`;
 }
 
 const closeRequestFormModal = (): void => {

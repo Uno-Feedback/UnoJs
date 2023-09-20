@@ -1,7 +1,13 @@
-#uno-request-form {
+#uno-report-form {
     .uno {
+        &-content {
+            display: flex;
+            align-items: stretch;
+            margin-bottom: $space-lg;
+        }
+
         &-form {
-            width: 100%;
+            width: 430px;
             padding-right: 15px;
             padding-left: 15px;
             margin-right: auto;
@@ -35,6 +41,12 @@
                 white-space: nowrap;
                 padding: 0.375rem 0.75rem;
                 color: #FFF;
+
+                &-group {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
             }
 
             &-footer {
@@ -78,32 +90,66 @@
 
             &-label {
                 margin-bottom: 8px;
+                font-size: 14px;
+                color: $color-gray-60;
+
+                span {
+                    display: inline-block;
+                    margin-left: 3px;
+                    color: $color-error-500
+                }
             }
 
             &-input {
                 width: 100%;
-                border: 1px solid #E1E1E1;
-                border-radius: 6px;
+                border: 1px solid $color-gray-15;
+                padding: $space-sm;
+                border-radius: $space-sm;
                 outline: none;
                 height: 36px;
                 line-height: 36px;
-                padding: 0 8px;
 
                 &:focus {
                     border-color: #5150AE;
+                }
+
+                &-error {
+                    border-color: $color-error-500!important;
+
+                    + {
+                        .uno-form-input-error-message {
+                            display: inline-block;
+                        }
+                    }
+
+                    &-message {
+                        display: none;
+                        position: absolute;
+                        left: $space-md;
+                        bottom: -2px;
+                        transform: translateY(100%);
+                        font-size: 12px;
+                        color: $color-error-500;
+                    }
                 }
             }
 
             &-radio {
                 &-wrapper {
-                    display: flex;
-                    align-items: center;
                     position: relative;
                 }
 
                 &-group-label {
-                    display: inline-block;
-                    margin-left: 10px;
+                    display: block;
+                    font-size: 14px;
+                    color: $color-gray-60;
+                    margin-bottom: 3px;
+
+                    span {
+                        display: inline-block;
+                        margin-left: 3px;
+                        color: $color-error-500
+                    }
                 }
 
                 &-input {
@@ -116,13 +162,15 @@
                 }
 
                 &-label {
-                    margin-left: 10px;
-                    height: 24px;
-                    border: 1px solid #D0D0D0;
-                    padding: 0 8px;
-                    line-height: 24px;
-                    border-radius: 6px;
-                    font-size: 80%;
+                    border: 1px solid $color-gray-15;
+                    padding: $space-sm $space-md $space-sm $space-sm;
+                    background-color: $color-gray-03;
+                    border-radius: $space-sm;
+                    margin-right: $space-md;
+                    height: 38px;
+                    line-height: 1;
+                    font-size: 14px;
+                    font-weight: 500;
                     display: inline-flex;
                     align-items: center;
                     cursor: pointer;
@@ -138,12 +186,43 @@
                 }
             }
 
-            &-textarea {
+            &-select {
                 width: 100%;
-                border: 1px solid #E1E1E1;
-                border-radius: 6px;
+                border: 1px solid $color-gray-15;
+                padding: $space-sm $space-md $space-sm $space-sm;
+                background-color: $color-gray-03;
+                border-radius: $space-sm;
+                line-height: $space-md;
+                font-size: 14px;
+                font-weight: 500;
+                height: 38px;
                 outline: none;
-                padding: 6px 8px;
+
+                &:focus, &:active, &focus-within, &focus-visible {
+                    border: 1px solid $color-primary-600;
+                    outline: none;
+                }
+
+                &-label {
+                    font-size: 14px;
+                    color: $color-gray-60;
+
+                    span {
+                        display: inline-block;
+                        margin-left: 3px;
+                        color: $color-error-500
+                    }
+                }
+            }
+
+            &-textarea {
+                display: block;
+                width: 100%;
+                border: 1px solid $color-gray-15;
+                padding: $space-sm;
+                border-radius: $space-sm;
+                outline: none;
+
                 &:focus {
                     border-color: #5150AE;
                 }
@@ -185,6 +264,41 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+            }
+        }
+
+        &-info {
+            width: 290px;
+            color: $color-gray-60;
+            padding: $space-md;
+            margin-left: $space-lg;
+            border-radius: $space-md;
+            background-color: $color-gray-03;
+            font-weight: 600;
+            font-size: 13px;
+
+            &-row {
+                padding: $space-md 0;
+
+                &:first-child {
+                    padding-top: 0;
+                }
+
+                &:last-child {
+                    padding-bottom: 0;
+                }
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid $color-gray-10;
+                }
+            }
+
+            &-label {
+                display: block;
+            }
+
+            &-value {
+                font-weight: 400;
             }
         }
     }
