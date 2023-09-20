@@ -53,7 +53,10 @@ export const lang = {
         captured: "Captured",
         deviceInfo: "Device Information",
         OS: "OS",
-        windowSize: "Window Size"
+        windowSize: "Window Size",
+        info: "Info",
+        network: "Network",
+        console: "Console"
       },
       submit: "Send",
       sendTo: {

@@ -407,8 +407,34 @@ const createForm: CreateFormFunction = ({fileName, fileSize}) => {
   return form;
 };
 const createInfo = (): HTMLElement => {
+  const aside = document.createElement("aside");
+  aside.classList.add("uno-info");
+  // - Tabs
+  // Tab Element
+  const tabsWrapper = document.createElement("div");
+  tabsWrapper.classList.add("uno-info-tabs");
+  const tab: HTMLDivElement = document.createElement("div");
+  tab.classList.add("uno-info-tab");
+  // Text Element
+  const text: HTMLSpanElement = document.createElement("span");
+  text.classList.add("uno-info-tab-text");
+  const tabs = [
+    {title: lang.en.reportForm.info.info},
+    {title: lang.en.reportForm.info.network},
+    {title: lang.en.reportForm.info.console}
+  ];
+  tabs.forEach((tabInfo, index) => {
+    const cloneTab = tab.cloneNode(true) as HTMLElement;
+    if (index === 0) cloneTab.classList.add("active");
+    const cloneText = text.cloneNode(true) as HTMLSpanElement;
+    cloneText.innerText = tabInfo.title;
+    cloneTab.appendChild(cloneText);
+    tabsWrapper.appendChild(cloneTab);
+  });
+  aside.appendChild(tabsWrapper);
+  // - Info
   const infoWrapper = document.createElement("div");
-  infoWrapper.classList.add("uno-info");
+  infoWrapper.classList.add("uno-info-list");
   const OS = () => {
     if (navigator.appVersion.indexOf("Win") != -1) return "Windows";
     if (navigator.appVersion.indexOf("Mac") != -1) return "MacOS";
@@ -451,7 +477,9 @@ const createInfo = (): HTMLElement => {
     infoRow.appendChild(value);
     infoWrapper.appendChild(infoRow);
   });
-  return infoWrapper;
+  // - Append Info to Aside
+  aside.appendChild(infoWrapper);
+  return aside;
 };
 const createContent: CreateContentFunction = ({fileSize, fileName}) => {
   content.setAttribute("id", "uno-report-form");
