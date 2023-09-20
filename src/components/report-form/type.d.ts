@@ -44,7 +44,8 @@ export type CreateSelectFunction = (
   selectLabel: HTMLElement,
   options: RadioOptionsInterface[],
   label: string,
-  name: string
+  name: string,
+  active?: number
 ) => void;
 export type CreateRadioFunction = (
   row: HTMLElement,
@@ -70,8 +71,8 @@ export type CreateSenderInformationFunction = (
   userInfo: UserInfoInterface
 ) => void;
 export type CreateRadioWrapperFunction = (row: HTMLElement, col: HTMLElement) => void;
-export type CreateFormFunction = (userInfo: UserInfoInterface) => HTMLElement;
-export type CreateContentFunction = (userInfo: UserInfoInterface) => void;
+export type CreateFormFunction = (fileInfo: FileInfoInterface) => HTMLElement;
+export type CreateContentFunction = (fileInfo: FileInfoInterface) => void;
 export type InitialInnerElementsFunction = (
   userInfo: UserInfoInterface,
   fileInfo: FileInfoInterface,

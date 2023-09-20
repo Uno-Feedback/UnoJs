@@ -1,6 +1,6 @@
 import initialModal, {createTitle, hideModal, showModal} from "../modal";
 import optionsState from "../../shared/states";
-import {attachmentIcon, /*avatarIcon,*/ submitIcon} from "../../assets/svg";
+import {submitIcon} from "../../assets/svg";
 import Observable from "../observable";
 import {
   AppendFormToModalFunction,
@@ -11,7 +11,6 @@ import {
   CreateRadioFunction,
   CreateRadioWrapperFunction,
   CreateSelectFunction,
-  // CreateSenderInformationFunction,
   CreateTextAreaFunction,
   HandleSubmitFunction,
   InitialInnerElementsFunction,
@@ -32,7 +31,6 @@ const contentInner = document.createElement("div");
 const submitButton = document.createElement("button");
 const footer = document.createElement("div");
 const attachment = document.createElement("div");
-const attachmentIconElement = document.createElement("span");
 const attachmentName = document.createElement("span");
 const attachmentSize = document.createElement("span");
 const form = document.createElement("div");
@@ -76,30 +74,15 @@ const handleSubmit: HandleSubmitFunction = (acceptButton, onSubmit): void => {
   Observable.subscribe("enableButton", () => enableButton(acceptButton));
 };
 
-const createFooter: CreateFooterFunction = ({fileName, fileSize}, onSubmit): void => {
+const createFooter: CreateFooterFunction = ({}, onSubmit): void => {
   // Footer
   footer.classList.add("uno-form-footer");
-  // - Attachment
-  attachment.classList.add("uno-form-attachment");
-  // - Attachment Icon
-  attachmentIconElement.classList.add("uno-form-attachment-icon");
-  attachmentIconElement.innerHTML = attachmentIcon;
-  attachment.appendChild(attachmentIconElement);
-  // - Attachment Name
-  attachmentName.classList.add("uno-form-attachment-name");
-  attachmentName.innerText = `${fileName}.mp4`;
-  attachment.appendChild(attachmentName);
-  // - Attachment Time
-  attachmentSize.classList.add("uno-form-attachment-size");
-  attachmentSize.innerText = fileSize;
-  attachment.appendChild(attachmentSize);
-  // - Append Attachment to Footer
-  footer.appendChild(attachment);
   // - Submit Button
   submitButton.classList.add("uno-form-submit");
   const submitButtonText = document.createElement("span");
   const submitButtonIcon = document.createElement("span");
-  submitButtonText.innerText = lang.fa.requestForm.submit;
+  submitButtonIcon.classList.add("uno-form-submit-icon");
+  submitButtonText.innerText = lang.en.reportForm.submit;
   submitButtonIcon.innerHTML = submitIcon;
   submitButton.appendChild(submitButtonText);
   submitButton.appendChild(submitButtonIcon);
@@ -144,7 +127,7 @@ const createInput: CreateInputFunction = (
   // Col append to wrapper
   row.appendChild(col);
 };
-const createSelect: CreateSelectFunction = (row, col, selectLabel, options, label, name) => {
+const createSelect: CreateSelectFunction = (row, col, selectLabel, options, label, name, active) => {
   // Select
   const select = document.createElement("select");
   select.classList.add("uno-form-select");
@@ -154,11 +137,14 @@ const createSelect: CreateSelectFunction = (row, col, selectLabel, options, labe
   select.onchange = onChangeValue;
   // Options
   const option = document.createElement("option");
-  options.forEach(item => {
+  options.forEach((item, index) => {
     const clone = option.cloneNode(true) as HTMLOptionElement;
     clone.value = item.value;
     clone.innerText = item.label;
     select.appendChild(clone);
+    if (index === active) {
+      select.value = item.value;
+    }
   });
   // Label
   selectLabel.innerHTML = `${label}<span>*</span>`;
@@ -228,6 +214,7 @@ const createRadio: CreateRadioFunction = (row, col, options, active, label, name
 
     if (index === active ?? 0) {
       cloneInput.setAttribute("checked", "checked");
+      cloneLabel.style.borderColor = "#7F56D9";
     }
 
     const cloneSpan = span.cloneNode(true) as HTMLElement;
@@ -318,14 +305,15 @@ const createRadioWrapper: CreateRadioWrapperFunction = (row, col) => {
     inputLabel.cloneNode(true) as HTMLLabelElement,
     priorityOptions,
     lang.en.reportForm.priority.label,
-    "priority"
+    "priority",
+    1
   );
   container.appendChild(buttonGroup);
   col.appendChild(container);
   // Col append to buttonGroup
   row.appendChild(col);
 };
-const createForm: CreateFormFunction = (/*{fullName, email, avatar}*/) => {
+const createForm: CreateFormFunction = ({fileName, fileSize}) => {
   // Wrapper
   form.classList.add("uno-form");
   // Row
@@ -364,6 +352,26 @@ const createForm: CreateFormFunction = (/*{fullName, email, avatar}*/) => {
     false,
     true
   );
+  formRow.appendChild(divider.cloneNode(true));
+  const attachmentCol = col.cloneNode(true) as HTMLElement;
+  attachmentCol.classList.add("last");
+  const fileTitle = document.createElement("div");
+  fileTitle.classList.add("uno-form-attachment-title");
+  fileTitle.innerText = lang.en.reportForm.fileTitle;
+  attachmentCol.appendChild(fileTitle);
+  // - Attachment
+  attachment.classList.add("uno-form-attachment");
+  // - Attachment Name
+  attachmentName.classList.add("uno-form-attachment-name");
+  attachmentName.innerText = `${fileName}.mp4`;
+  attachment.appendChild(attachmentName);
+  // - Attachment Time
+  attachmentSize.classList.add("uno-form-attachment-size");
+  attachmentSize.innerText = `(${fileSize})`;
+  attachment.appendChild(attachmentSize);
+  // - Append Attachment to Footer
+  attachmentCol.appendChild(attachment);
+  formRow.appendChild(attachmentCol);
   return form;
 };
 const createInfo = (): HTMLElement => {
@@ -413,19 +421,15 @@ const createInfo = (): HTMLElement => {
   });
   return infoWrapper;
 };
-const createContent: CreateContentFunction = ({fullName, email, avatar}) => {
+const createContent: CreateContentFunction = ({fileSize, fileName}) => {
   content.setAttribute("id", "uno-report-form");
   contentInner.classList.add("uno-content");
-  contentInner.appendChild(createForm({fullName, email, avatar}));
+  contentInner.appendChild(createForm({fileSize, fileName}));
   contentInner.appendChild(createInfo());
   content.appendChild(contentInner);
 };
-const initialInnerElements: InitialInnerElementsFunction = (
-  {fullName, email, avatar},
-  {fileSize, fileName},
-  onSubmit
-) => {
-  createContent({fullName, email, avatar});
+const initialInnerElements: InitialInnerElementsFunction = ({}, {fileSize, fileName}, onSubmit) => {
+  createContent({fileSize, fileName});
   createFooter({fileSize, fileName}, onSubmit);
 };
 

@@ -54,7 +54,8 @@ export const lang = {
         deviceInfo: "Device Information",
         OS: "OS",
         windowSize: "Window Size"
-      }
+      },
+      submit: "Send"
     }
   }
 };
