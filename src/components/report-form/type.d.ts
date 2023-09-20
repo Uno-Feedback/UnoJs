@@ -16,6 +16,7 @@ interface RadioOptionsInterface {
   label: string;
   value: string;
   color?: string;
+  icon?: string;
 }
 
 interface UserInfoInterface {
@@ -53,7 +54,8 @@ export type CreateRadioFunction = (
   radioOptions: RadioOptionsInterface[],
   active: number,
   label: string,
-  name: string
+  name: string,
+  isRequired?: boolean
 ) => void;
 export type CreateTextAreaFunction = (
   row: HTMLElement,

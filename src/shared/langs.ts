@@ -55,7 +55,10 @@ export const lang = {
         OS: "OS",
         windowSize: "Window Size"
       },
-      submit: "Send"
+      submit: "Send",
+      sendTo: {
+        label: "Send to"
+      }
     }
   }
 };

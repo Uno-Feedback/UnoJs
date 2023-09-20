@@ -7,7 +7,7 @@
         }
 
         &-form {
-            width: 430px;
+            width: 450px;
             padding-right: 15px;
             padding-left: 15px;
             margin-right: auto;
@@ -191,8 +191,18 @@
                     height: 8px;
                     width: 8px;
                     border-radius: 50%;
-                    margin-inline-end: 5px;
+                    margin-inline-end: $space-sm;
+                }
 
+                &-icon {
+                    display: inline-block;
+                    height: 20px;
+                    width: 20px;
+                    margin-inline-end: $space-sm;
+                    svg {
+                        width: 20px;
+                        height: 20px;
+                    }
                 }
             }
 
@@ -274,6 +284,19 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+            }
+
+            &-send {
+                &-button-group {
+                    .uno-form-radio-wrapper {
+                        display: flex;
+                        align-items: center;
+                    }
+                    .uno-form-radio-group-label {
+                        margin-right: $space-md;
+                        margin-bottom: 0;
+                    }
+                }
             }
         }
 
