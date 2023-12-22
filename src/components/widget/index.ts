@@ -5,7 +5,7 @@
  * The `onCloseWidget` function is called when the user clicks the close button.
  */
 
-// Import necessary types from the "type" module.
+// Import the necessary types from the "type" module.
 import {OpenRecordWidgetFunction, Tab} from "./types";
 import {cameraIcon, crossIcon, micIcon, noteIcon, videoCameraIcon} from "../../assets/svg";
 import initialVideoElements, {
@@ -23,6 +23,7 @@ import initialVideoElements, {
   timerWrapper
 } from "./video";
 import {lang} from "../../shared/langs";
+import optionsState from "../../shared/states";
 
 // Widget Element
 const widget: HTMLDivElement = document.createElement("div");
@@ -69,6 +70,7 @@ const initialInnerElements = (): void => {
   // Widget
   widget.setAttribute("id", "uno-widget");
   widget.classList.add("uno-widget");
+  if (optionsState.isExtension) widget.classList.add("uno-widget-extension");
   // Title
   title.classList.add("uno-widget-title");
   title.innerText = lang.en.widget.title;

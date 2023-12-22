@@ -170,6 +170,7 @@ class UnoJSBuilder {
     optionsState.user = options.user;
     optionsState.autoSecretKey = options.autoSecretKey ?? undefined;
     optionsState.subscriptionData = options.subscriptionData;
+    optionsState.isExtension = options.isExtension ?? false;
     options.videoMaxLength ??= options.videoMaxLength;
 
     this.screenRecorder = new MediaStreamRecorder({

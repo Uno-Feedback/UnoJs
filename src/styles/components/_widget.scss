@@ -29,6 +29,7 @@
             &-timer {
                 margin: 0 calc($space-md + 10px + $space-sm) 0 0;
             }
+
             &-widget-title {
                 display: none;
             }
@@ -211,6 +212,37 @@
             visibility: hidden;
             opacity: 0;
             padding: 3px;
+        }
+    }
+
+    &.uno-widget-extension {
+        padding: 0;
+        inset: auto auto $space-lg auto;
+        margin-left: 50%;
+        transform: translate(-50%, 0);
+        border-radius: $border-radius-md;
+
+        .uno {
+            &-widget-title {
+                display: none;
+            }
+
+            &-tabs-wrapper {
+                display: none;
+            }
+
+            &-tab-content {
+                background-color: #FFF;
+            }
+
+            &-close {
+                transform: translate($space-lg, -$space-lg);
+                background: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+            }
         }
     }
 }
