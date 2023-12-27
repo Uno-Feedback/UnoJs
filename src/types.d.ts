@@ -5,6 +5,7 @@ export interface Options {
   autoSecretKey?: string;
   startButtonId: string;
   videoMaxLength?: number;
+  isExtension?: boolean;
 }
 
 export interface User {

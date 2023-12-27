@@ -53,6 +53,12 @@ const initialInnerElements = (title: HTMLElement) => {
 
   return content;
 };
+export const createTitle = (text: string): HTMLElement => {
+  const title = document.createElement("h1");
+  title.classList.add("uno-modal-title");
+  title.innerHTML = text;
+  return title;
+};
 
 /**
  * Initialize the modal and set up the close capability.
@@ -67,7 +73,7 @@ const initialModal = async (title: HTMLElement, onCloseCallback: () => void) => 
     onCloseCallback();
     hideModal();
   };
-
+  hideModal();
   return new Promise<HTMLDivElement>(resolve => resolve(initialInnerElements(title)));
 };
 

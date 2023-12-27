@@ -1,7 +1,8 @@
-import { AUDIO_SAMPLE_SIZE, MAX_FRAME_RATE, AUDIO_CHANNEL_COUNT } from "../../shared/constants";
+import {AUDIO_SAMPLE_SIZE, MAX_FRAME_RATE, AUDIO_CHANNEL_COUNT} from "../../shared/constants";
 import Observable from "../observable";
-import openRequestFormModal from "../requestForm";
+// import openRequestFormModal from "../request-form";
 import {OptionInterface} from "./type";
+import videoPreview from "../video-preview";
 
 class MediaStreamRecorder {
   private displayMediaConstraints: DisplayMediaStreamOptions;
@@ -18,7 +19,7 @@ class MediaStreamRecorder {
         channelCount: AUDIO_CHANNEL_COUNT
       }
     };
-    // Declare mime type
+    // Declare a mime type
     this.mimeType = options?.mimeType ?? "video/webm";
   }
 
@@ -38,7 +39,7 @@ class MediaStreamRecorder {
     // Start media recorder
     console.info("[uno-js] Starting media recorder...");
     recorder.start();
-    // Check if stream is stopped
+    // Check if the stream is stopped
     console.info("[uno-js] Checking if stream is stopped...");
     let stopped = new Promise((resolve, reject) => {
       recorder.onstop = resolve;
@@ -50,7 +51,7 @@ class MediaStreamRecorder {
     return data;
   };
   renderStream = (stream: MediaStream) => {
-    // Check if stream is stopped with browser button
+    // Check if stream is stopped with the browser button
     stream.getVideoTracks()[0].onended = () => this.stopRecording();
     this.startRecording(stream).then(recordedChunks => {
       const mimeType = this.mimeType;
@@ -59,8 +60,9 @@ class MediaStreamRecorder {
       // Fire observer
       Observable.fire("setRecordState", false);
       Observable.fire("closeWidget");
-      // Test of File
-      openRequestFormModal(recordedBlob);
+      // Preview of video file
+      videoPreview(recordedBlob);
+      // openRequestFormModal(recordedBlob);
       console.info(`[uno-js] Successfully recorded ${recordedBlob.size} bytes of ${recordedBlob.type} media.`);
     });
   };
@@ -71,7 +73,7 @@ class MediaStreamRecorder {
     if (this.videoStreamState) this.videoStreamState.getTracks().forEach(track => track.stop());
     if (this.audioStreamState) this.audioStreamState.getTracks().forEach(track => track.stop());
   };
-  // Create mixed stream from display media and user media
+  // Create a mixed stream from display media and user media
   createStream = async () => {
     // Get display media
     console.info("[uno-js] Getting display media...");
@@ -87,7 +89,7 @@ class MediaStreamRecorder {
     console.info("[uno-js] Getting audio...");
     try {
       this.audioStreamState = await navigator.mediaDevices.getUserMedia(this.userMediaConstraints);
-      // Get Audio track of this moment
+      // Get the Audio track of this moment
       const audioTrack = this.audioStreamState.getAudioTracks()[0];
       // Add microphone audio to display video
       this.videoStreamState.addTrack(audioTrack);
@@ -98,7 +100,7 @@ class MediaStreamRecorder {
     // Return mixed stream
     return this.videoStreamState;
   };
-  // Start get permission
+  // Start to get permission
   start = async () => {
     // Create recorded chunks and wait for stop
     console.info("[uno-js] Starting recording...");

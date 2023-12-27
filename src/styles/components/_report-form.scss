@@ -1,0 +1,379 @@
+#uno-report-form {
+    .uno {
+        &-content {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: $space-lg;
+        }
+
+        &-form {
+            width: 450px;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+
+            &-row {
+                display: flex;
+                flex-wrap: wrap;
+                margin-right: -30px;
+                margin-left: -30px;
+            }
+
+            &-col {
+                position: relative;
+                width: 100%;
+                padding-right: 15px;
+                padding-left: 15px;
+                max-width: 100%;
+                flex-grow: 1;
+                flex-basis: 0;
+                margin-bottom: 16px;
+
+                &.last {
+                    margin-bottom: 0;
+                }
+            }
+
+            &-divider {
+                width: 100%;
+            }
+
+            &-button {
+                text-align: center;
+                white-space: nowrap;
+                padding: $space-sm $space-lg;
+                color: #FFF;
+                border-radius: $space-sm;
+
+                &-group {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+            }
+
+            &-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            &-attachment {
+                display: flex;
+                align-items: center;
+
+                &-title {
+                    color: $color-gray-60;
+                    font-size: 13px;
+                    font-weight: 400;
+                }
+
+                &-name {
+                    margin-right: .5rem;
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+
+                &-size {
+                    margin-right: .5rem;
+                    direction: ltr;
+                    font-size: .75rem;
+                    color: #646464;
+                }
+            }
+
+            &-submit {
+                @extend .uno-form-button;
+                background-color: $color-primary-600;
+                border: 1px solid $color-primary-600;
+                font-size: 18px;
+                font-weight: 600;
+
+                &-icon {
+                    margin-left: $space-sm;
+                }
+
+                &.disabled {
+                    background-color: #AED0FF;
+                    border: 1px solid #AED0FF;
+                }
+            }
+
+            &-label {
+                margin-bottom: 8px;
+                font-size: 14px;
+                color: $color-gray-60;
+
+                span {
+                    display: inline-block;
+                    margin-left: 3px;
+                    color: $color-error-500
+                }
+            }
+
+            &-input {
+                width: 100%;
+                border: 1px solid $color-gray-15;
+                padding: $space-sm;
+                border-radius: $space-sm;
+                outline: none;
+                height: 36px;
+                line-height: 36px;
+
+                &:focus {
+                    border-color: #5150AE;
+                }
+
+                &-error {
+                    border-color: $color-error-500 !important;
+
+                    + {
+                        .uno-form-input-error-message {
+                            display: inline-block;
+                        }
+                    }
+
+                    &-message {
+                        display: none;
+                        position: absolute;
+                        left: $space-md;
+                        bottom: -2px;
+                        transform: translateY(100%);
+                        font-size: 12px;
+                        color: $color-error-500;
+                    }
+                }
+            }
+
+            &-radio {
+                &-wrapper {
+                    position: relative;
+                }
+
+                &-group-label {
+                    display: block;
+                    font-size: 14px;
+                    color: $color-gray-60;
+                    margin-bottom: 3px;
+
+                    span {
+                        display: inline-block;
+                        margin-left: 3px;
+                        color: $color-error-500
+                    }
+                }
+
+                &-input {
+                    visibility: hidden;
+                    position: absolute;
+
+                    &:checked {
+                        border-color: #5150AE;
+                    }
+                }
+
+                &-label {
+                    border: 1px solid $color-gray-15;
+                    padding: $space-sm $space-md $space-sm $space-sm;
+                    background-color: $color-gray-03;
+                    border-radius: $space-sm;
+                    margin-right: $space-md;
+                    height: 38px;
+                    line-height: 1;
+                    font-size: 14px;
+                    font-weight: 500;
+                    display: inline-flex;
+                    align-items: center;
+                    cursor: pointer;
+                }
+
+                &-badge {
+                    display: inline-block;
+                    height: 8px;
+                    width: 8px;
+                    border-radius: 50%;
+                    margin-inline-end: $space-sm;
+                }
+
+                &-icon {
+                    display: inline-block;
+                    height: 20px;
+                    width: 20px;
+                    margin-inline-end: $space-sm;
+
+                    svg {
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+            }
+
+            &-select {
+                width: 100%;
+                border: 1px solid $color-gray-15;
+                padding: $space-sm $space-md $space-sm $space-sm;
+                background-color: $color-gray-03;
+                border-radius: $space-sm;
+                line-height: $space-md;
+                font-size: 14px;
+                font-weight: 500;
+                height: 38px;
+                outline: none;
+
+                &:focus, &:active, &focus-within, &focus-visible {
+                    border: 1px solid $color-primary-600;
+                    outline: none;
+                }
+
+                &-label {
+                    font-size: 14px;
+                    color: $color-gray-60;
+
+                    span {
+                        display: inline-block;
+                        margin-left: 3px;
+                        color: $color-error-500
+                    }
+                }
+            }
+
+            &-textarea {
+                display: block;
+                width: 100%;
+                border: 1px solid $color-gray-15;
+                padding: $space-sm;
+                border-radius: $space-sm;
+                outline: none;
+
+                &:focus {
+                    border-color: #5150AE;
+                }
+            }
+
+            &-sender {
+                margin-bottom: 16px;
+                display: flex;
+                align-items: center;
+
+                &-label {
+                    display: inline-block;
+                    margin-left: 15px;
+                }
+
+                &-avatar {
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    margin-left: 15px;
+                }
+
+                &-info {
+                    display: inline-flex;
+                    flex-direction: column;
+                }
+
+                &-full-name {
+                    font-size: 11px;
+                    color: #7B7B7B;
+                }
+
+                &-email {
+                    font-size: 12px;
+                }
+            }
+
+            &-button-group {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            &-send {
+                &-button-group {
+                    .uno-form-radio-wrapper {
+                        display: flex;
+                        align-items: center;
+                    }
+
+                    .uno-form-radio-group-label {
+                        margin-right: $space-md;
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+
+        &-info {
+            width: 290px;
+            color: $color-gray-60;
+            padding: $space-md;
+            margin-left: $space-lg;
+            border-radius: $space-md;
+            background-color: $color-gray-03;
+            font-weight: 600;
+            font-size: 13px;
+
+            &-row {
+                padding: $space-md 0;
+
+                &:last-child {
+                    padding-bottom: 0;
+                }
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid $color-gray-10;
+                }
+            }
+
+            &-label {
+                display: block;
+            }
+
+            &-value {
+                font-weight: 400;
+            }
+
+            &-tabs {
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid $color-gray-10;
+                margin-bottom: $space-sm;
+            }
+
+            &-tab {
+                font-size: 14px;
+                font-weight: 500;
+                color: $color-gray-60;
+                cursor: not-allowed;
+
+                &-text {
+                    display: inline-block;
+                    padding-bottom: $space-sm;
+                }
+
+                &.active {
+                    font-size: 16px;
+                    color: $color-gray-100;
+                    cursor: pointer;
+
+                    .uno-info-tab-text {
+                        position: relative;
+
+                        &:after {
+                            content: "";
+                            width: 100%;
+                            height: 4px;
+                            border-radius: 4px;
+                            background: $color-primary-600;
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            transform: translateY(50%);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

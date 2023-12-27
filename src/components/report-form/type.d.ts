@@ -16,6 +16,7 @@ interface RadioOptionsInterface {
   label: string;
   value: string;
   color?: string;
+  icon?: string;
 }
 
 interface UserInfoInterface {
@@ -35,7 +36,17 @@ export type CreateInputFunction = (
   label: string,
   name: string,
   initialValue?: string,
-  hasPlaceholder?: boolean
+  hasPlaceholder?: boolean,
+  isRequired?: boolean
+) => void;
+export type CreateSelectFunction = (
+  row: HTMLElement,
+  col: HTMLElement,
+  selectLabel: HTMLElement,
+  options: RadioOptionsInterface[],
+  label: string,
+  name: string,
+  active?: number
 ) => void;
 export type CreateRadioFunction = (
   row: HTMLElement,
@@ -43,7 +54,8 @@ export type CreateRadioFunction = (
   radioOptions: RadioOptionsInterface[],
   active: number,
   label: string,
-  name: string
+  name: string,
+  isRequired?: boolean
 ) => void;
 export type CreateTextAreaFunction = (
   row: HTMLElement,
@@ -51,7 +63,8 @@ export type CreateTextAreaFunction = (
   textAreaLabel: HTMLElement,
   label: string,
   name: string,
-  hasPlaceholder?: boolean
+  hasPlaceholder?: boolean,
+  isRequired?: boolean
 ) => void;
 export type CreateSenderInformationFunction = (
   row: HTMLElement,
@@ -60,8 +73,8 @@ export type CreateSenderInformationFunction = (
   userInfo: UserInfoInterface
 ) => void;
 export type CreateRadioWrapperFunction = (row: HTMLElement, col: HTMLElement) => void;
-export type CreateFormFunction = (userInfo: UserInfoInterface) => HTMLElement;
-export type CreateContentFunction = (userInfo: UserInfoInterface) => void;
+export type CreateFormFunction = (fileInfo: FileInfoInterface) => HTMLElement;
+export type CreateContentFunction = (fileInfo: FileInfoInterface) => void;
 export type InitialInnerElementsFunction = (
   userInfo: UserInfoInterface,
   fileInfo: FileInfoInterface,

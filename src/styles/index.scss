@@ -1,6 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap");
-@import "components/widget";
-@import "components/screenMask";
-@import "components/modal";
-@import "components/requestForm";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono&family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import "variables";
 @import "loading";
+@import "components/modal";
+@import "components/widget";
+@import "components/screen-mask";
+@import "components/report-form";
+@import "components/video-preview";

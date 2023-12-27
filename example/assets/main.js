@@ -24,7 +24,8 @@ const options = {
     apiKey: "#API_KEY#",
     requestUrl: "#REQUEST_URL#"
   },
-  startButtonId: "start-btn"
+  startButtonId: "start-btn",
+  isExtension: true
 };
 
 unoJS.initialize(options);

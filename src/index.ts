@@ -20,14 +20,14 @@
  */
 
 import {Options} from "./types";
-import {closeRecordWidget, openRecordWidget, resetWidget} from "./components/recordWidget";
-import ScreenMask from "./components/screenMask";
+import {checkRecordState, closeRecordWidget, openRecordWidget, resetWidget} from "./components/widget";
+import ScreenMask from "./components/screen-mask";
 import {runTimer, stopTimer} from "./components/timer";
 import {Time} from "./components/timer/type";
 import optionsState from "./shared/states";
 import Observable from "./components/observable";
-import {endSecret, startSecret} from "./components/autoSecret";
-import MediaStreamRecorder from "./components/mediaStreamRecorder";
+import {endSecret, startSecret} from "./components/auto-secret";
+import MediaStreamRecorder from "./components/media-stream-recorder";
 import {AUDIO_CHANNEL_COUNT, AUDIO_SAMPLE_SIZE, MAX_FRAME_RATE} from "./shared/constants";
 
 /**
@@ -151,7 +151,7 @@ class UnoJSBuilder {
   };
 
   setRecordState = (state: boolean) => {
-    console.log({state});
+    checkRecordState(state);
     this.recordIsStarted = state;
   };
 
@@ -170,6 +170,7 @@ class UnoJSBuilder {
     optionsState.user = options.user;
     optionsState.autoSecretKey = options.autoSecretKey ?? undefined;
     optionsState.subscriptionData = options.subscriptionData;
+    optionsState.isExtension = options.isExtension ?? false;
     options.videoMaxLength ??= options.videoMaxLength;
 
     this.screenRecorder = new MediaStreamRecorder({
