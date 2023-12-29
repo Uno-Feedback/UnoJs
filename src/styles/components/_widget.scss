@@ -21,6 +21,7 @@
     font-family: $font-family;
     font-weight: $font-weight-normal;
     letter-spacing: $letter-spacing;
+    z-index: 99999;
 
     &.recording {
         padding: 0;
