@@ -18,6 +18,7 @@ import {
 } from "./type";
 import request from "../request";
 import {lang} from "../../shared/langs";
+import * as string_decoder from "string_decoder";
 
 const storeValues: StoreInterface = {
   type: "1",
@@ -56,17 +57,17 @@ const clearError = (element: HTMLElement): void => {
   element.classList.remove("uno-form-input-error");
 };
 const validateForm = (): boolean => {
-  const subject = document.getElementById("subject") as HTMLInputElement;
-  const description = document.getElementById("description") as HTMLInputElement;
-  if (!storeValues.subject) {
-    handleError(subject);
-    return false;
-  }
-  if (!storeValues.description) {
-    handleError(description);
-    return false;
-  }
-  return true;
+  let isValid = true;
+  const values = {subject: storeValues["subject"], description: storeValues["description"]} as Record<string, string>;
+  Object.keys(values).forEach(name => {
+    const value = values[name];
+    if (!value) {
+      const element = document.getElementById(name) as HTMLInputElement;
+      handleError(element);
+      isValid = false;
+    }
+  });
+  return isValid;
 };
 const handleSubmit: HandleSubmitFunction = (acceptButton, onSubmit): void => {
   if (!validateForm()) return;
@@ -108,8 +109,8 @@ const createFooter: CreateFooterFunction = ({}, onSubmit): void => {
     }
   ];
   createRadio(sendToWrapper, buttonGroup, sendOptions, 0, lang.en.reportForm.sendTo.label, "sendTo", false);
-  // - Append the 'Send To' to Footer
-  footer.appendChild(sendToWrapper);
+  // - Append the 'Send To' to Footer.
+  // footer.appendChild(sendToWrapper);
   // - Append Submit Button to Footer
   footer.appendChild(submitButton);
 };
@@ -304,10 +305,20 @@ const createRadioWrapper: CreateRadioWrapperFunction = (row, col) => {
   // Type
   ///// Bug: 1
   ///// Report: 2
+  /////// [
+  ///////   {
+  ///////     "id": "12101",
+  ///////     "name": "Uno-Bug"
+  ///////   },
+  ///////   {
+  ///////     "id": "12305",
+  ///////     "name": "Uno-Report"
+  ///////   }
+  /////// ]
   const typeOptions = [
-    {label: lang.en.reportForm.type.bug, value: "1", color: "#F04438"},
-    {label: lang.en.reportForm.type.report, value: "2", color: "#F79009"},
-    {label: lang.en.reportForm.type.feature, value: "3", color: "#17B26A"}
+    {label: lang.en.reportForm.type.bug, value: "12101", color: "#F04438"},
+    {label: lang.en.reportForm.type.report, value: "12305", color: "#F79009"}
+    // {label: lang.en.reportForm.type.feature, value: "3", color: "#17B26A"}
   ];
   createRadio(
     buttonGroup,
@@ -326,10 +337,34 @@ const createRadioWrapper: CreateRadioWrapperFunction = (row, col) => {
   //// low: 4
   //// lowest: 5
   //// critical: 6
+  ////// [
+  //////   {
+  //////     "id": "1",
+  //////     "name": "Highest"
+  //////   },
+  //////   {
+  //////     "id": "2",
+  //////     "name": "High"
+  //////   },
+  //////   {
+  //////     "id": "3",
+  //////     "name": "Medium"
+  //////   },
+  //////   {
+  //////     "id": "4",
+  //////     "name": "Low"
+  //////   },
+  //////   {
+  //////     "id": "10100",
+  //////     "name": "Critical"
+  //////   }
+  ////// ]
   const priorityOptions = [
-    {label: lang.en.reportForm.priority.low, value: "4", color: "#F79008"},
-    {label: lang.en.reportForm.priority.medium, value: "3", color: "#2A70FE"},
-    {label: lang.en.reportForm.priority.high, value: "2", color: "#E14EB6"}
+    {label: "Highest", value: "1"},
+    {label: "High", value: "2"},
+    {label: "Medium", value: "3"},
+    {label: "Low", value: "4"},
+    {label: "Critical", value: "10100"}
   ];
   createSelect(
     buttonGroup,

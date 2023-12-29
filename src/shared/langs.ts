@@ -34,8 +34,8 @@ export const lang = {
       title: "Report Your Issue",
       type: {
         label: "Type",
-        bug: "bug",
-        report: "report",
+        bug: "Uno-Bug",
+        report: "Uno-Report",
         feature: "feature"
       },
       priority: {
