@@ -3,6 +3,11 @@ interface FileInfoInterface {
   fileSize: string;
 }
 
+export interface InformationInterface {
+  label: string;
+  data: string;
+}
+
 export interface StoreInterface {
   [key: string | number | symbol]: string;
 

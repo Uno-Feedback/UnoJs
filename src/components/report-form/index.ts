@@ -13,6 +13,7 @@ import {
   CreateSelectFunction,
   CreateTextAreaFunction,
   HandleSubmitFunction,
+  InformationInterface,
   InitialInnerElementsFunction,
   StoreInterface
 } from "./type";
@@ -26,6 +27,35 @@ const storeValues: StoreInterface = {
   subject: "",
   description: ""
 };
+const OS = () => {
+  if (navigator.appVersion.indexOf("Win") != -1) return "Windows";
+  if (navigator.appVersion.indexOf("Mac") != -1) return "MacOS";
+  if (navigator.appVersion.indexOf("X11") != -1) return "UNIX";
+  if (navigator.appVersion.indexOf("Linux") != -1) return "Linux";
+  return "Unknown OS";
+};
+const information: InformationInterface[] = [
+  {
+    label: `${lang.en.reportForm.info.url}:`,
+    data: window.location.href
+  },
+  {
+    label: `${lang.en.reportForm.info.captured}:`,
+    data: createName()
+  },
+  {
+    label: `${lang.en.reportForm.info.deviceInfo}:`,
+    data: navigator.userAgent
+  },
+  {
+    label: `${lang.en.reportForm.info.OS}:`,
+    data: OS()
+  },
+  {
+    label: `${lang.en.reportForm.info.windowSize}:`,
+    data: `${window.innerWidth} x ${window.innerHeight}`
+  }
+];
 
 const content = document.createElement("div");
 const contentInner = document.createElement("div");
@@ -469,35 +499,6 @@ const createInfo = (): HTMLElement => {
   // - Info
   const infoWrapper = document.createElement("div");
   infoWrapper.classList.add("uno-info-list");
-  const OS = () => {
-    if (navigator.appVersion.indexOf("Win") != -1) return "Windows";
-    if (navigator.appVersion.indexOf("Mac") != -1) return "MacOS";
-    if (navigator.appVersion.indexOf("X11") != -1) return "UNIX";
-    if (navigator.appVersion.indexOf("Linux") != -1) return "Linux";
-    return "Unknown OS";
-  };
-  const information = [
-    {
-      label: `${lang.en.reportForm.info.url}:`,
-      data: window.location.href
-    },
-    {
-      label: `${lang.en.reportForm.info.captured}:`,
-      data: createName()
-    },
-    {
-      label: `${lang.en.reportForm.info.deviceInfo}:`,
-      data: navigator.userAgent
-    },
-    {
-      label: `${lang.en.reportForm.info.OS}:`,
-      data: OS()
-    },
-    {
-      label: `${lang.en.reportForm.info.windowSize}:`,
-      data: `${window.innerWidth} x ${window.innerHeight}`
-    }
-  ];
   information.forEach(info => {
     const infoRow = document.createElement("div");
     infoRow.classList.add("uno-info-row");
@@ -577,6 +578,7 @@ const closeRequestFormModal = (): void => {
   hideModal();
   destroyRequestForm();
   /* todo set loading false*/
+  Observable.fire("enableButton");
 };
 
 const destroyRequestForm = () => {
@@ -601,13 +603,14 @@ const openReportFormModal = (recordedBlob: Blob): void => {
   const {fullName, email, avatar} = optionsState.user;
   appendFormToModal({fullName, email, avatar}, {fileSize, fileName: createName()}, () => {
     /* todo set loading true */
-    request(recordedBlob, createName(), storeValues)
+    request(recordedBlob, createName(), {storeValues, information})
       .then(response => {
         console.info(`[uno-js] Response: ${response.message}`);
         closeRequestFormModal();
       })
       .catch(error => {
         console.error(`[uno-js] ${error}`);
+        Observable.fire("enableButton");
       });
   });
 };
