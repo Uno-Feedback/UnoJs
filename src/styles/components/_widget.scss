@@ -124,6 +124,8 @@
             line-height: 1;
             margin: 0 $space-md 0 0;
             position: relative;
+            font-family: cursive !important;
+            font-size: 20px;
 
             &-counter {
                 display: inline-block;
@@ -218,10 +220,12 @@
 
     &.uno-widget-extension {
         padding: 0;
-        inset: auto auto $space-lg auto;
+        inset: auto auto 90px auto;
         margin-left: 50%;
         transform: translate(-50%, 0);
         border-radius: $border-radius-md;
+        border: 2px solid;
+        box-shadow: 1px 1px 3px 2px #dbd7d7;
 
         .uno {
             &-widget-title {
@@ -243,6 +247,7 @@
                 align-items: center;
                 justify-content: center;
                 border-radius: 50%;
+                border: 2px solid;
             }
         }
     }
