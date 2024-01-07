@@ -55,18 +55,48 @@ const request = async (
   const AttachmentType = 10;
   const ConnectorId = "886cc999-ff80-402d-a80a-08dbf5779ea5";
 
+  // Payload example
+  // {
+  //    "ProjectToken": "",
+  //    "Reporter": "",
+  //    "ConnectorId": "",
+  //    "Subject": "",
+  //    "ClientMetaData":{
+  //       "URL:":"https://jira.asax.ir/secure/RapidBoard.jspa?rapidView=10652&view=detail&selectedIssue=SD-5559",
+  //       "Captured:":"2024/01/03 at 11:52:40",
+  //       "Device Information:":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+  //       "OS:":"Windows",
+  //       "Window Size:":"1920 x 963"
+  //    },
+  //    "ReportUrl":"",
+  //    "File":"",
+  //    "ConnectorMetaData":{
+  //       "IssueType":"Uno-Report",
+  //       "IssuePriority":"Low"
+  //    },
+  //    "Description":"",
+  //    "AttachmentType":""
+  // }
+
   // Append the audio file and description to the FormData
-  formData.append("File", file, `${fileName}.webm`);
+  formData.append("ProjectToken", JSON.stringify(ProjectToken));
   formData.append("Reporter", JSON.stringify(Reporter));
-  formData.append("ReportUrl", JSON.stringify(ReportUrl));
+  formData.append("ConnectorId", JSON.stringify(ConnectorId));
   formData.append("Subject", JSON.stringify(Subject));
+  formData.append("ConnectorMetaData", JSON.stringify(ConnectorMetaData));
+  formData.append("ReportUrl", JSON.stringify(ReportUrl));
+  formData.append("File", file, `${fileName}.webm`);
+  formData.append(
+    "ConnectorMetaData",
+    JSON.stringify({
+      IssueType: "Uno-Report",
+      IssuePriority: "Low"
+    })
+  );
   formData.append("Description", JSON.stringify(Description));
+  formData.append("AttachmentType", JSON.stringify(AttachmentType));
   formData.append("Type", JSON.stringify(Type));
   formData.append("Priority", JSON.stringify(Priority));
-  formData.append("ConnectorMetaData", JSON.stringify(ConnectorMetaData));
-  formData.append("ProjectToken", JSON.stringify(ProjectToken));
-  formData.append("AttachmentType", JSON.stringify(AttachmentType));
-  formData.append("ConnectorId", JSON.stringify(ConnectorId));
 
   // Send the request using the fetch API
   const response = await fetch(optionsState.subscriptionData.requestUrl, {
