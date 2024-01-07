@@ -51,9 +51,9 @@ const request = async (
   const Type = storeValues["type"];
   const Priority = storeValues["priority"];
   const ConnectorMetaData = metaDataConverter(information);
-  const ProjectToken = optionsState.subscriptionData.apiKey;
+  const ProjectToken = "068F706D-5C3D-4490-AC11-08DC0EADED53"; // optionsState.subscriptionData.apiKey;
   const AttachmentType = 10;
-  const ConnectorId = "886cc999-ff80-402d-a80a-08dbf5779ea5";
+  const ConnectorId = "2CF4C00E-4D6E-4DCD-095E-08DC0EADF6FE";
 
   // Payload example
   // {
@@ -89,14 +89,12 @@ const request = async (
   formData.append(
     "ConnectorMetaData",
     JSON.stringify({
-      IssueType: "Uno-Report",
-      IssuePriority: "Low"
+      IssueType: JSON.stringify(Type),
+      IssuePriority: JSON.stringify(Priority)
     })
   );
   formData.append("Description", JSON.stringify(Description));
   formData.append("AttachmentType", JSON.stringify(AttachmentType));
-  formData.append("Type", JSON.stringify(Type));
-  formData.append("Priority", JSON.stringify(Priority));
 
   // Send the request using the fetch API
   const response = await fetch(optionsState.subscriptionData.requestUrl, {
