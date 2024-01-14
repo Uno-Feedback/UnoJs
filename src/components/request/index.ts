@@ -40,6 +40,8 @@ const request = async (
 
   // Create a File instance from the recordedBlob
   const file = new File([recordedBlob], fileName);
+  const headers = new Headers();
+  headers.append("Accept", "*");
 
   // Create a FormData instance to send data to the server
   const formData = new FormData();
@@ -50,7 +52,7 @@ const request = async (
   const Description = storeValues["description"];
   const Type = storeValues["type"];
   const Priority = storeValues["priority"];
-  const ConnectorMetaData = metaDataConverter(information);
+  const ClientMetaData = metaDataConverter(information);
   const ProjectToken = "068F706D-5C3D-4490-AC11-08DC0EADED53"; // optionsState.subscriptionData.apiKey;
   const AttachmentType = 10;
   const ConnectorId = "2CF4C00E-4D6E-4DCD-095E-08DC0EADF6FE";
@@ -79,27 +81,29 @@ const request = async (
   // }
 
   // Append the audio file and description to the FormData
-  formData.append("ProjectToken", JSON.stringify(ProjectToken));
-  formData.append("Reporter", JSON.stringify(Reporter));
-  formData.append("ConnectorId", JSON.stringify(ConnectorId));
-  formData.append("Subject", JSON.stringify(Subject));
-  formData.append("ConnectorMetaData", JSON.stringify(ConnectorMetaData));
-  formData.append("ReportUrl", JSON.stringify(ReportUrl));
-  formData.append("File", file, `${fileName}.webm`);
+  formData.append("ProjectToken", ProjectToken);
+  formData.append("Reporter", Reporter);
+  formData.append("ConnectorId", ConnectorId);
+  formData.append("Subject", Subject);
+  formData.append("ClientMetaData ", JSON.stringify(ClientMetaData));
+  formData.append("ReportUrl", ReportUrl);
+  formData.append("File", file, `${fileName}.mp4`);
   formData.append(
     "ConnectorMetaData",
     JSON.stringify({
-      IssueType: JSON.stringify(Type),
-      IssuePriority: JSON.stringify(Priority)
+      IssueType: Type,
+      IssuePriority: Priority
     })
   );
-  formData.append("Description", JSON.stringify(Description));
+  formData.append("Description", Description);
   formData.append("AttachmentType", JSON.stringify(AttachmentType));
 
   // Send the request using the fetch API
   const response = await fetch(optionsState.subscriptionData.requestUrl, {
     method: "POST",
-    body: formData
+    headers,
+    body: formData,
+    redirect: "follow"
   });
 
   // Parse and return the JSON response from the server
