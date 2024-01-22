@@ -85,7 +85,7 @@ const request = async (
   formData.append("Reporter", Reporter);
   formData.append("ConnectorId", ConnectorId);
   formData.append("Subject", Subject);
-  formData.append("ClientMetaData ", JSON.stringify(ClientMetaData));
+  formData.append("ClientMetaData", JSON.stringify(ClientMetaData));
   formData.append("ReportUrl", ReportUrl);
   formData.append("File", file, `${fileName}.mp4`);
   formData.append(
