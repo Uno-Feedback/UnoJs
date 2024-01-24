@@ -1,54 +1,55 @@
 #uno-modal {
-    color: #252525;
-    text-shadow: none;
-    font-family: Vazirmatn, Roboto, sans-serif;
-}
-.uno {
-    &-modal {
-        font-family: "Vazirmatn", sans-serif;
-        position: absolute;
-        border-radius: $border-radius-lg;
-        inset: 50% 50% auto auto;
-        transform: translate(50%, -50%);
-        background-color: #FFF;
-        z-index: 2;
-        padding: $space-lg;
+    direction: ltr !important;
 
-        &-fade {
-            position: fixed;
-            inset: 0 0 0 0;
-            background-color: rgba(0, 0, 0, .75);
-            z-index: 999;
-            display: none;
-        }
+    &.uno-modal-fade {
+        position: fixed;
+        inset: 0 0 0 0;
+        background-color: rgba(0, 0, 0, .75);
+        z-index: 999;
+        display: none;
+    }
 
-        &-header {
-            padding-bottom: $space-lg;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    .uno {
+        &-modal {
+            color: #252525;
+            text-shadow: none;
+            font-family: Vazirmatn, Roboto, sans-serif;
+            position: absolute;
+            border-radius: $border-radius-lg;
+            inset: 50% 50% auto auto;
+            transform: translate(50%, -50%);
+            background-color: #FFF;
+            z-index: 2;
+            padding: $space-lg;
 
-        &-title {
-            font-size: 22px;
-            display: flex;
-            align-items: center;
-            margin-bottom: 0;
-
-            small {
-                font-size: 16px;
-                color: $color-gray-60;
-                margin-left: $space-sm;
+            &-header {
+                padding-bottom: $space-lg;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
             }
-        }
 
-        &-close {
-            height: 12px;
-            width: 12px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            &-title {
+                font-size: 22px;
+                display: flex;
+                align-items: center;
+                margin-bottom: 0;
+
+                small {
+                    font-size: 16px;
+                    color: $color-gray-60;
+                    margin-left: $space-sm;
+                }
+            }
+
+            &-close {
+                height: 12px;
+                width: 12px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
         }
     }
 }
