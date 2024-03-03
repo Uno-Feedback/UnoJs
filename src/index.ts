@@ -84,6 +84,10 @@ class UnoJSBuilder {
     return true;
   };
 
+  observeTime = ({minutes}: Time): void => {
+    if (minutes === optionsState.videoMaxLength) this.stopRecord();
+  };
+
   startRecord = (): void => {
     if (!this.screenRecorder) return;
 
@@ -108,7 +112,7 @@ class UnoJSBuilder {
     Observable.subscribe("setRecordState", this.setRecordState);
   };
 
-  stopRecord = () => {
+  stopRecord = (): void => {
     if (!this.screenRecorder || !this.recordIsStarted) return;
     console.info("[uno-js] Record stopped!");
     this.screenRecorder.stopRecording();
@@ -116,32 +120,32 @@ class UnoJSBuilder {
     this.setRecordState(false);
   };
 
-  startMask = () => {
+  startMask = (): void => {
     this.screenMask.start();
     this.maskIsRunning = true;
     console.info("[uno-js] Mask started!");
   };
 
-  stopMask = () => {
+  stopMask = (): void => {
     if (!this.maskIsRunning) return;
     this.screenMask.stop();
     this.maskIsRunning = false;
     console.info("[uno-js] Mask stopped!");
   };
 
-  startMute = () => {
+  startMute = (): void => {
     if (this.recordIsStarted) return;
     /* todo mute only before start recording */
     this.audio = false;
     console.info("[uno-js] Mute started!");
   };
 
-  stopMute = () => {
+  stopMute = (): void => {
     this.audio = true;
     console.info("[uno-js] Mute stopped!");
   };
 
-  closeWidget = () => {
+  closeWidget = (): void => {
     this.stopMask();
     this.stopRecord();
     endSecret();
@@ -150,16 +154,10 @@ class UnoJSBuilder {
     console.info("[uno-js] Widget closed!");
   };
 
-  setRecordState = (state: boolean) => {
+  setRecordState = (state: boolean): void => {
     checkRecordState(state);
     this.recordIsStarted = state;
   };
-
-  observeTime({minutes}: Time) {
-    if (minutes === optionsState.videoMaxLength) {
-      this.stopRecord();
-    }
-  }
 
   initialize = (options: Options): void => {
     if (!this.validateInitialization(options)) return;
