@@ -13,18 +13,32 @@
 #uno-widget {
     position: fixed;
     direction: ltr;
+    text-align: left;
     inset: $space-lg auto auto $space-lg;
     background-color: #FFF;
     border-radius: $border-radius-lg;
     padding: $space-lg;
     color: $color-gray-100;
-    font-family: $font-family;
+    font-family: $font-family !important;
     font-weight: $font-weight-normal;
     letter-spacing: $letter-spacing;
     z-index: 99999;
+    border: 3px solid $color-gray-60;
+    box-shadow: -1px 1px 1px 1px $color-gray-30;
+    box-sizing: border-box;
+
+    * {
+        direction: ltr !important;
+        text-align: left !important;
+        font-family: $font-family !important;
+        letter-spacing: 1px !important;
+        line-height: 1 !important;
+        box-sizing: border-box !important;
+    }
 
     &.recording {
         padding: 0;
+        border-radius: $border-radius-md;
 
         .uno {
             &-timer {
@@ -67,7 +81,7 @@
         &-widget-title {
             text-align: left !important;
             margin: 0 0 $space-lg 0;
-            font-size: 22px;
+            font-size: 22px!important;
         }
 
         &-tabs-wrapper {
@@ -105,7 +119,7 @@
             }
 
             &-text {
-                font-size: 18px;
+                font-size: 18px!important;
                 opacity: 0.4;
             }
         }
@@ -125,12 +139,12 @@
             margin: 0 $space-md 0 0;
             position: relative;
             font-family: cursive !important;
-            font-size: 20px;
+            font-size: 20px!important;
 
             &-counter {
                 display: inline-block;
                 min-width: 60px;
-                font-size: 22px;
+                font-size: 22px!important;
                 text-align: center;
             }
         }
@@ -225,7 +239,7 @@
         transform: translate(-50%, 0);
         border-radius: $border-radius-md;
         border: 2px solid;
-        box-shadow: 1px 1px 3px 2px #dbd7d7;
+        box-shadow: 1px 1px 3px 2px #DBD7D7;
 
         .uno {
             &-widget-title {
@@ -242,7 +256,7 @@
 
             &-close {
                 transform: translate($space-lg, -$space-lg);
-                background: #fff;
+                background: #FFF;
                 display: flex;
                 align-items: center;
                 justify-content: center;

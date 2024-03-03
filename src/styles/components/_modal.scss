@@ -1,5 +1,15 @@
 #uno-modal {
-    direction: ltr !important;
+    direction: ltr;
+    box-sizing: border-box;
+
+    * {
+        direction: ltr !important;
+        text-align: left !important;
+        font-family: $font-family !important;
+        letter-spacing: 1px !important;
+        line-height: 1 !important;
+        box-sizing: border-box !important;
+    }
 
     &.uno-modal-fade {
         position: fixed;
@@ -30,13 +40,13 @@
             }
 
             &-title {
-                font-size: 22px;
+                font-size: 22px!important;
                 display: flex;
                 align-items: center;
                 margin-bottom: 0;
 
                 small {
-                    font-size: 16px;
+                    font-size: 16px!important;
                     color: $color-gray-60;
                     margin-left: $space-sm;
                 }
