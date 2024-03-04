@@ -66,6 +66,7 @@ const attachmentName = document.createElement("span");
 const attachmentSize = document.createElement("span");
 const form = document.createElement("div");
 const formRow = document.createElement("div");
+const aside = document.createElement("aside");
 
 const onChangeValue = (event: Event): void => {
   const {name, value} = event.target as HTMLInputElement;
@@ -473,7 +474,6 @@ const createForm: CreateFormFunction = ({fileName, fileSize}) => {
   return form;
 };
 const createInfo = (): HTMLElement => {
-  const aside = document.createElement("aside");
   aside.classList.add("uno-info");
   // - Tabs
   // Tab Element
@@ -595,6 +595,8 @@ const destroyRequestForm = () => {
    */
   formRow.replaceChildren();
   form.replaceChildren();
+  aside.replaceChildren();
+  aside.remove();
   content.replaceChildren();
   content.remove();
 };
