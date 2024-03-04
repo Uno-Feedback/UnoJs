@@ -25,7 +25,7 @@ const options = {
     requestUrl: "#REQUEST_URL#"
   },
   startButtonId: "start-btn",
-  isExtension: true
+  isExtension: false
 };
 
 unoJS.initialize(options);

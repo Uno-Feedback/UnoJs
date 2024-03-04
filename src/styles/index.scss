@@ -3,6 +3,9 @@
 @import "loading";
 @import "components/modal";
 @import "components/widget";
-@import "components/screen-mask";
 @import "components/report-form";
 @import "components/video-preview";
+
+#uno-widget, #uno-report-form, #uno-modal, #uno-video  {
+    @import "reboot";
+}

@@ -1,115 +1,119 @@
-.uno-video {
-    &-wrapper {
-        display: flex;
-        flex-direction: column;
+#uno-video {
+    display: flex;
+    flex-direction: column;
 
-        video {
-            border-radius: $space-md $space-md 0 0;
-            background-color: $color-purple;
+    &.uno-video {
+        &-wrapper {
+            video {
+                border-radius: $space-md $space-md 0 0;
+                background-color: $color-purple;
+            }
         }
     }
 
-    &-controller {
-        color: #FFF;
-        padding: $space-md;
-        border-radius: 0 0 $space-md $space-md;
-        background-color: $color-gray-87;
-        margin-bottom: $space-lg;
-
-        &-timeline {
+    .uno-video {
+        &-controller {
+            color: #FFF;
             padding: $space-md;
-            border-radius: $space-sm;
-            border: 1px solid $color-gray-60;
-            background-color: $color-gray-30;
-            margin-bottom: $space-md;
-            position: relative;
+            border-radius: 0 0 $space-md $space-md;
+            background-color: $color-gray-87;
+            margin-bottom: $space-lg;
 
-            &-35 {
-                height: 27.29px;
-            }
+            &-timeline {
+                padding: $space-md;
+                border-radius: $space-sm;
+                border: 1px solid $color-gray-60;
+                background-color: $color-gray-30;
+                margin-bottom: $space-md;
+                position: relative;
 
-            &-60 {
-                position: absolute;
-                inset: 50% 0 0 0;
-                transform: translateY(-50%);
-                margin: 0 $space-md;
-                height: 27.29px;
-                width: 50%;
-                overflow: hidden;
-
-                svg {
+                &-35 {
                     height: 27.29px;
+                }
+
+                &-60 {
+                    position: absolute;
+                    inset: 50% 0 0 0;
+                    transform: translateY(-50%);
+                    margin: 0 $space-md;
+                    height: 27.29px;
+                    width: 50%;
+                    overflow: hidden;
+
+                    svg {
+                        height: 27.29px;
+                    }
                 }
             }
         }
-    }
 
-    &-time {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: $space-md;
-
-        &-current {
-            font-size: 14px;
-            line-height: $space-md;
-        }
-
-        &-total {
-            font-size: 14px;
-            line-height: $space-md;
-        }
-    }
-
-    &-action {
-        &-controller {
+        &-time {
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
+            margin-bottom: $space-md;
 
-        &-middle {
-            span {
-                &:not(:last-child) {
-                    margin-right: $space-md;
-                }
+            &-current {
+                font-size: 14px;
+                line-height: $space-md;
+            }
+
+            &-total {
+                font-size: 14px;
+                line-height: $space-md;
             }
         }
 
-        &-play {
-            cursor: pointer;
+        &-action {
+            &-controller {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            &-middle {
+                span {
+                    &:not(:last-child) {
+                        margin-right: $space-md;
+                    }
+                }
+            }
+
+            &-play {
+                cursor: pointer;
+            }
+
+            &-fullscreen {
+                cursor: pointer;
+            }
+
+            &-volume {
+                cursor: pointer;
+            }
+
+            &-brush {
+                cursor: not-allowed;
+            }
         }
 
-        &-fullscreen {
-            cursor: pointer;
+        &-footer {
+            display: flex;
+            justify-content: flex-end;
         }
 
-        &-volume {
-            cursor: pointer;
-        }
+        &-confirmation {
+            border-radius: $space-sm;
+            padding: $space-sm $space-md;
+            background-color: $color-primary-600;
+            border: none;
+            outline: none;
+            font-size: 18px;
+            color: #FFF;
+            font-weight: 600;
 
-        &-brush {
-            cursor: not-allowed;
-        }
-    }
-
-    &-footer {
-        display: flex;
-        justify-content: flex-end;
-    }
-
-    &-confirmation {
-        border-radius: $space-sm;
-        padding: $space-sm $space-md;
-        background-color: $color-primary-600;
-        border: none;
-        outline: none;
-        font-size: 18px;
-        color: #FFF;
-        font-weight: 600;
-
-        span {
-            margin-left: $space-sm;
+            span {
+                margin-left: $space-sm;
+            }
         }
     }
 }

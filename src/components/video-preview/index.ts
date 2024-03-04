@@ -178,6 +178,7 @@ const resetController = (): void => {
 
 const initialInnerElements = async (recordedBlob: Blob): Promise<void> => {
   videoWrapper.classList.add("uno-video-wrapper");
+  videoWrapper.setAttribute("id", "uno-video");
   videoElement.classList.add("uno-video-element");
   blobToBase64(recordedBlob).then(url => {
     // Video URL

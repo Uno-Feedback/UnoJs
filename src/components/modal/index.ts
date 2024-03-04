@@ -27,11 +27,11 @@ const body: HTMLElement = document.querySelector("body") as HTMLElement;
 const initialInnerElements = (title: HTMLElement) => {
   // Fade
   fade.classList.add("uno-modal-fade");
+  fade.setAttribute("id", "uno-modal");
   body.appendChild(fade);
 
   // Modal
   modal.classList.add("uno-modal");
-  modal.setAttribute("id", "uno-modal");
   fade.appendChild(modal);
 
   // Header
