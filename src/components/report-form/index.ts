@@ -113,6 +113,7 @@ const handlePreview = (recordedBlob?: Blob) => {
     console.error("[uno-js] File not found.");
     return;
   }
+  destroyRequestForm();
   videoPreview(recordedBlob);
 };
 
@@ -623,6 +624,7 @@ const destroyRequestForm = () => {
    * Destroy Footer
    */
   previewButton.replaceChildren();
+  submitButton.replaceChildren();
   attachment.replaceChildren();
   footer.remove();
   /**
