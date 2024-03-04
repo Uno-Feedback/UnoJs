@@ -59,6 +59,7 @@ export const lang = {
         console: "Console"
       },
       submit: "Send",
+      preview: "Preview Video",
       sendTo: {
         label: "Send to"
       }

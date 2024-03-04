@@ -100,6 +100,31 @@
                 }
             }
 
+            &-preview-button {
+                @extend .uno-form-button;
+                background-color: $color-primary-100;
+                border: 1px solid $color-primary-400;
+                color: $color-primary-600;
+                font-size: 14px;
+                font-weight: 600;
+                padding-left: $space-md;
+                padding-right: $space-md;
+
+                &-icon {
+                    margin-left: $space-sm;
+                }
+
+                &.disabled {
+                    background-color: #AED0FF;
+                    border: 1px solid #AED0FF;
+                }
+            }
+
+            &-preview-wrapper {
+                display: flex;
+                justify-content: flex-end;
+            }
+
             &-label {
                 margin-bottom: 8px;
                 font-size: 14px;

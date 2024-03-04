@@ -1,4 +1,5 @@
 interface FileInfoInterface {
+  recordedBlob?: Blob;
   fileName: string;
   fileSize: string;
 }
@@ -34,6 +35,7 @@ type OnSubmitType = () => void;
 
 export type HandleSubmitFunction = (acceptButton: HTMLButtonElement, onSubmit: OnSubmitType) => void;
 export type CreateFooterFunction = (fileInfo: FileInfoInterface, onSubmit: OnSubmitType) => void;
+export type CreatePreviewButtonFunction = (wrapper: HTMLElement, recordedBlob?: Blob) => void;
 export type CreateInputFunction = (
   row: HTMLElement,
   col: HTMLElement,
